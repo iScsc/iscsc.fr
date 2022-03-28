@@ -1,0 +1,15 @@
+body {
+  font-size: 30px;
+  background-color: #282a36 !important;
+  color: #d0d0d0 !important;
+}
+
+#header {
+  background-color: #282a36 !important;
+  color: #c3d88d !important;
+}
+
+a {
+  color: red;
+  margin-left: 20px;
+}
