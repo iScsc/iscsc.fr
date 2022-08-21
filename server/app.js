@@ -12,17 +12,16 @@ const {
   DB_NAME,
   PORT
 } = process.env;
-const dbURI = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
 
 app.get('/', (req, res) => {
     res.send('iscsc.fr is running');
 });
 
 mongoose
-    .connect(dbURI)
+    .connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`)
     .then(() => {
         httpServer.listen(PORT || 5000, () => {
-            console.log('Server listening');
+            console.log(`Server listening: http://localhost:${PORT}`);
         });
     })
     .catch((err) => {
