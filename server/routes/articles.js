@@ -17,4 +17,15 @@ router.post('/create', (req, res) => {
         })
 });
 
+router.get('/', (req, res) => {
+    const articles = Article.find()
+        .sort({ createdAt: -1 })
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            res.status(500).send("Cannot fetch articles.");
+        })
+});
+
 module.exports = router;
