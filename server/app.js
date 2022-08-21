@@ -1,21 +1,21 @@
 const express = require('express');
 const app = express();
-app.use(express.json());
 const mongoose = require('mongoose');
 const { createServer } = require('http');
-require('dotenv/config');
-
-// models
 const Article = require('./models/article');
 const User = require('./models/user');
-
+const bcrypt = require('bcrypt');
 const httpServer = createServer(app);
+require('dotenv/config');
+
+app.use(express.json());
 
 const {
     DB_USER,
     DB_PASSWORD,
     DB_NAME,
-    PORT
+    PORT,
+    SALT_ROUND
 } = process.env;
 
 app.get('/', (req, res) => {
@@ -23,24 +23,27 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-    console.log(req.body);
     const { username, password, email } = req.body;
     if (!username || !password) {
         res.send(418);
     }
 
-    const user = new User({
-        username,
-        hashedPassword: password,  // TODO: hash password
-        email
+    bcrypt.genSalt(SALT_ROUND, function (err, salt) {
+        bcrypt.hash(password, salt, function (err, hash) {
+            const user = new User({
+                username,
+                hashedPassword: hash,
+                email
+            });
+            user.save()
+                .then((result) => {
+                    res.send(`User ${result.username} successfully created`);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        });
     });
-    user.save()
-        .then((result) => {
-            res.send(`User ${result.username} successfully created`);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
 });
 
 mongoose
