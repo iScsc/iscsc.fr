@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.post('/signup', (req, res) => {
     const { username, password, email } = req.body;
     if (!username || !password) {
-        res.send(418);
+        res.status(418).send("Missing username or password");
     }
 
     bcrypt.genSalt(SALT_ROUND, function (err, salt) {
@@ -45,6 +45,33 @@ app.post('/signup', (req, res) => {
         });
     });
 });
+
+app.get('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        res.status(418).send("Missing username or password");
+    }
+
+    // Get hashedPassword
+    User.findOne({ username }, (err, result) => {
+        if (result) {
+            const { hashedPassword } = result;
+
+            // compare
+            bcrypt.compare(password, hashedPassword, function (err, result) {
+                if (result) {
+                    res.send(`Logged as ${username} successfully`);
+                }
+                else {
+                    res.status(418).send(`Access denied: Invalid password for ${username}`);
+                }
+            })
+        }
+        else {
+            res.status(418).send(`User ${username} not found`);
+        }
+    })
+})
 
 mongoose
     .connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`)
