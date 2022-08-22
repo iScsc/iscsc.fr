@@ -32,7 +32,7 @@ const CreateArticle = () => {
   };
 
   return (
-    <>
+    <div className="create-article">
       <h2>Create a new article</h2>
       <p class='create-article-status' >{error}</p>
       <form className="create-article-form" onSubmit={handleSubmit}>
@@ -59,7 +59,7 @@ const CreateArticle = () => {
 
         <button>Add article</button>
       </form>
-    </>
+    </div>
   );
 };
 
