@@ -19,6 +19,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      <h2>All articles ({articles && articles.length})</h2>
       <div className="articles">
         {articles &&
           articles.map((article) => (
