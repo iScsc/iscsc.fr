@@ -29,7 +29,9 @@ const Blog = () => {
       <div className="articles">
         {articles &&
           articles.map((article) => (
-            <ArticlePreview key={article._id} article={article} />
+            <Link className="article-link" key={article._id} to={`/blog/${article._id}`}>
+              <ArticlePreview article={article} />
+            </Link>
           ))}
       </div>
     </div>
