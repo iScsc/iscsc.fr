@@ -3,7 +3,7 @@ client/build
 client/.env
 client/.env.production
 
-server/.env
-server/node_modules
+backend/.env
+backend/node_modules
 
 .DS_Store
