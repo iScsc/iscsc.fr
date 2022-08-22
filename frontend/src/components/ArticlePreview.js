@@ -1,7 +1,8 @@
 const ArticlePreview = ({ article }) => {
   return (
     <div className="article-preview">
-      <p>{article.title}</p>
+      <h3>{article.title}</h3>
+      <p>{article.summary}</p>
       <small>
         {article.author} - {article.createdAt}
       </small>
