@@ -22,7 +22,9 @@ const Blog = () => {
     <div className="blog">
       <div className="blog-header">
         <h2>All articles ({articles && articles.length})</h2>
-        <Link to='/blog/createArticle'>Write my article</Link>
+        <Link to="/blog/createArticle" className="blog-header-create">
+          Write my own article
+        </Link>
       </div>
       <div className="articles">
         {articles &&

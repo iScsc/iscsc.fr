@@ -42,6 +42,26 @@ code {
     monospace;
 }
 
+/* Blog */
+
+.blog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.blog-header-create {
+  padding: 20px 30px;
+  border-radius: 8px;
+  background-color: var(--primary);
+  color: var(--secondary);
+  font-size: 1.2em;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
 /* Article preview */
 
 .article-preview {
