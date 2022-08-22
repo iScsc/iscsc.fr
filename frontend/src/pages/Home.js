@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ArticlePreview from "../components/ArticlePreview";
 
 const Home = () => {
   const [articles, setArticles] = useState(null);
@@ -21,10 +22,7 @@ const Home = () => {
       <div className="articles">
         {articles &&
           articles.map((article) => (
-            <div key={article._id}>
-              <p>{article.title}</p>
-              <small>{article.author} - {article.createdAt}</small>
-            </div>
+            <ArticlePreview key={article._id} article={article} />
           ))}
       </div>
     </div>
