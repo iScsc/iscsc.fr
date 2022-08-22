@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ArticlePreview from "../../components/ArticlePreview";
 
 const Blog = () => {
@@ -21,6 +22,7 @@ const Blog = () => {
     <div className="blog">
       <div className="blog-header">
         <h2>All articles ({articles && articles.length})</h2>
+        <Link to='/blog/createArticle'>Write my article</Link>
       </div>
       <div className="articles">
         {articles &&
