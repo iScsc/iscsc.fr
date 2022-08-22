@@ -1,55 +1,53 @@
-const Article = require('../models/article');
+const { default: mongoose } = require("mongoose");
+const Article = require("../models/article");
 
-const getAll = (req, res) => {
-    Article.find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            res.status(500).send("Cannot fetch articles.");
-        })
-}
+const getAll = async (req, res) => {
+  try {
+    const articles = await Article.find().sort({ createdAt: -1 });
+    res.send(articles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-const getById = (req, res) => {
-    const id = req.params.id;
-    const articles = Article.findOne({ id })
-        .then((result) => {
-            if (!result) {
-                res.status(418).send(`Article ${id} not found`);
-            } else {
-                res.send(result);
-            }
-        })
-        .catch((err) => {
-            res.status(500).send(`Cannot fetch article ${id}`);
-        })
-}
+const getById = async (req, res) => {
+  const id = req.params.id;
 
-const create = (req, res) => {
-    if (!req.body.author || !req.body.title || !req.body.body) {
-        res.status(418).send("Missing author, title or body");
-    }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such article" });
+  }
+  const article = await Article.findById(id);
 
-    const article = new Article(req.body);
-    article.save()
-        .then((result) => {
-            res.send(`Article '${result.title}' created successfully`);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
+  if (!article) {
+    res.status(400).json({ error: "No such article" });
+  }
 
-const deleteById = (req, res) => {
-    const id = req.params.id;
-    const articles = Article.findByIdAndDelete(id)
-        .then((result) => {
-            res.send(`Article "${result.title}" deleted`);
-        })
-        .catch((err) => {
-            res.status(500).send(`Cannot fetch article ${id}`);
-        })
-}
+  res.status(200).json(article);
+};
+
+const create = async (req, res) => {
+  const { title, author, body, summary } = req.body;
+  try {
+    const article = await Article.create({ title, author, body, summary });
+    res.status(200).json(article);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const deleteById = async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such article" });
+  }
+  const article = await Article.findByIdAndDelete(id);
+
+  if (!article) {
+    res.status(400).json({ error: "No such article" });
+  }
+
+  res.status(200).json(article);
+};
 
 module.exports = { getAll, getById, create, deleteById };
