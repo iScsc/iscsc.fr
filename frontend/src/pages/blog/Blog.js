@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import ArticlePreview from "../components/ArticlePreview";
+import ArticlePreview from "../../components/ArticlePreview";
 
-const Home = () => {
+const Blog = () => {
   const [articles, setArticles] = useState(null);
 
   useEffect(() => {
@@ -18,8 +18,10 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home">
-      <h2>All articles ({articles && articles.length})</h2>
+    <div className="blog">
+      <div className="blog-header">
+        <h2>All articles ({articles && articles.length})</h2>
+      </div>
       <div className="articles">
         {articles &&
           articles.map((article) => (
@@ -30,4 +32,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Blog;
