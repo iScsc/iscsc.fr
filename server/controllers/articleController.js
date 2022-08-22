@@ -11,11 +11,15 @@ const getAll = (req, res) => {
         })
 }
 
-const get = (req, res) => {
+const getById = (req, res) => {
     const id = req.params.id;
     const articles = Article.findOne({ id })
         .then((result) => {
-            res.send(result);
+            if (!result) {
+                res.status(418).send(`Article ${id} not found`);
+            } else {
+                res.send(result);
+            }
         })
         .catch((err) => {
             res.status(500).send(`Cannot fetch article ${id}`);
@@ -37,4 +41,15 @@ const create = (req, res) => {
         })
 }
 
-module.exports = { getAll, get, create };
+const deleteById = (req, res) => {
+    const id = req.params.id;
+    const articles = Article.findByIdAndDelete(id)
+        .then((result) => {
+            res.send(`Article "${result.title}" deleted`);
+        })
+        .catch((err) => {
+            res.status(500).send(`Cannot fetch article ${id}`);
+        })
+}
+
+module.exports = { getAll, getById, create, deleteById };
