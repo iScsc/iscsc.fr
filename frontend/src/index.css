@@ -49,6 +49,7 @@ code {
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  color: #333;
 }
 
 .blog-header-create {
@@ -64,12 +65,18 @@ code {
 
 /* Article preview */
 
+.article-link {
+  color: #333;
+  text-decoration: none;
+}
+
 .article-preview {
   background-color: #fff;
   border-radius: 8px;
   padding: 15px;
   margin: 30px 0;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  transition-duration: 0.8s;
 }
 
 .article-preview:hover {
@@ -131,4 +138,11 @@ code {
 .create-article-form > button:hover {
   background-color: var(--primary);
   color: var(--secondary);
+}
+
+/* article */
+article {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
 }
