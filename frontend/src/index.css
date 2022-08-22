@@ -75,6 +75,11 @@ code {
 
 .create-article-error {
   color: var(--error);
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  margin: 20px 0;
 }
 
 .create-article-form {
