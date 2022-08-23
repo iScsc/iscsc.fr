@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useArticlesContext } from "../hooks/useArticlesContext";
 
 const ArticlePreview = ({ article }) => {
+  const { dispatch } = useArticlesContext();
   const handleClick = async () => {
     const response = await fetch("/api/articles/" + article._id, {
       method: "DELETE",
@@ -8,7 +10,7 @@ const ArticlePreview = ({ article }) => {
     const json = await response.json();
 
     if (response.ok) {
-      console.log("Article deleted");
+      dispatch({ type: "DELETE", payload: json });
     }
   };
 
