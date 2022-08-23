@@ -125,29 +125,29 @@ code {
   margin: 20px 0;
 }
 
-.create-article-form {
+.article-form-form {
   display: flex;
   flex-direction: column;
 }
 
-.create-article-form > label {
+.article-form-form > label {
   font-size: 1.2em;
   margin: 10px 0;
 }
 
-.create-article-form > input,
-.create-article-form > textarea {
+.article-form-form > input,
+.article-form-form > textarea {
   font-size: 1.1em;
   font-family: "Poppins";
   padding: 3px 10px;
   margin-bottom: 20px;
 }
 
-.create-article-form > input {
+.article-form-form > input {
   height: 40px;
 }
 
-.create-article-form > button {
+.article-form-form > button {
   max-width: 200px;
   height: 50px;
   font-size: 1.3em;
@@ -156,7 +156,7 @@ code {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.create-article-form > button:hover {
+.article-form-form > button:hover {
   background-color: var(--primary);
   color: var(--secondary);
 }
