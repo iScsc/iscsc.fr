@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ArticlePreview from "../../components/ArticlePreview";
+import { useArticlesContext } from "../../hooks/useArticlesContext";
 
 const Blog = () => {
-  const [articles, setArticles] = useState(null);
+  const { articles, dispatch } = useArticlesContext();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -11,12 +12,12 @@ const Blog = () => {
       const json = await response.json();
 
       if (response.ok) {
-        setArticles(json);
+        dispatch({ type: "SET", payload: json });
       }
     };
 
     fetchArticles();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="blog">

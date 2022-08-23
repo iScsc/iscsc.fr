@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useArticlesContext } from "../../hooks/useArticlesContext";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [summary, setSummary] = useState("");
   const [error, setError] = useState(null);
+  const { dispatch } = useArticlesContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const CreateArticle = () => {
       setSummary("");
       setBody("");
       setError(null);
-      console.log("New article added", json);
+      dispatch({ type: "CREATE", payload: json });
     }
   };
 
