@@ -1,21 +1,4 @@
-import { useEffect, useState } from "react";
-
-const ArticleView = ({ id }) => {
-  const [article, setArticle] = useState(null);
-
-  useEffect(() => {
-    const fetchArticle = async (id) => {
-      const response = await fetch(`/api/articles/${id}`);
-      const json = await response.json();
-
-      if (response.ok) {
-        setArticle(json);
-      }
-    };
-
-    fetchArticle(id);
-  }, [id]);
-
+const ArticleView = ({ article }) => {
   return (
     <article>
       {article && (
