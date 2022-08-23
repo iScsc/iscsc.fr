@@ -10,6 +10,22 @@ const getAll = async (req, res) => {
   }
 };
 
+const getByAuthor = async (req, res) => {
+  let author;
+  if (!req.params.author) {
+    author = "alex";
+  } else {
+    author = req.params.author;
+  }
+
+  try {
+    const articles = await Article.find({ author }).sort({ createdAt: -1 });
+    res.send(articles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getById = async (req, res) => {
   const id = req.params.id;
 
@@ -50,4 +66,4 @@ const deleteById = async (req, res) => {
   res.status(200).json(article);
 };
 
-module.exports = { getAll, getById, create, deleteById };
+module.exports = { getAll, getById, getByAuthor, create, deleteById };
