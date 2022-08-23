@@ -135,11 +135,16 @@ code {
   margin: 10px 0;
 }
 
-.create-article-form > input {
-  height: 40px;
+.create-article-form > input,
+.create-article-form > textarea {
   font-size: 1.1em;
+  font-family: "Poppins";
   padding: 3px 10px;
   margin-bottom: 20px;
+}
+
+.create-article-form > input {
+  height: 40px;
 }
 
 .create-article-form > button {

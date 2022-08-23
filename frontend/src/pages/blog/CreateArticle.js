@@ -50,8 +50,9 @@ const CreateArticle = () => {
         />
 
         <label>Article body:</label>
-        <input
-          type="text"
+        <textarea
+          rows="8"
+          cols="50"
           onChange={(e) => setBody(e.target.value)}
           value={body}
         />
