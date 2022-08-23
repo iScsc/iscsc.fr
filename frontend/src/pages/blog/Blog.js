@@ -29,9 +29,11 @@ const Blog = () => {
       <div className="articles">
         {articles &&
           articles.map((article) => (
-            <Link className="article-link" key={article._id} to={`/blog/${article._id}`}>
-              <ArticlePreview article={article} />
-            </Link>
+            <ArticlePreview
+              article={article}
+              className="article-link"
+              key={article._id}
+            />
           ))}
       </div>
     </div>
