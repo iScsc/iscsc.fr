@@ -109,10 +109,15 @@ code {
 /* Create article */
 
 .create-article {
-  max-width: 400px;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 30% auto auto;
+}
+
+.article-form {
+  background-color: #fff;
   border-radius: 12px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-  background-color: #fff;
   padding: 20px;
 }
 
@@ -148,7 +153,6 @@ code {
 }
 
 .article-form-form > button {
-  max-width: 200px;
   height: 50px;
   font-size: 1.3em;
   align-items: center;
@@ -159,6 +163,10 @@ code {
 .article-form-form > button:hover {
   background-color: var(--primary);
   color: var(--secondary);
+}
+
+.create-article-view {
+  grid-column: 2 / span 2;
 }
 
 /* article */
