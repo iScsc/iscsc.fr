@@ -1,7 +1,7 @@
 import ArticleView from "../../components/ArticleView";
 import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -9,6 +9,7 @@ const CreateArticle = () => {
   const [summary, setSummary] = useState("");
   const [error, setError] = useState(null);
   const { dispatch } = useArticlesContext();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +33,8 @@ const CreateArticle = () => {
       setBody("");
       setError(null);
       dispatch({ type: "CREATE", payload: json });
+
+      navigate("/blog");
     }
   };
 
