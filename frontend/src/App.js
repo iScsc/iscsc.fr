@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Blog from "./pages/blog/Blog";
 import Navbar from "./components/Navbar";
 import CreateArticle from "./pages/blog/CreateArticle";
@@ -11,7 +11,8 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route path="/" element={<Blog />} />
+            <Route path="/" element={<Navigate to="/blog" />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/blog/createArticle" element={<CreateArticle />} />
             <Route path="/blog/:id" element={<Article />} />
           </Routes>
