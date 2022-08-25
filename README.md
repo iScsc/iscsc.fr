@@ -3,7 +3,7 @@ This is the iScsc website source code.
 **This website is still in development and should not be deployed at the moment**
 
 ## MERN
-The tech stack I choose for this web application is MERN with:
+The tech stack I chose for this web application is MERN with:
 - MongoDB for the database 
 - Express for the API
 - React for the frontend 
@@ -76,3 +76,15 @@ Make sure the backend application is running before launching the frontend.
 ## Bugs and recommendations
 Because this website is still in development, do not hesitate to open an issue if you experience any troubles when using it.
 Also, feel free to share your recommendations regarding the color scheme, routes, design, UX, etc...
+
+## Incoming works
+Here is a none exhaustive list of incoming functionalities for the website:
+- User authentication
+- Likes and commentaries
+- Main page
+- Calendar
+- News and events
+- Pictures, avatars for users
+- Search bar
+- Gallery with previous works, events
+- ...
