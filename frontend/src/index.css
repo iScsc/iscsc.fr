@@ -121,6 +121,11 @@ code {
   padding: 20px;
 }
 
+.article-form-or {
+  margin: 0;
+  text-align: center;
+}
+
 .create-article-error {
   color: var(--error);
   padding: 10px;

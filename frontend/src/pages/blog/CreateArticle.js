@@ -1,6 +1,7 @@
 import ArticleView from "../../components/ArticleView";
 import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
+import { Link } from "react-router-dom";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -82,13 +83,15 @@ const CreateArticle = () => {
             placeholder="Your article's body in Markdown"
           />
 
+          <h4 className="article-form-or">--- OR ---</h4>
+
+          <label>
+            Choose a Markdown file to import (follow{" "}
+            <Link to="/createArticle/template.md">this template</Link>)
+          </label>
+          <input type="file" onChange={handleFileChange} />
           <button>Add article</button>
         </form>
-
-        <label>Your article in Markdown</label>
-        <input type="file" onChange={handleFileChange} />
-
-        <button onClick={handleSubmit}>Upload your article</button>
 
         {error && <div className="create-article-error">{error}</div>}
       </div>
