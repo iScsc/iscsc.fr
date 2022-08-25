@@ -34,6 +34,19 @@ const CreateArticle = () => {
     }
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    console.log(file.text());
+    file.text().then((t) => {
+      const lines = t.split("\n");
+      console.log(lines);
+      setTitle(lines[0]);
+      setSummary(lines[1]);
+      setBody(lines.slice(3).join("\n"));
+    });
+  };
+
   const current = new Date();
   const date = `${current.getDate()}/${
     current.getMonth() + 1
@@ -71,6 +84,12 @@ const CreateArticle = () => {
 
           <button>Add article</button>
         </form>
+
+        <label>Your article in Markdown</label>
+        <input type="file" onChange={handleFileChange} />
+
+        <button onClick={handleSubmit}>Upload your article</button>
+
         {error && <div className="create-article-error">{error}</div>}
       </div>
       {title && (
