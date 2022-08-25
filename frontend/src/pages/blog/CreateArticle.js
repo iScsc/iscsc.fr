@@ -87,7 +87,10 @@ const CreateArticle = () => {
 
           <label>
             Choose a Markdown file to import (follow{" "}
-            <Link to="/createArticle/template.md">this template</Link>)
+            <a href="/ressources/template.md" download>
+              this template
+            </a>
+            )
           </label>
           <input type="file" onChange={handleFileChange} />
           <button>Add article</button>
