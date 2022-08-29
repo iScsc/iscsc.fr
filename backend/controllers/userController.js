@@ -1,11 +1,19 @@
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+
+const createToken = (_id) => {
+  return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "3d" });
+};
 
 const signup = async (req, res) => {
   const { username, password, email } = req.body;
   try {
     // This function create a new user object with a hashed password
     const user = await User.signup(email, username, password);
-    res.status(200).json({ user });
+
+    // Create a token
+    const token = createToken(user._id);
+    res.status(200).json({ email, username, token });
   } catch (err) {
     res.status(400).send({ error: err.message });
   }
