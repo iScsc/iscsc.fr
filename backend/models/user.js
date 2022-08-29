@@ -48,5 +48,24 @@ userSchema.statics.signup = async function (email, username, password) {
   return user;
 };
 
+// static login method
+userSchema.statics.login = async function (email, password) {
+  if (!email || !password) {
+    throw Error("All fields must be filed");
+  }
+
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Access denied");
+  }
+
+  const match = await bcrypt.compare(password, user.hashedPassword);
+  if (!match) {
+    throw Error("Access denied");
+  }
+
+  return user;
+};
+
 const User = mongoose.model("User", userSchema);
 module.exports = User;
