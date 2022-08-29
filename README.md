@@ -40,7 +40,7 @@ From the root directory of the repository, do the following:
 ```bash
 cd backend
 npm install
-cp .env_example .env
+cp example.env .env
 ```
 
 After copying the example config of `.env`, you must fill in the missing information in this file:
