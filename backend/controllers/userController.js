@@ -12,11 +12,6 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    res.status(418).send("Missing username or password");
-  }
-
   // Get hashedPassword
   User.findOne({ username }, (err, result) => {
     if (result) {
