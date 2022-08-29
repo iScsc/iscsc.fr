@@ -31,6 +31,24 @@ header a {
   text-decoration: none;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 20px;
+  padding: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  font-size: 1.2em;
+}
+
+.nav-signup {
+  background-color: var(--primary);
+  color: #fff;
+}
+
 .pages {
   max-width: 1400px;
   padding: 20px;
