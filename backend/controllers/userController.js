@@ -1,29 +1,14 @@
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
 
 const signup = async (req, res) => {
   const { username, password, email } = req.body;
-  if (!username || !password) {
-    res.status(418).send("Missing username or password");
+  try {
+    // This function create a new user object with a hashed password
+    const user = await User.signup(email, username, password);
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(400).send({ error: err.message });
   }
-
-  bcrypt.genSalt(SALT_ROUND, function (err, salt) {
-    bcrypt.hash(password, salt, function (err, hash) {
-      const user = new User({
-        username,
-        hashedPassword: hash,
-        email,
-      });
-      user
-        .save()
-        .then((result) => {
-          res.send(`User ${result.username} successfully created`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  });
 };
 
 const login = async (req, res) => {
