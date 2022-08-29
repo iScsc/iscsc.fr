@@ -1,9 +1,0 @@
-client/node_modules
-client/build
-client/.env
-client/.env.production
-
-backend/.env
-backend/node_modules
-
-.DS_Store
