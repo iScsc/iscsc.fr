@@ -1,6 +1,6 @@
 # iscsc.fr
 This is the iScsc website source code.
-**This website is still in development and should not be deployed at the moment**
+**This website is still under development and should not be deployed at the moment**
 
 ## MERN
 The tech stack I chose for this web application is MERN with:
@@ -27,10 +27,10 @@ When creating a post, a preview is available on the right side of your browser.
 > Note: each created article will be assigned to the author 'alex', as I did not implemented the author functionality yet.
 
 ### Read
-All articles submitted by other users are readable through the /blog route.
+Any article submitted by other users can be read through the /blog route.
 
 ### Delete
-You should be able to delete any articles from the database. **Please, avoid deleting other people's articles, as the functionality that checks the author is not implemented yet.**
+You should be able to delete any article from the database. **Please, avoid deleting other people's articles, as the functionality that checks the author is not implemented yet.**
 
 ## Setup
 You need to set up the frontend and backend applications to test the server. Here is a quick guide after cloning the repository:
@@ -80,7 +80,7 @@ Also, feel free to share your recommendations regarding the color scheme, routes
 ## Incoming works
 Here is a none exhaustive list of incoming functionalities for the website:
 - User authentication
-- Likes and commentaries
+- Likes and comments
 - Main page
 - Calendar
 - News and events
