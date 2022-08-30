@@ -43,7 +43,7 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const { title, body, summary } = req.body;
-  const author = req.user["username"];
+  const author = req.user.username;
   try {
     const article = await Article.create({ title, author, body, summary });
     res.status(200).json(article);
