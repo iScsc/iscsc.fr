@@ -36,16 +36,19 @@ nav {
   align-items: center;
 }
 
-nav a {
+nav a, nav button {
   margin-left: 20px;
   padding: 15px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   font-size: 1.2em;
+  background-color: var(--secondary);
+  border: 1px solid black;
 }
 
 .nav-signup {
   background-color: var(--primary);
+  border: none;
   color: #fff;
 }
 
