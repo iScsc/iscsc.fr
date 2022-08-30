@@ -42,7 +42,8 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { title, author, body, summary } = req.body;
+  const { title, body, summary } = req.body;
+  const author = req.user["_id"];
   try {
     const article = await Article.create({ title, author, body, summary });
     res.status(200).json(article);
@@ -53,16 +54,20 @@ const create = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const id = req.params.id;
+  const userid = req.user["_id"];
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such article" });
   }
-  const article = await Article.findByIdAndDelete(id);
+  const author = await Article.findById(id).select("author");
 
-  if (!article) {
+  if (!author) {
     res.status(400).json({ error: "No such article" });
+  } else if (author != userid) {
+    res.status(401).json({ error: "Access denied" });
   }
 
+  const article = await Article.findByIdAndDelete(id);
   res.status(200).json(article);
 };
 
