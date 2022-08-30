@@ -59,16 +59,16 @@ const deleteById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such article" });
   }
-  const author = await Article.findById(id).select("author");
+  const { author } = await Article.findById(id);
 
   if (!author) {
     res.status(400).json({ error: "No such article" });
-  } else if (author !== userid) {
+  } else if (author !== username) {
     res.status(401).json({ error: "Access denied" });
+  } else {
+    const article = await Article.findByIdAndDelete(id);
+    res.status(200).json(article);
   }
-
-  const article = await Article.findByIdAndDelete(id);
-  res.status(200).json(article);
 };
 
 module.exports = { getAll, getById, getByAuthor, create, deleteById };
