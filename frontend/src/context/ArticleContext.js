@@ -19,13 +19,18 @@ export const articlesReducer = (state, action) => {
         articles: state.articles.filter((a) => action.payload._id !== a._id),
       };
 
+    case "RESET":
+      return {
+        articles: [],
+      };
+
     default:
       return state;
   }
 };
 
 export const ArticlesContextProvider = ({ children }) => {
-  const [ state, dispatch ] = useReducer(articlesReducer, {
+  const [state, dispatch] = useReducer(articlesReducer, {
     articles: null,
   });
 
