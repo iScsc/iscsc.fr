@@ -1,16 +1,29 @@
 import { Link } from "react-router-dom";
 import { useArticlesContext } from "../hooks/useArticlesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ArticlePreview = ({ article }) => {
+  const { user } = useAuthContext();
   const { dispatch } = useArticlesContext();
-  const handleClick = async () => {
-    const response = await fetch("/api/articles/" + article._id, {
-      method: "DELETE",
-    });
-    const json = await response.json();
 
-    if (response.ok) {
-      dispatch({ type: "DELETE", payload: json });
+  const handleClick = async () => {
+    const deleteArticle = async () => {
+      const response = await fetch("/api/articles/" + article._id, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: "DELETE", payload: json });
+      }
+    };
+
+    if (user) {
+      deleteArticle();
+    } else {
     }
   };
 
