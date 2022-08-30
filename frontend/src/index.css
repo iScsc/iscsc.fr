@@ -52,6 +52,11 @@ nav a, nav button {
   color: #fff;
 }
 
+.nav-loged-in {
+  display: flex;
+  align-items: center;
+}
+
 .pages {
   max-width: 1400px;
   padding: 20px;
