@@ -80,9 +80,9 @@ Here is a list of the main folders/files of the repository.
 ```
 iscsc.fr
 ├── backend                 *contains the server-side code and API* 
-│   ├── controllers         *usefull js function for each model*
-│   ├── models              *contains the database models*
-│   ├── routes              *routes and functions to executes for each model*
+│   ├── controllers/         *usefull js function for each model*
+│   ├── models/              *contains the database models*
+│   ├── routes/              *routes and functions to executes for each model*
 │   ├── app.js              *main application for the backend*
 │   ├── .env                *stores database credentials and required information for the backend deployment. Must be created*
 │   └── example.env         *template for .env*
@@ -90,10 +90,10 @@ iscsc.fr
 ├── frontend  
 │   ├── public              *automatically generated files and images that are publically available for the user*
 │   └── src                 *source code of the website*
-│       ├── components      *source code of main components of the website*
-│       ├── context         *defines the context function to keep track data with useReducer*
-│       ├── hooks           *defines the hooks that trigger the context functions*
-│       ├── pages           *source code of the pages of the website*
+│       ├── components/      *source code of main components of the website*
+│       ├── context/         *defines the context function to keep track data with useReducer*
+│       ├── hooks/           *defines the hooks that trigger the context functions*
+│       ├── pages/           *source code of the pages of the website*
 │       ├── App.js          *defines the routes of the application*
 │       ├── index.js        *main js application of the website*
 │       └── index.css       *css styling file of the website*
