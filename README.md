@@ -85,10 +85,10 @@ Here is a list of the main folders/files of the repository.
 ```
 iscsc.fr
 ├── backend                 *contains the server-side code and API* 
-│   ├── controllers         *usefull js functions for each model*
-│   ├── middleware          *js functions that run between the frontend and backend*
-│   ├── models              *contains the database models*
-│   ├── routes              *routes and functions to executes for each model*
+│   ├── controllers/         *usefull js functions for each model*
+│   ├── middleware/          *js functions that run between the frontend and backend*
+│   ├── models/              *contains the database models*
+│   ├── routes/              *routes and functions to executes for each model*
 │   ├── app.js              *main application for the backend*
 │   ├── .env                *stores database credentials and required information for the backend deployment. Must be created*
 │   └── .env.example         *template for .env*
