@@ -40,7 +40,7 @@ From the root directory of the repository, do the following:
 ```bash
 cd backend
 npm install
-cp example.env .env
+cp .env.example .env
 ```
 
 After copying the example config of `.env`, you must fill in the missing information in this file:
@@ -85,7 +85,7 @@ iscsc.fr
 │   ├── routes/              *routes and functions to executes for each model*
 │   ├── app.js              *main application for the backend*
 │   ├── .env                *stores database credentials and required information for the backend deployment. Must be created*
-│   └── example.env         *template for .env*
+│   └── .env.example         *template for .env*
 │
 ├── frontend  
 │   ├── public              *automatically generated files and images that are publically available for the user*
