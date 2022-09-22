@@ -21,15 +21,15 @@ const ArticleForm = () => {
     });
     const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.error);
-    }
     if (response.ok) {
       setTitle("");
       setSummary("");
       setBody("");
       setError(null);
       dispatch({ type: "CREATE", payload: json });
+    }
+    else {
+      setError(json.error);
     }
   };
 
