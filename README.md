@@ -52,6 +52,7 @@ After copying the example config of `.env`, you must fill in the missing informa
 - The database name
 - The credential for the database
 - The secret key used to sign JWT
+- The expiration time for JWT
 
 If you don't know how to deploy your database, consider using [Atlas](https://www.mongodb.com/atlas/database).
 
