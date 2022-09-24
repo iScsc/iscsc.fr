@@ -52,7 +52,7 @@ nav a, nav button {
   color: #fff;
 }
 
-.nav-loged-in {
+.nav-logged-in {
   display: flex;
   align-items: center;
 }
