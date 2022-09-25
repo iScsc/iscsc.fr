@@ -11,11 +11,9 @@ const getAll = async (req, res) => {
 };
 
 const getByAuthor = async (req, res) => {
-  let author;
-  if (!req.params.author) {
-    author = "alex";
-  } else {
-    author = req.params.author;
+  const author = req.user?.usermame? || req.params.author?
+  if (!author) {
+    res.status(404).json({error: "You must login or provide an author" });
   }
 
   try {
