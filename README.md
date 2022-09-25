@@ -18,7 +18,7 @@ The authentication is now available. A user can sign up, and log in with an emai
 JWT and cookies allow the user to stay logged in.
 
 ### Create
-You should be able to create your post in the /createArticle route. **Creating a post requires authentication.** 
+You should be able to create your post in the /create-article route. **Creating a post requires authentication.** 
 
 Two writing options are available:
 - Writing the post directly inside the form inputs

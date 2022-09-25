@@ -18,7 +18,7 @@ function App() {
             <Route path="/" element={<Navigate to="/blog" />} />
             <Route path="/blog" element={<Blog />} />
             <Route
-              path="/blog/createArticle"
+              path="/blog/create-article"
               element={user ? <CreateArticle /> : <Navigate to="/login" />}
             />
             <Route path="/blog/:id" element={<Article />} />
