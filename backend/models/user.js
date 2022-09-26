@@ -36,11 +36,6 @@ userSchema.statics.signup = async function (email, username, password) {
     throw Error("The password provided is not strong enough");
   }
 
-  const exists = await this.findOne({ $or: [{ email }, { username }] });
-  if (exists) {
-    throw Error("User already exists");
-  }
-
   const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
   const hashedPassword = await bcrypt.hash(password, salt);
   const user = this.create({ username, hashedPassword, email });
