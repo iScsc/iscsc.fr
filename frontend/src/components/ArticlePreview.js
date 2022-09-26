@@ -16,14 +16,19 @@ const ArticlePreview = ({ article }) => {
       });
       const json = await response.json();
 
+
       if (response.ok) {
         dispatch({ type: "DELETE", payload: json });
+      }
+      else {
+	alert(json.error)
       }
     };
 
     if (user) {
       deleteArticle();
     } else {
+	alert("You need to be authenticated to delete an article.")
     }
   };
 
