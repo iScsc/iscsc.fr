@@ -50,12 +50,12 @@ userSchema.statics.login = async function (email, password) {
 
   const user = await this.findOne({ email });
   if (!user) {
-    throw Error("Access denied");
+    throw Error("Access denied: user not found");
   }
 
   const match = await bcrypt.compare(password, user.hashedPassword);
   if (!match) {
-    throw Error("Access denied");
+    throw Error("Access denied: wrong password");
   }
 
   return user;
