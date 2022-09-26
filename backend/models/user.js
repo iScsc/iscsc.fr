@@ -33,7 +33,7 @@ userSchema.statics.signup = async function (email, username, password) {
     throw Error("The email provided is not valid");
   }
   if (!validator.isStrongPassword(password)) {
-    throw Error("The password provided is not strong enough");
+    throw Error("The password provided is not strong enough. It must be at least 8-character long, and contain a lowercase, uppercase, number and symbol.");
   }
 
   const salt = await bcrypt.genSalt(parseInt(process.env.SALT_ROUND));
