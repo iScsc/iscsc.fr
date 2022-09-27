@@ -119,7 +119,7 @@ const CreateArticle = () => {
               title,
               summary,
               body,
-              author: "alex",
+              author: user.username,
               createdAt: date,
             }}
           />
