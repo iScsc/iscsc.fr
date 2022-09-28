@@ -1,6 +1,6 @@
 # iscsc.fr
 This is the iScsc website source code.
-**This website is still under development and should not be deployed at the moment**
+**This website is still under development**
 
 ## MERN
 The tech stack I chose for this web application is MERN with:
@@ -14,23 +14,27 @@ For more information, check [this article](https://www.mongodb.com/mern-stack).
 ## Functionalities
 The main functionalities of the website at the moment are creating, reading and deleting posts on the blog section of the website.
 Posts are rendered in Markdown, with the [Github Flavored Markdown, GMF](https://github.com/remarkjs/remark-gfm).
+The authentication is now available. A user can sign up, and log in with an email and a password. Some actions in the blog, like creating and deleting articles need authentication.
+JWT and cookies allow the user to stay logged in.
 
 ### Create
-You should be able to create your post in the /createArticle route. Two options are available:
+You should be able to create your post in the /create-article route. **Creating a post requires authentication.** 
+
+Two writing options are available:
 - Writing the post directly inside the form inputs
 - Submit a markdown file
   
 For the first option, no editor is available at the moment on the website, so writing a post directly from the Textarea field might be harsh. That is why the second way is recommended. A template is available for the markdown file submission.
 
-When creating a post, a preview is available on the right side of your browser.
-
-> Note: each created article will be assigned to the author 'alex', as I did not implemented the author functionality yet.
+When creating a post, a preview is available on the right side of your browser. The author assigned to the article will be the name of the authenticated user.
 
 ### Read
 Any article submitted by other users can be read through the /blog route.
 
 ### Delete
-You should be able to delete any article from the database. **Please, avoid deleting other people's articles, as the functionality that checks the author is not implemented yet.**
+You should be able to delete any article **you created** from the database.
+
+>Note: if you try to delete an article you did not write, it won't work but you won't recieve any error message.
 
 ## Setup
 You need to set up the frontend and backend applications to test the server. Here is a quick guide after cloning the repository:
@@ -47,6 +51,8 @@ After copying the example config of `.env`, you must fill in the missing informa
 - The port to deploy the backend
 - The database name
 - The credential for the database
+- The secret key used to sign JWT
+- The expiration time for JWT
 
 If you don't know how to deploy your database, consider using [Atlas](https://www.mongodb.com/atlas/database).
 
@@ -80,7 +86,8 @@ Here is a list of the main folders/files of the repository.
 ```
 iscsc.fr
 ├── backend                 *contains the server-side code and API* 
-│   ├── controllers/         *usefull js function for each model*
+│   ├── controllers/         *usefull js functions for each model*
+│   ├── middleware/          *js functions that run between the frontend and backend*
 │   ├── models/              *contains the database models*
 │   ├── routes/              *routes and functions to executes for each model*
 │   ├── app.js              *main application for the backend*
@@ -107,7 +114,7 @@ Also, feel free to share your recommendations regarding the color scheme, routes
 
 ## Incoming works
 Here is a none exhaustive list of incoming functionalities for the website:
-- User authentication
+- User profile, with article management
 - Likes and comments
 - Main page
 - Calendar

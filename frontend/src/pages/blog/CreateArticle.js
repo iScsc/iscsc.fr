@@ -2,6 +2,7 @@ import ArticleView from "../../components/ArticleView";
 import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -10,31 +11,41 @@ const CreateArticle = () => {
   const [error, setError] = useState(null);
   const { dispatch } = useArticlesContext();
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const article = { title, summary, body, author: "alex" };
-    const response = await fetch("/api/articles/create", {
-      method: "POST",
-      body: JSON.stringify(article),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
+    const submit = async () => {
+      const article = { title, summary, body };
+      const response = await fetch("/api/articles/create", {
+        method: "POST",
+        body: JSON.stringify(article),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      setTitle("");
-      setSummary("");
-      setBody("");
-      setError(null);
-      dispatch({ type: "CREATE", payload: json });
+      if (!response.ok) {
+        setError(json.error);
+      }
+      if (response.ok) {
+        setTitle("");
+        setSummary("");
+        setBody("");
+        setError(null);
+        dispatch({ type: "CREATE", payload: json });
 
-      navigate("/blog");
+        navigate("/blog");
+      }
+    };
+
+    if (user) {
+      await submit();
+    } else {
+      setError("Authentication required to create a new article");
     }
   };
 
@@ -108,7 +119,7 @@ const CreateArticle = () => {
               title,
               summary,
               body,
-              author: "alex",
+              author: user.username,
               createdAt: date,
             }}
           />

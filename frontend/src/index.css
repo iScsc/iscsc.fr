@@ -31,6 +31,32 @@ header a {
   text-decoration: none;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a, nav button {
+  margin-left: 20px;
+  padding: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  font-size: 1.2em;
+  background-color: var(--secondary);
+  border: 1px solid black;
+}
+
+.nav-signup {
+  background-color: var(--primary);
+  border: none;
+  color: #fff;
+}
+
+.nav-logged-in {
+  display: flex;
+  align-items: center;
+}
+
 .pages {
   max-width: 1400px;
   padding: 20px;
@@ -179,4 +205,57 @@ article {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
+}
+
+/* Login */
+
+.signup,
+.login {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+}
+
+.signup-error,
+.login-error {
+  color: var(--error);
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.signup > label,
+.login > label {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.signup > input,
+.login > input {
+  font-size: 1.1em;
+  font-family: "Poppins";
+  padding: 3px 10px;
+  margin-bottom: 20px;
+  height: 40px;
+}
+
+.signup > button,
+.login > button {
+  height: 50px;
+  font-size: 1.3em;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.signup > button:hover,
+.login > button:hover {
+  background-color: var(--primary);
+  color: var(--secondary);
 }

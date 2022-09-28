@@ -11,11 +11,9 @@ const getAll = async (req, res) => {
 };
 
 const getByAuthor = async (req, res) => {
-  let author;
-  if (!req.params.author) {
-    author = "alex";
-  } else {
-    author = req.params.author;
+  const author = req.params.author ?? req.user?.usermame
+  if (!author) {
+    res.status(404).json({error: "You must login or provide an author" });
   }
 
   try {
@@ -42,7 +40,8 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { title, author, body, summary } = req.body;
+  const { title, body, summary } = req.body;
+  const author = req.user.username;
   try {
     const article = await Article.create({ title, author, body, summary });
     res.status(200).json(article);
@@ -53,17 +52,21 @@ const create = async (req, res) => {
 
 const deleteById = async (req, res) => {
   const id = req.params.id;
+  const { username } = req.user;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such article" });
   }
-  const article = await Article.findByIdAndDelete(id);
+  const { author } = await Article.findById(id);
 
-  if (!article) {
+  if (!author) {
     res.status(400).json({ error: "No such article" });
+  } else if (author !== username) {
+    res.status(401).json({ error: "Access denied" });
+  } else {
+    const article = await Article.findByIdAndDelete(id);
+    res.status(200).json(article);
   }
-
-  res.status(200).json(article);
 };
 
 module.exports = { getAll, getById, getByAuthor, create, deleteById };
