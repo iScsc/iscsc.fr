@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Config from "../../config/config.json"
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -51,15 +52,19 @@ const CreateArticle = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
-    console.log(file.text());
-    file.text().then((t) => {
-      const lines = t.split("\n");
-      console.log(lines);
-      setTitle(lines[0]);
-      setSummary(lines[1]);
-      setBody(lines.slice(3).join("\n"));
-    });
+    console.log(file.size)
+    console.log(Config.FILE_SIZE_MAX)
+    if (file.size < Config.FILE_SIZE_MAX) {
+        file.text().then((t) => {
+          const lines = t.split("\n");
+          setTitle(lines[0]);
+          setSummary(lines[1]);
+          setBody(lines.slice(3).join("\n"));
+        });
+    }
+    else {
+        setError("File is too large!")
+    }
   };
 
   const current = new Date();
