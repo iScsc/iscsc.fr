@@ -63,7 +63,7 @@ const CreateArticle = () => {
         });
     }
     else {
-        setError("File is too large!")
+        setError("File is too large! Your upload must be less than " + Config.FILE_SIZE_MAX / 1000 + "kB")
     }
   };
 
