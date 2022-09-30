@@ -7,17 +7,17 @@ const articleRoutes = require('./routes/articles');
 const httpServer = createServer(app);
 require('dotenv/config');
 
-app.use(express.json());
-app.use('/api/users', userRoutes);
-app.use('/api/articles', articleRoutes);
-
 const {
     DB_USER,
     DB_PASSWORD,
     DB_NAME,
     PORT,
-    SALT_ROUND
+    BODY_MAX
 } = process.env;
+
+app.use(express.json({limit: '1MB'}));
+app.use('/api/users', userRoutes);
+app.use('/api/articles', articleRoutes);
 
 app.get('/', (req, res) => {
     res.send('iscsc.fr is running');
