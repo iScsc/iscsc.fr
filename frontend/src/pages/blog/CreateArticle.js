@@ -52,8 +52,6 @@ const CreateArticle = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file.size)
-    console.log(Config.FILE_SIZE_MAX)
     if (file.size < Config.FILE_SIZE_MAX) {
         file.text().then((t) => {
           const lines = t.split("\n");
