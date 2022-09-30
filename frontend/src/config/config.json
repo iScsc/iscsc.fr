@@ -1,3 +1,4 @@
 {
-    "FILE_SIZE_MAX": 40000
+    "FILE_SIZE_MAX": 40000,
+    "FILE_SIZE_MAX_COMMENT": "The max size handle for file upload in CreateArticle in bytes."
 }
