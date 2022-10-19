@@ -41,12 +41,22 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   const { title, body, summary } = req.body;
+  console.log(body.length, process.env.MAX_BODY)
+  if (title.length > process.env.MAX_TITLE) {
+    return res.status(400).json({ error: `Your title should be less than ${process.env.MAX_TITLE} characters.` });
+  }
+  if (summary && summary.length > process.env.MAX_SUMMARY) {
+    return res.status(400).json({ error: `Your summary should be less than ${process.env.MAX_SUMMARY} characters.` });
+  }
+  if (body.length > process.env.MAX_BODY) {
+    return res.status(400).json({ error: `Your article body should be less than ${process.env.MAX_BODY} characters.` })
+  }
   const author = req.user.username;
   try {
     const article = await Article.create({ title, author, body, summary });
-    res.status(200).json(article);
+    return res.status(200).json(article);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 
