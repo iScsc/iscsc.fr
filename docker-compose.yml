@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend-app:
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - PORT=$NODE_DOCKER_PORT
+      - CLIENT_ORIGIN=$CLIENT_ORIGIN
+      - NODE_ENV=production
+    networks:
+      - frontend
+
+  frontend-app:
+    depends_on:
+      - backend-app
+    build:
+      context: ./frontend
+      args:
+        - API_URL=$CLIENT_API_BASE_URL
+    ports:
+      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
+    networks:
+      - frontend  
+
+volumes: 
+  db:
+
+networks:
+  frontend:
