@@ -8,27 +8,28 @@ const ArticlePreview = ({ article }) => {
 
   const handleClick = async () => {
     const deleteArticle = async () => {
-      const response = await fetch("/api/articles/" + article._id, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/articles/` + article._id,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
-
 
       if (response.ok) {
         dispatch({ type: "DELETE", payload: json });
-      }
-      else {
-	alert(json.error)
+      } else {
+        alert(json.error);
       }
     };
 
     if (user) {
       deleteArticle();
     } else {
-	alert("You need to be authenticated to delete an article.")
+      alert("You need to be authenticated to delete an article.");
     }
   };
 

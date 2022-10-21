@@ -8,7 +8,9 @@ const Blog = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const response = await fetch(`/api/articles`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/articles`
+      );
       const json = await response.json();
 
       if (response.ok) {
