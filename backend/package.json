@@ -4,6 +4,7 @@
   "description": "Backend of the iscsc.fr website",
   "main": "app.js",
   "scripts": {
+    "dev": "NODE_ENV=development nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alexandre Tullot",
