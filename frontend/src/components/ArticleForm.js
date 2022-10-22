@@ -11,8 +11,8 @@ const ArticleForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const article = { title, summary, body, author: "alex" };
-    const response = await fetch(`/api/articles/create`, {
+    const article = { title, summary, body };
+    const response = await fetch("/api/articles/create", {
       method: "POST",
       body: JSON.stringify(article),
       headers: {
