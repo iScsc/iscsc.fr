@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import Config from "../../config/config.json";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -55,7 +54,7 @@ const CreateArticle = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file.size < Config.FILE_SIZE_MAX) {
+    if (file.size < process.env.REACT_APP_FILE_SIZE_MAX) {
       file.text().then((t) => {
         const lines = t.split("\n");
         setTitle(lines[0]);
@@ -65,7 +64,7 @@ const CreateArticle = () => {
     } else {
       setError(
         "File is too large! Your upload must be less than " +
-          Config.FILE_SIZE_MAX / 1000 +
+          process.env.REACT_APP_FILE_SIZE_MAX / 1000 +
           "kB"
       );
     }
