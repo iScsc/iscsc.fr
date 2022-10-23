@@ -36,49 +36,64 @@ You should be able to delete any article **you created** from the database.
 
 >Note: if you try to delete an article you did not write, it won't work but you won't recieve any error message.
 
-## Setup
-You need to set up the frontend and backend applications to test the server. Here is a quick guide after cloning the repository:
+## Deployment
+You need to set up the frontend and backend applications to test the server. 
+For deployment, `development` and `production` modes are available
 
-### Backend
+> ##### Notes for the iScsc members:
+> Send me a message and I'll send you back a crypted version of the official `.env.production` and `.env.development` files.
+
+Here is a quick guide after cloning the repository:
+
+### Development mode
+#### .env file
+Before deploying the application, you need to set the environement variables
 From the root directory of the repository, do the following:
-```bash
-cd backend
-npm install
-cp .env.example .env
 ```
-
-After copying the example config of `.env`, you must fill in the missing information in this file:
-- The port to deploy the backend
-- The database name
-- The credential for the database
-- The secret key used to sign JWT
-- The expiration time for JWT
-- The maximum size of articles
-
-If you don't know how to deploy your database, consider using [Atlas](https://www.mongodb.com/atlas/database).
-
-> #### Notes for the iScsc members:
-> To access the official iScsc database, send me a message and I'll send you back a crypted version of the official `.env`.
-
- To deploy the server once your `.env` is ready, run 
-```bash
-node .
+cd config
+cp .env.example .env.development
 ```
+After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-If everything is good, the application should output:
-```
-Server listening: http://localhost:<PORT>
-```
+> If you don't know how to deploy your database, consider using [Atlas](https://www.mongodb.com/atlas/database).
 
-### Frontend
+#### Frontend
 From the root directory of the repository, do the following:
 ```
 cd frontend
 npm install
-npm start
+npm run dev
 ```
-It will start the application on a localhost port that you will be able to access in your browser.
-Make sure the backend application is running before launching the frontend.
+
+#### Backend
+From the root directory of the repository, do the following:
+```bash
+cd backend
+npm install
+npm run start
+```
+
+> You will need `nodemon` to run the backend
+
+### Production mode
+The production mode allows to deploy the application on the server. To use it, you will need:
+- `docker`
+- `docker-compose`
+
+#### .env file
+Before deploying the application, you need to set the environement variables, as for `developement` mode.
+```
+cd config
+cp .env.example .env.production
+```
+
+#### Docker
+Once you `.env.production` is ready, run
+`sudo docker-compose up`
+
+> Make sure the `docker` daemon is running!
+
+You application can now be started on `CLIENT_URL` (specified in the `.env.production` file)
 
 ## Repository structure
 
@@ -86,22 +101,26 @@ Here is a list of the main folders/files of the repository.
 
 ```
 iscsc.fr
+│
+├── config   
+│   ├── .env.development    *stores database credentials and required information for developement mode deployment. Must be created*
+│   ├── .env.production     *Same thing for production mode. Must be created*
+│   └── .env.example        *template for .env files*
+│
 ├── backend                 *contains the server-side code and API* 
-│   ├── controllers/         *usefull js functions for each model*
-│   ├── middleware/          *js functions that run between the frontend and backend*
-│   ├── models/              *contains the database models*
-│   ├── routes/              *routes and functions to executes for each model*
-│   ├── app.js              *main application for the backend*
-│   ├── .env                *stores database credentials and required information for the backend deployment. Must be created*
-│   └── .env.example         *template for .env*
+│   ├── controllers/        *usefull js functions for each model*
+│   ├── middleware/         *js functions that run between the frontend and backend*
+│   ├── models/             *contains the database models*
+│   ├── routes/             *routes and functions to executes for each model*
+│   └── app.js              *main application for the backend*
 │
 ├── frontend  
 │   ├── public              *automatically generated files and images that are publically available for the user*
 │   └── src                 *source code of the website*
-│       ├── components/      *source code of main components of the website*
-│       ├── context/         *defines the context function to keep track data with useReducer*
-│       ├── hooks/           *defines the hooks that trigger the context functions*
-│       ├── pages/           *source code of the pages of the website*
+│       ├── components/     *source code of main components of the website*
+│       ├── context/        *defines the context function to keep track data with useReducer*
+│       ├── hooks/          *defines the hooks that trigger the context functions*
+│       ├── pages/          *source code of the pages of the website*
 │       ├── App.js          *defines the routes of the application*
 │       ├── index.js        *main js application of the website*
 │       └── index.css       *css styling file of the website*
