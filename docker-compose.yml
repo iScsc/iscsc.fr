@@ -1,27 +1,31 @@
 version: '3.8'
 
 services:
-  backend-app:
+  node-app:
     build: ./backend
     restart: unless-stopped
     env_file: ./.env.production
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
-    networks:
-      - frontend
+      - $NODE_PORT:$NODE_PORT
 
-  frontend-app:
+  react-app:
     depends_on:
-      - backend-app
+      - node-app
+    env_file: ./.env.production
     build:
       context: ./frontend
     ports:
-      - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
-    networks:
-      - frontend  
+      - $REACT_PORT:$REACT_PORT
 
-volumes: 
-  db:
-
-networks:
-  frontend:
+  nginx:
+    restart: always
+    depends_on:
+      - react-app
+      - node-app
+    build:
+      context: ./nginx
+      args:
+        - NODE_PORT=$NODE_PORT
+        - REACT_PORT=$REACT_PORT
+    ports:
+      - 80:80
