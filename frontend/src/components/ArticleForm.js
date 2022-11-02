@@ -12,16 +12,13 @@ const ArticleForm = () => {
     e.preventDefault();
 
     const article = { title, summary, body, author: "alex" };
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/articles/create`,
-      {
-        method: "POST",
-        body: JSON.stringify(article),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`/api/articles/create`, {
+      method: "POST",
+      body: JSON.stringify(article),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const json = await response.json();
 
     if (response.ok) {

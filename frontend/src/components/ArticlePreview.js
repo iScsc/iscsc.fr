@@ -8,15 +8,12 @@ const ArticlePreview = ({ article }) => {
 
   const handleClick = async () => {
     const deleteArticle = async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/articles/` + article._id,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await fetch(`/api/articles/` + article._id, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json();
 
       if (response.ok) {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useArticlesContext } from "../../hooks/useArticlesContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Config from "../../config.json";
 
 const CreateArticle = () => {
   const [title, setTitle] = useState("");
@@ -18,17 +19,14 @@ const CreateArticle = () => {
 
     const submit = async () => {
       const article = { title, summary, body };
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/articles/create`,
-        {
-          method: "POST",
-          body: JSON.stringify(article),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const response = await fetch(`/api/articles/create`, {
+        method: "POST",
+        body: JSON.stringify(article),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json();
 
       if (!response.ok) {
@@ -54,7 +52,7 @@ const CreateArticle = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file.size < process.env.REACT_APP_FILE_SIZE_MAX) {
+    if (file.size < Config.FILE_SIZE_MAX) {
       file.text().then((t) => {
         const lines = t.split("\n");
         setTitle(lines[0]);
@@ -64,7 +62,7 @@ const CreateArticle = () => {
     } else {
       setError(
         "File is too large! Your upload must be less than " +
-          process.env.REACT_APP_FILE_SIZE_MAX / 1000 +
+          Config.FILE_SIZE_MAX / 1000 +
           "kB"
       );
     }
