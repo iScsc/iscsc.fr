@@ -50,7 +50,6 @@ Here is a quick guide after cloning the repository:
 Before deploying the application, you need to set the environement variables
 From the root directory of the repository, do the following:
 ```
-cd config
 cp .env.example .env.development
 ```
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
@@ -83,7 +82,6 @@ The production mode allows to deploy the application on the server. To use it, y
 #### .env file
 Before deploying the application, you need to set the environement variables, as for `developement` mode.
 ```
-cd config
 cp .env.example .env.production
 ```
 
@@ -102,10 +100,9 @@ Here is a list of the main folders/files of the repository.
 ```
 iscsc.fr
 │
-├── config   
-│   ├── .env.development    *stores database credentials and required information for developement mode deployment. Must be created*
-│   ├── .env.production     *Same thing for production mode. Must be created*
-│   └── .env.example        *template for .env files*
+├── .env.development    *stores database credentials and required information for developement mode deployment. Must be created*
+├── .env.production     *Same thing for production mode. Must be created*
+├── .env.example        *template for .env files*
 │
 ├── backend                 *contains the server-side code and API* 
 │   ├── controllers/        *usefull js functions for each model*
