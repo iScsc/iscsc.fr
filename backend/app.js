@@ -6,7 +6,7 @@ const { createServer } = require("http");
 const userRoutes = require("./routes/users");
 const articleRoutes = require("./routes/articles");
 const httpServer = createServer(app);
-require("dotenv").config({ path: `./../config/.env.${process.env.NODE_ENV}` });
+require("dotenv").config({ path: `../.env.${process.env.NODE_ENV}` });
 
 const { DB_USER, DB_PASSWORD, DB_NAME, NODE_LOCAL_PORT, CLIENT_ORIGIN } =
   process.env;
