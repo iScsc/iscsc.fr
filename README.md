@@ -87,7 +87,7 @@ cp .env.example .env.production
 
 #### Docker
 Once you `.env.production` is ready, run
-`sudo docker-compose --env-file .env.production up`
+`sudo docker-compose --env-file .env.production up -d`
 
 > Make sure the `docker` daemon is running!
 
