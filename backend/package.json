@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "iscsc.fr-backend",
   "version": "0.1.0",
   "description": "Backend of the iscsc.fr website",
   "main": "app.js",
