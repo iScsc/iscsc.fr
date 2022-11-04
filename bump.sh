@@ -1,6 +1,8 @@
 #!/bin/sh
 
-if [ -z "$1" ]; then
+if [ "$#" != "1" ]; then
+	echo "[-] Exactly one argument is needed."
+	echo '[?] Example: `./bump.sh 0.2.6`'
 	exit 1
 fi
 
@@ -26,9 +28,12 @@ if [ ! $(semver "$1" -r ">$current") ]; then
 fi
 
 echo "[+] '$1' > '$current', '$1' is accepted as new version."
+echo '[+] Bumping `frontend`'
 cd frontend
 npm version "$1" --no-git-tag-version
+echo '[+] Bumping `backend`'
 cd ../backend
 npm version "$1" --no-git-tag-version
+echo '[+] Bumping `root`'
 cd ..
 npm version "$1" -m "Bump to version %s"
