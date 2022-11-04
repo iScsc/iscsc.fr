@@ -39,6 +39,10 @@ npm version "$1" --no-git-tag-version
 echo '[+] Bumping `backend`'
 cd ../backend
 npm version "$1" --no-git-tag-version
+
+echo '[+] Commiting `frontend` and `backend` bump'
+git commit -m "Bump frontend and backend versions to $1"
+
 echo '[+] Bumping `root`'
 cd ..
-npm version "$1" -m "Bump to version %s" -f
+npm version "$1" -m "Bump to version %s"
