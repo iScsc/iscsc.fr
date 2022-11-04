@@ -1,6 +1,7 @@
 {
     "name": "iscsc.fr",
     "version": "0.1.0",
-    "description": "The iScsc website"
+    "description": "The iScsc website",
+    "private": true
 }
 
