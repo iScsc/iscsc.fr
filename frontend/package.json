@@ -1,7 +1,8 @@
 {
   "proxy": "http://localhost:3001",
-  "name": "frontend",
+  "name": "iscsc.fr-frontend",
   "version": "0.1.0",
+  "description": "Frontend of the iscsc.fr website",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
