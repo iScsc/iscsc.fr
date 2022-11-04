@@ -1,7 +1,7 @@
 {
     "version": "0.1.0",
     "scripts": {
-	    "version": "npm install && git add package.json package-lock.json",
-	    "postversion": "git push && git push --tags"
+	"version": "npm install && git add package.json package-lock.json",
+	"postversion": "echo '[~] pushing to `git@github.com:iScsc/iscsc.fr.git` please type your passphrase/password if required:' && git push git@github.com:iScsc/iscsc.fr.git $(git branch --show-current) v$(npm pkg get version | sed 's/\"//g') || echo \"[-] push failed, you can push with 'git push git@github.com:iScsc/iscsc.fr.git $(git branch --show-current) v$(npm pkg get version | sed 's/\"//g')'\""
     }
 }
