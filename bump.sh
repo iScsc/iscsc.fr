@@ -18,6 +18,11 @@ if [ ! "$1" = "$(/usr/bin/semver $1)" ]; then
 	exit 1
 fi
 
+if [ -n "$(git status -s --untracked-files=no)" ]; then
+	echo "[-] git working directory isn't clean"
+	exit 1
+fi
+
 current=$(npm pkg get version | sed 's/"//g')
 
 echo "[+] Current version is '${current}'"
@@ -36,4 +41,4 @@ cd ../backend
 npm version "$1" --no-git-tag-version
 echo '[+] Bumping `root`'
 cd ..
-npm version "$1" -m "Bump to version %s"
+npm version "$1" -m "Bump to version %s" -f
