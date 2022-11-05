@@ -51,22 +51,22 @@ echo "[+] '${NEW_VERSION}'>'$CURRENT', '${NEW_VERSION}' is accepted as new versi
 
 # ...and checkout on main to create a version bump branch
 echo "[+] Checkout on ${ISCSC_REMOTE}/main"
-git checkout ${ISCSC_REMOTE}/main
+[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main
 echo "[+] switching to ${BUMP_BRANCH}"
-git switch -c ${BUMP_BRANCH}
+[ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
 # ----------- Version Bump -----------
 
 echo '[+] Bumping `frontend`'
 cd frontend
-npm version "${NEW_VERSION}" --no-git-tag-version
+[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 echo '[+] Bumping `backend`'
 cd ../backend
-npm version "${NEW_VERSION}" --no-git-tag-version
+[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 
 echo '[+] Commiting `frontend` and `backend` bump'
-git commit -m "Bump frontend and backend versions to ${NEW_VERSION}"
+[ -z "$DRY_RUN" ] && git commit -m "Bump frontend and backend versions to ${NEW_VERSION}"
 
 echo '[+] Bumping `root`'
 cd ..
-npm version "${NEW_VERSION}" -m "Bump to version %s"
+[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" -m "Bump to version %s"
