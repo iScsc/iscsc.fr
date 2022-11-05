@@ -27,26 +27,30 @@ if [ -n "$(git status -s --untracked-files=no)" ]; then
 	exit 1
 fi
 
-current=$(npm pkg get version | sed 's/"//g')
+# ...define needed variables...
+CURRENT=$(npm pkg get version | sed 's/"//g')
+NEW_VERSION=$1
+BUMP_BRANCH="${NEW_VERSION}-version-bump"
 
-echo "[+] Current version is '${current}'"
 
-if [ ! $(semver "$1" -r ">$current") ]; then
-	echo "[-] '$1' <= '$current', '$1' isn't accepted as new version."
+echo "[+] Current version is '${CURRENT}'"
+
+if [ ! $(semver "${NEW_VERSION}" -r ">$CURRENT") ]; then
+	echo "[-] '${NEW_VERSION}'<='$CURRENT', '${NEW_VERSION}' isn't accepted as new version."
 	exit 1
 fi
 
-echo "[+] '$1' > '$current', '$1' is accepted as new version."
+echo "[+] '${NEW_VERSION}'>'$CURRENT', '${NEW_VERSION}' is accepted as new version."
 echo '[+] Bumping `frontend`'
 cd frontend
-npm version "$1" --no-git-tag-version
+npm version "${NEW_VERSION}" --no-git-tag-version
 echo '[+] Bumping `backend`'
 cd ../backend
-npm version "$1" --no-git-tag-version
+npm version "${NEW_VERSION}" --no-git-tag-version
 
 echo '[+] Commiting `frontend` and `backend` bump'
-git commit -m "Bump frontend and backend versions to $1"
+git commit -m "Bump frontend and backend versions to ${NEW_VERSION}"
 
 echo '[+] Bumping `root`'
 cd ..
-npm version "$1" -m "Bump to version %s"
+npm version "${NEW_VERSION}" -m "Bump to version %s"
