@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# ----------- Basic Checking -----------
+
 # Check that 1 arg has been supplied
 if [ "$#" != "1" ]; then
 	echo "[-] Exactly one argument is needed."
@@ -27,11 +29,25 @@ if [ -n "$(git status -s --untracked-files=no)" ]; then
 	exit 1
 fi
 
-# ...define needed variables...
+# ----------- Variable definition -----------
+
+# Define needed variables
 CURRENT=$(npm pkg get version | sed 's/"//g')
 NEW_VERSION=$1
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
+
+# ----------- Version checking -----------
+
+# Check if targeted version is > than current
+echo "[+] Current version is '${CURRENT}'"
+if [ ! $(semver "${NEW_VERSION}" -r ">$CURRENT") ]; then
+	echo "[-] '${NEW_VERSION}'<='$CURRENT', '${NEW_VERSION}' isn't accepted as new version."
+	exit 1
+fi
+echo "[+] '${NEW_VERSION}'>'$CURRENT', '${NEW_VERSION}' is accepted as new version."
+
+# ----------- Git setup -----------
 
 # ...and checkout on main to create a version bump branch
 echo "[+] Checkout on ${ISCSC_REMOTE}/main"
@@ -39,14 +55,8 @@ git checkout ${ISCSC_REMOTE}/main
 echo "[+] switching to ${BUMP_BRANCH}"
 git switch -c ${BUMP_BRANCH}
 
-echo "[+] Current version is '${CURRENT}'"
+# ----------- Version Bump -----------
 
-if [ ! $(semver "${NEW_VERSION}" -r ">$CURRENT") ]; then
-	echo "[-] '${NEW_VERSION}'<='$CURRENT', '${NEW_VERSION}' isn't accepted as new version."
-	exit 1
-fi
-
-echo "[+] '${NEW_VERSION}'>'$CURRENT', '${NEW_VERSION}' is accepted as new version."
 echo '[+] Bumping `frontend`'
 cd frontend
 npm version "${NEW_VERSION}" --no-git-tag-version
