@@ -31,7 +31,13 @@ fi
 CURRENT=$(npm pkg get version | sed 's/"//g')
 NEW_VERSION=$1
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
+ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
+# ...and checkout on main to create a version bump branch
+echo "[+] Checkout on ${ISCSC_REMOTE}/main"
+git checkout ${ISCSC_REMOTE}/main
+echo "[+] switching to ${BUMP_BRANCH}"
+git switch -c ${BUMP_BRANCH}
 
 echo "[+] Current version is '${CURRENT}'"
 
