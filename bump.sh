@@ -1,11 +1,13 @@
 #!/bin/sh
 
+# Check that 1 arg has been supplied
 if [ "$#" != "1" ]; then
 	echo "[-] Exactly one argument is needed."
 	echo '[?] Example: `./bump.sh 0.2.6`'
 	exit 1
 fi
 
+# Check that required binaries are installed
 for package in semver git npm; do
 	if [ ! -f "/usr/bin/$package" ]; then
 		echo "[-] `$package` is needed to bump version"
@@ -13,11 +15,13 @@ for package in semver git npm; do
 	fi
 done
 
+# Check that supplied version is semantically correct
 if [ ! "$1" = "$(/usr/bin/semver $1)" ]; then
 	echo "[-] $1 is not a valid version number according to semver"
 	exit 1
 fi
 
+# Check that git working directory is clean...
 if [ -n "$(git status -s --untracked-files=no)" ]; then
 	echo "[-] git working directory isn't clean"
 	exit 1
