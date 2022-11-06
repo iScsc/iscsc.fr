@@ -12,7 +12,7 @@ const ArticleForm = () => {
     e.preventDefault();
 
     const article = { title, summary, body, author: "alex" };
-    const response = await fetch("/api/articles/create", {
+    const response = await fetch(`/api/articles/create`, {
       method: "POST",
       body: JSON.stringify(article),
       headers: {
@@ -27,8 +27,7 @@ const ArticleForm = () => {
       setBody("");
       setError(null);
       dispatch({ type: "CREATE", payload: json });
-    }
-    else {
+    } else {
       setError(json.error);
     }
   };
