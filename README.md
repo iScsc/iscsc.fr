@@ -143,7 +143,7 @@ iscsc.fr
 ├── .env.production     *Same thing for production mode. Must be created*
 ├── .env.example        *template for .env files*
 │
-├── backend                 *contains the server-side code and API*
+├── backend             *contains the server-side code and API*
 │   ├── controllers/        *usefull js functions for each model*
 │   ├── middleware/         *js functions that run between the frontend and backend*
 │   ├── models/             *contains the database models*
@@ -153,15 +153,15 @@ iscsc.fr
 ├── frontend
 │   ├── public              *automatically generated files and images that are publically available for the user*
 │   └── src                 *source code of the website*
-│       ├── components/     *source code of main components of the website*
-│       ├── context/        *defines the context function to keep track data with useReducer*
-│       ├── hooks/          *defines the hooks that trigger the context functions*
-│       ├── pages/          *source code of the pages of the website*
-│       ├── App.js          *defines the routes of the application*
-│       ├── index.js        *main js application of the website*
-│       └── index.css       *css styling file of the website*
+│       ├── components/         *source code of main components of the website*
+│       ├── context/            *defines the context function to keep track data with useReducer*
+│       ├── hooks/              *defines the hooks that trigger the context functions*
+│       ├── pages/              *source code of the pages of the website*
+│       ├── App.js              *defines the routes of the application*
+│       ├── index.js            *main js application of the website*
+│       └── index.css           *css styling file of the website*
 │
-└── README.md               *this file*
+└── README.md           *this file*
 ```
 
 ## Bugs and recommendations
