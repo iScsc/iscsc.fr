@@ -161,6 +161,8 @@ iscsc.fr
 │       ├── index.js            *main js application of the website*
 │       └── index.css           *css styling file of the website*
 │
+├── bump.sh             *script used to bump version of frontend, backend and whole website*
+├── package.json        *contains the current version and informations about the website*
 └── README.md           *this file*
 ```
 
