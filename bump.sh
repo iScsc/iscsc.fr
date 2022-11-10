@@ -24,7 +24,7 @@ for package in ${dependencies[@]}; do
 done
 
 # Check that supplied version is semantically correct
-if [ ! "$1" = "$(/usr/bin/semver $1)" ]; then
+if [ ! "$1" = "$(semver $1)" ]; then
 	echo "[-] $1 is not a valid version number according to semver"
 	exit 1
 fi
