@@ -79,4 +79,11 @@ encrypt () {
 }
 
 
+# TODO: documentation
+archive () {
+  7zz a keys.7z $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/$file.\1.asc/")
+}
+
+
 encrypt
+archive
