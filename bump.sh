@@ -9,10 +9,16 @@ if [ "$#" != "1" ]; then
 	exit 1
 fi
 
+dependencies=(
+	semver
+	git
+	npm
+)
+
 # Check that required binaries are installed
-for package in semver git npm; do
+for package in ${dependencies[@]}; do
 	if [ ! $(which $package) ]; then
-		echo "[-] `$package` is needed to bump version"
+		echo "[-] All of '${dependencies[@]}' are needed to bump version"
 		exit 1
 	fi
 done
