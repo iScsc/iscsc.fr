@@ -64,15 +64,18 @@ echo "[+] switching to ${BUMP_BRANCH}"
 # ----------- Version Bump -----------
 
 echo '[+] Bumping `frontend`'
-cd frontend
-[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
+$(
+	cd frontend
+	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
+)
 echo '[+] Bumping `backend`'
-cd ../backend
-[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
+$(
+	cd backend
+	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
+)
 
 echo '[+] Commiting `frontend` and `backend` bump'
 [ -z "$DRY_RUN" ] && git commit -m "Bump frontend and backend versions to ${NEW_VERSION}"
 
 echo '[+] Bumping `root`'
-cd ..
 [ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" -m "Bump to version %s"
