@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ARCHIVE="keys.7z"
+
 
 # TODO: documentation
 log_error () {
@@ -89,9 +91,9 @@ encrypt () {
 # TODO: documentation
 archive () {
   log_info "storing files in archive"
-  7zz a keys.7z $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/$file.\1.asc/")
+  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/$file.\1.asc/")
   log_info "content of the archive"
-  7zz l keys.7z
+  7zz l "$ARCHIVE"
 }
 
 
