@@ -11,7 +11,7 @@ fi
 
 # Check that required binaries are installed
 for package in semver git npm; do
-	if [ ! -f "/usr/bin/$package" ]; then
+	if [ ! $(which $package) ]; then
 		echo "[-] `$package` is needed to bump version"
 		exit 1
 	fi
