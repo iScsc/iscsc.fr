@@ -3,19 +3,25 @@
 
 # TODO: documentation
 log_error () {
-  echo -e "${0}: \e[31merror\e[0m: $1"
+  echo -e "${0}: \e[91merror\e[0m: $1"
 }
 
 
 # TODO: documentation
 log_success () {
-  echo -e "${0}: \e[32msuccess\e[0m: $1"
+  echo -e "${0}: \e[92msuccess\e[0m: $1"
 }
 
 
 # TODO: documentation
 log_warning () {
-  echo -e "${0}: \e[33mwarning\e[0m: $1"
+  echo -e "${0}: \e[93mwarning\e[0m: $1"
+}
+
+
+# TODO: documentation
+log_info () {
+  echo -e "${0}: \e[96minfo\e[0m: $1"
 }
 
 
@@ -74,6 +80,7 @@ check_users "${users[@]}"
 encrypt () {
   for user in "${users[@]}";
   do
+      log_info "encrypting '$file' for '$user'..."
       gpg --verbose --recipient "$user" --encrypt --armor --output "$file.$user.asc" "$file"
   done
 }
@@ -81,7 +88,10 @@ encrypt () {
 
 # TODO: documentation
 archive () {
+  log_info "storing files in archive"
   7zz a keys.7z $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/$file.\1.asc/")
+  log_info "content of the archive"
+  7zz l keys.7z
 }
 
 
