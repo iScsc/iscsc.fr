@@ -30,7 +30,7 @@ if [ ! "$1" = "$(semver $1)" ]; then
 fi
 
 # Check that git working directory is clean...
-if [ -n "$(git status -s --untracked-files=no)" ]; then
+if [ -n "$(git status --short --untracked-files=no)" ]; then
 	echo "[-] git working directory isn't clean"
 	exit 1
 fi
