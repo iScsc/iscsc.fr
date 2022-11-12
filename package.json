@@ -1,7 +1,6 @@
 {
     "version": "0.1.0",
     "scripts": {
-	"version": "git add package.json",
-	"postversion": "./scripts/private/postversion_push.sh"
+	"version": "git add package.json"
     }
 }
