@@ -62,6 +62,7 @@ echo "[+] switching to ${BUMP_BRANCH}"
 [ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
 # ----------- Version Bump -----------
+# ---- Bump frontend and backend -----
 
 echo '[+] Bumping `frontend`'
 (
@@ -77,9 +78,10 @@ echo '[+] Bumping `backend`'
 echo '[+] Commiting `frontend` and `backend` bump'
 [ -z "$DRY_RUN" ] && { git commit -m "Bump frontend and backend versions to ${NEW_VERSION}" || echo "[-] Fail to commit changes"; exit 1; }
 
+# ------ Bump root and push ------
+
 echo '[+] Bumping `root`'
 [ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" -m "Bump to version %s" || echo "[-] Fail to bump root version"; exit 1; }
-
 
 echo '[+] Pushing branch and new version tag'
 echo "[~] pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
