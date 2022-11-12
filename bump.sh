@@ -46,7 +46,7 @@ ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{
 # ----------- Version checking -----------
 
 # Check if targeted version is > than current
-echo "[+] Current version is '${CURRENT}'"
+echo "[+] Current version is '${CURRENT_VERSION}'"
 if [ ! $(semver "${NEW_VERSION}" -r ">${CURRENT_VERSION}") ]; then
 	echo "[-] '${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
 	exit 1
