@@ -64,12 +64,12 @@ echo "[+] switching to ${BUMP_BRANCH}"
 # ----------- Version Bump -----------
 
 echo '[+] Bumping `frontend`'
-$(
+(
 	cd frontend
 	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 )
 echo '[+] Bumping `backend`'
-$(
+(
 	cd backend
 	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 )
