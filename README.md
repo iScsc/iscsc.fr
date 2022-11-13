@@ -107,6 +107,25 @@ Before deploying the application, you need to set the environment variables, as 
 cp .env.example .env.production
 ```
 
+#### SSL certification
+
+To setup HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
+- Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
+```
+- server {
+- listen 443 default_server ssl http2;
+- ...
+- }
+```
+This section might crash because the certificates are loaded in the nginx configuration but they don't exist yet.
+- Create the certificates with the `certbot` container:
+```bash
+sudo docker-compose --env-file .env.production run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d yourdomainname.com
+```
+- Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
+
+The certificates should have been generated in `certbot/conf/live/yourdomainname.com/`
+
 #### Docker
 
 Once your `.env.production` is ready, run
