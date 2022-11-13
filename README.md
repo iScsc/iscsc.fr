@@ -111,7 +111,7 @@ cp .env.example .env.production
 
 To setup HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
 - Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
-```
+```diff
 - server {
 - listen 443 default_server ssl http2;
 - ...
