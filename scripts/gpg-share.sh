@@ -120,7 +120,7 @@ encrypt () {
   for user in "${users[@]}";
   do
       log_info "encrypting '$file' for '$user'..."
-      gpg --verbose --recipient "$user" --encrypt --armor --output "$file.$user.asc" "$file"
+      gpg --verbose --recipient "$user" --encrypt --armor --output "/tmp/$file.$user.asc" "$file"
   done
 }
 
@@ -128,7 +128,7 @@ encrypt () {
 # TODO: documentation
 archive () {
   log_info "storing files in archive"
-  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/$file.\1.asc/")
+  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/\/tmp\/$file.\1.asc/")
   log_info "content of the archive"
   7zz l "$ARCHIVE"
 }
