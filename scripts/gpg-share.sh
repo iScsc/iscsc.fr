@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-ARCHIVE="keys.7z"
-
 
 # TODO: documentation
 log_error () {
@@ -25,6 +23,13 @@ log_warning () {
 log_info () {
   echo -e "${0}: \e[96minfo\e[0m: $1"
 }
+
+
+# get the version
+VERSION=$(npm pkg get version | sed 's/"//g')
+
+# build the archive name
+ARCHIVE="keys-${VERSION}.7z"
 
 
 # TODO: documentation
