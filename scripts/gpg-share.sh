@@ -25,6 +25,32 @@ log_info () {
 }
 
 
+DEPENDENCIES=(
+  npm
+  gpg
+  7zz
+)
+
+
+# TODO: documentation
+check_dependencies () {
+  error=0
+  for dependency in "${DEPENDENCIES[@]}"; do
+    [ ! $(which $dependency 2> /dev/null) ] && {
+      error=1
+      log_warning "'$dependency' is required"
+    }
+  done
+
+  [ "$error" -eq 1 ] && {
+    log_error "one or more dependencies are missing"
+    exit 1
+  }
+}
+
+
+check_dependencies
+
 # get the version
 VERSION=$(npm pkg get version | sed 's/"//g')
 
