@@ -72,10 +72,19 @@ check_file () {
 }
 
 
+file="$1"; shift 1
+check_file "$file"
+
+if [ -n "$USER_FILE" ]; then
+  check_file "$USER_FILE"
+  readarray users < "$USER_FILE"
+else
+  users=($@)
+fi
+
+
 # TODO: documentation
 check_users() {
-  users=($@)
-
   [ "${#users[@]}" -eq 0 ] && {
     log_error "Please give at least one gpg id after the first argument"
     exit 1
@@ -83,8 +92,9 @@ check_users() {
 
   # check if each of the "user" is in the keyring
   invalid=0
-  for user in "${users[@]}";
+  for _user in "${users[@]}";
   do
+      user=$(echo -n "$_user")
       nb_ids=$(gpg --quiet --list-keys "$user" 2> /dev/null | grep "^uid" | wc -l)
       case "$nb_ids" in
         0 ) log_warning "'$user' not found in the keyring..."; invalid=1 ;;
@@ -102,11 +112,7 @@ check_users() {
 }
 
 
-file="$1"; shift 1
-check_file "$file"
-
-users=($@)
-check_users "${users[@]}"
+check_users
 
 
 # TODO: documentation
