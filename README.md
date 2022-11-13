@@ -144,6 +144,7 @@ iscsc.fr
 ├── .env.example        *template for .env files*
 │
 ├── backend                 *contains the server-side code and API*
+│   ├── Dockerfile          *Dockerfile to build the backend container*
 │   ├── controllers/        *usefull js functions for each model*
 │   ├── middleware/         *js functions that run between the frontend and backend*
 │   ├── models/             *contains the database models*
@@ -152,6 +153,7 @@ iscsc.fr
 │
 ├── frontend
 │   ├── public              *automatically generated files and images that are publically available for the user*
+│   ├── Dockerfile          *Dockerfile to build the frontend container*
 │   └── src                 *source code of the website*
 │       ├── components/     *source code of main components of the website*
 │       ├── context/        *defines the context function to keep track data with useReducer*
@@ -161,6 +163,12 @@ iscsc.fr
 │       ├── index.js        *main js application of the website*
 │       └── index.css       *css styling file of the website*
 │
+├── nginx		    *reverse proxy server for the production mode*
+│   ├── Dockerfile          *Dockerfile to build the nginx container*
+│   ├── run_nginx.sh        *script to generate the nginx conf from the template*
+│   └── nginx.conf.template *template for the nginx conf, needs to be filled with env variables*
+│
+├── docker-compose.yml      *docker compose config file to deploy the website in production mode*
 └── README.md               *this file*
 ```
 
