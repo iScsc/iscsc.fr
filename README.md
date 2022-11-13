@@ -160,6 +160,8 @@ iscsc.fr
 │       ├── App.js          *defines the routes of the application*
 │       ├── index.js        *main js application of the website*
 │       └── index.css       *css styling file of the website*
+├── scripts
+│   └── gpg-share.sh        *share a secret files to others with pgp keys*
 │
 └── README.md               *this file*
 ```
