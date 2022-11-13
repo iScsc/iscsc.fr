@@ -31,7 +31,7 @@ http {
       listen 80;
       listen [::]:80;
 
-      server_name $SERVER_NAME www.$SERVER_NAME;
+      server_name $SERVER_NAME www.${SERVER_NAME};
       server_tokens off;
 
       location /.well-known/acme-challenge/ {
@@ -39,7 +39,7 @@ http {
       }
 
       location / {
-          return 301 https://example.org${DOLLAR}request_uri;
+          return 301 https://${SERVER_NAME}${DOLLAR}request_uri;
       }
     }
 
@@ -47,10 +47,10 @@ http {
         listen 443 default_server ssl http2;
         listen [::]:443 ssl http2;
         
-        server_name $SERVER_NAME www.$SERVER_NAME;
+        server_name $SERVER_NAME www.${SERVER_NAME};
 
-        ssl_certificate /etc/nginx/ssl/live/example.org/fullchain.pem;
-        ssl_certificate_key /etc/nginx/ssl/live/example.org/privkey.pem;
+        ssl_certificate /etc/nginx/ssl/live/${SERVER_NAME}/fullchain.pem;
+        ssl_certificate_key /etc/nginx/ssl/live/${SERVER_NAME}/privkey.pem;
 
         location / {
             proxy_pass http://react-app:$REACT_PORT;
