@@ -114,15 +114,19 @@ check_users() {
 
 check_users
 
+DUMP_DIR=$(mktemp -u "/tmp/gpg-share-XXXXXX")
+mkdir -p "$DUMP_DIR"
+
 
 # TODO: documentation
 encrypt () {
   for _user in "${users[@]}";
   do
       user=$(echo -n "$_user")
-      log_info "encrypting '$file' for '$user'..."
-      gpg --verbose --recipient "$user" --encrypt --armor --output "/tmp/$file.$user.asc" "$file"
+      log_info "encrypting '$file' for '$user' inside '$DUMP_DIR'..."
+      gpg --verbose --recipient "$user" --encrypt --armor --output "$DUMP_DIR/$file.$user.asc" "$file"
   done
+  log_success "all encrypted file have been saved inside '$DUMP_DIR'"
 }
 
 
