@@ -49,7 +49,20 @@ check_dependencies () {
 }
 
 
+# TODO: documentation
+check_pwd () {
+  root="$(dirname $(realpath $(dirname "$0")))"
+  [ "$root" != "$(pwd)" ] && {
+    log_error "the script should be run from the root of the repo"
+    log_error "expected '$root'"
+    log_error "found '$(pwd)'"
+    exit 1
+  }
+}
+
+
 check_dependencies
+check_pwd
 
 # get the version
 VERSION=$(npm pkg get version | sed 's/"//g')
