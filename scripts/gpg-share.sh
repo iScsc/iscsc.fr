@@ -137,7 +137,8 @@ encrypt () {
   do
       user=$(echo -n "$_user")
       log_info "encrypting '$file' for '$user' inside '$DUMP_DIR'..."
-      gpg --verbose --recipient "$user" --encrypt --armor --output "$DUMP_DIR/$file.$user.asc" "$file"
+      output=$(echo "$DUMP_DIR/$file.$user.asc" | sed 's/\s\+/-/g')
+      gpg --verbose --recipient "$user" --encrypt --armor --output "$output" "$file"
   done
   log_success "all encrypted file have been saved inside '$DUMP_DIR'"
 }
