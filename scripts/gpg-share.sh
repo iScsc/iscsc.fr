@@ -55,7 +55,7 @@ check_dependencies
 VERSION=$(npm pkg get version | sed 's/"//g')
 
 # build the archive name
-ARCHIVE="keys-${VERSION}.7z"
+ARCHIVE="keys-${VERSION}.tar"
 
 
 # TODO: documentation
@@ -133,9 +133,12 @@ encrypt () {
 # TODO: documentation
 archive () {
   log_info "storing files in archive"
-  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr '\n' '%' | tr ' ' '\n' | sed "s/%//g; s/\(.*\)/\/tmp\/$file.\1.asc/")
-  log_info "content of the archive"
-  7zz l "$ARCHIVE"
+  # subshell here to avoid archiving the paths to the .asc files
+  (
+    cd "$DUMP_DIR"
+    tar cvf "$ARCHIVE" $(find . -type f)
+  )
+  cp "$DUMP_DIR/$ARCHIVE" .
 }
 
 
