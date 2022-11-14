@@ -117,8 +117,9 @@ check_users
 
 # TODO: documentation
 encrypt () {
-  for user in "${users[@]}";
+  for _user in "${users[@]}";
   do
+      user=$(echo -n "$_user")
       log_info "encrypting '$file' for '$user'..."
       gpg --verbose --recipient "$user" --encrypt --armor --output "/tmp/$file.$user.asc" "$file"
   done
@@ -128,7 +129,7 @@ encrypt () {
 # TODO: documentation
 archive () {
   log_info "storing files in archive"
-  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr ' ' '\n' | sed "s/\(.*\)/\/tmp\/$file.\1.asc/")
+  7zz a "$ARCHIVE" $(echo "${users[@]}" | tr '\n' '%' | tr ' ' '\n' | sed "s/%//g; s/\(.*\)/\/tmp\/$file.\1.asc/")
   log_info "content of the archive"
   7zz l "$ARCHIVE"
 }
