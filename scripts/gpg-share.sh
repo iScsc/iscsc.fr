@@ -28,7 +28,7 @@ log_info () {
 DEPENDENCIES=(
   npm
   gpg
-  7zz
+  tar
 )
 
 
