@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "npm install && git add package.json package-lock.json"
   },
   "author": "Alexandre Tullot",
   "license": "ISC",
