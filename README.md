@@ -107,12 +107,44 @@ Before deploying the application, you need to set the environment variables, as 
 cp .env.example .env.production
 ```
 
+#### SSL certification
+
+To setup HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
+- Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
+```diff
+- server {
+- listen 443 default_server ssl http2;
+- ...
+- }
+```
+> This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
+- (Re)Start the `nginx` container:
+```bash
+sudo docker-compose --env-file .env.production up -d --build
+```
+- Create the certificates with the `certbot` container:
+```bash
+sudo docker-compose --env-file .env.production run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d yourdomainname.com
+```
+- Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
+- Stop the `nginx` container:
+```bash
+sudo docker-compose --env-file .env.production down
+```
+
+The certificates should have been generated in `certbot/conf/live/yourdomainname.com/`
+
+If you just want to renew already existing certificates, use:
+```bash
+sudo docker-compose --env-file .env.production run --rm certbot renew
+```
+
 #### Docker
 
-Once your `.env.production` is ready, run
+Once everything is ready, run
 
 ```bash
-sudo docker-compose --env-file .env.production up -d
+sudo docker-compose --env-file .env.production up -d --build
 ```
 
 > Make sure the `docker` daemon is running, or start it with `sudo dockerd`
