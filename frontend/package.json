@@ -1,7 +1,8 @@
 {
   "proxy": "http://localhost:3001",
-  "name": "frontend",
+  "name": "iscsc.fr-frontend",
   "version": "0.1.0",
+  "description": "Frontend of the iscsc.fr website",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -20,7 +21,8 @@
     "start": "env-cmd -f ../.env.development react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "version": "npm install && git add package.json package-lock.json"
   },
   "eslintConfig": {
     "extends": [

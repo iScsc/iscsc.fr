@@ -107,12 +107,44 @@ Before deploying the application, you need to set the environment variables, as 
 cp .env.example .env.production
 ```
 
+#### SSL certification
+
+To setup HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
+- Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
+```diff
+- server {
+- listen 443 default_server ssl http2;
+- ...
+- }
+```
+> This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
+- (Re)Start the `nginx` container:
+```bash
+sudo docker-compose --env-file .env.production up -d --build
+```
+- Create the certificates with the `certbot` container:
+```bash
+sudo docker-compose --env-file .env.production run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d yourdomainname.com
+```
+- Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
+- Stop the `nginx` container:
+```bash
+sudo docker-compose --env-file .env.production down
+```
+
+The certificates should have been generated in `certbot/conf/live/yourdomainname.com/`
+
+If you just want to renew already existing certificates, use:
+```bash
+sudo docker-compose --env-file .env.production run --rm certbot renew
+```
+
 #### Docker
 
-Once your `.env.production` is ready, run
+Once everything is ready, run
 
 ```bash
-sudo docker-compose --env-file .env.production up -d
+sudo docker-compose --env-file .env.production up -d --build
 ```
 
 > Make sure the `docker` daemon is running, or start it with `sudo dockerd`
@@ -143,7 +175,8 @@ iscsc.fr
 ├── .env.production     *Same thing for production mode. Must be created*
 ├── .env.example        *template for .env files*
 │
-├── backend                 *contains the server-side code and API*
+├── backend             *contains the server-side code and API*
+│   ├── Dockerfile          *Dockerfile to build the backend container*
 │   ├── controllers/        *usefull js functions for each model*
 │   ├── middleware/         *js functions that run between the frontend and backend*
 │   ├── models/             *contains the database models*
@@ -152,18 +185,27 @@ iscsc.fr
 │
 ├── frontend
 │   ├── public              *automatically generated files and images that are publically available for the user*
+│   ├── Dockerfile          *Dockerfile to build the frontend container*
 │   └── src                 *source code of the website*
-│       ├── components/     *source code of main components of the website*
-│       ├── context/        *defines the context function to keep track data with useReducer*
-│       ├── hooks/          *defines the hooks that trigger the context functions*
-│       ├── pages/          *source code of the pages of the website*
-│       ├── App.js          *defines the routes of the application*
-│       ├── index.js        *main js application of the website*
-│       └── index.css       *css styling file of the website*
+│       ├── components/         *source code of main components of the website*
+│       ├── context/            *defines the context function to keep track data with useReducer*
+│       ├── hooks/              *defines the hooks that trigger the context functions*
+│       ├── pages/              *source code of the pages of the website*
+│       ├── App.js              *defines the routes of the application*
+│       ├── index.js            *main js application of the website*
+│       └── index.css           *css styling file of the website*
 ├── scripts
 │   └── gpg-share.sh        *share a secret files to others with pgp keys*
 │
-└── README.md               *this file*
+├── nginx               *reverse proxy server for the production mode*
+│   ├── Dockerfile          *Dockerfile to build the nginx container*
+│   ├── run_nginx.sh        *script to generate the nginx conf from the template*
+│   └── nginx.conf.template *template for the nginx conf, needs to be filled with env variables*
+│
+├── bump.sh             *script used to bump version of frontend, backend and whole website*
+├── docker-compose.yml  *docker compose config file to deploy the website in production mode*
+├── package.json        *contains the current version and informations about the website*
+└── README.md           *this file*
 ```
 
 ## Bugs and recommendations
