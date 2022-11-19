@@ -79,6 +79,7 @@ check_file () {
 
 # TODO: documentation
 check_users() {
+  users=("$@")
   [ "${#users[@]}" -eq 0 ] && {
     log_error "Please give at least one gpg id after the first argument"
     exit 1
@@ -110,6 +111,8 @@ check_users() {
 encrypt () {
   file="$1"
   directory="$2"
+  shift 2
+  users=("$@")
   for _user in "${users[@]}";
   do
       user=$(echo -n "$_user")
@@ -183,16 +186,16 @@ main () {
     users=($@)
   fi
 
-  # check_users
+  check_users "${users[@]}"
 
   archive_directory=$(mktemp -u "/tmp/gpg-share-XXXXXX")
   mkdir -p "$archive_directory"
 
-  # encrypt "$file" "$directory"
+  encrypt "$file" "$archive_directory" "${users[@]}"
 
   repo_version=$(npm pkg get version | sed 's/"//g')
   archive_name="keys-${repo_version}.tar"
-  # archive "$archive_directory" "$archive_name"
+  archive "$archive_directory" "$archive_name"
 }
 
 
