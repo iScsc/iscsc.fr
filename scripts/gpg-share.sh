@@ -108,26 +108,30 @@ check_users() {
 
 # TODO: documentation
 encrypt () {
+  file="$1"
+  directory="$2"
   for _user in "${users[@]}";
   do
       user=$(echo -n "$_user")
-      log_info "encrypting '$file' for '$user' inside '$DUMP_DIR'..."
-      output=$(echo "$DUMP_DIR/$file.$user.asc" | sed 's/\s\+/-/g')
+      log_info "encrypting '$file' for '$user' inside '$directory'..."
+      output=$(echo "$directory/$file.$user.asc" | sed 's/\s\+/-/g')
       gpg --verbose --recipient "$user" --encrypt --armor --output "$output" "$file"
   done
-  log_success "all encrypted file have been saved inside '$DUMP_DIR'"
+  log_success "all encrypted file have been saved inside '$directory'"
 }
 
 
 # TODO: documentation
 archive () {
+  directory="$1"
+  name="$2"
   log_info "storing files in archive"
   # subshell here to avoid archiving the paths to the .asc files
   (
-    cd "$DUMP_DIR"
-    tar cvf "$ARCHIVE" $(find . -type f)
+    cd "$directory"
+    tar cvf "$name" $(find . -type f)
   )
-  cp "$DUMP_DIR/$ARCHIVE" .
+  cp "$directory/$name" .
 }
 
 
@@ -166,17 +170,8 @@ main () {
     esac
   done
 
-  echo "ACTUAL STUFF COMING SOON!"
-  exit 0
-
   check_dependencies
   check_pwd
-
-  # get the version
-  VERSION=$(npm pkg get version | sed 's/"//g')
-
-  # build the archive name
-  ARCHIVE="keys-${VERSION}.tar"
 
   file="$1"; shift 1
   check_file "$file"
@@ -188,13 +183,16 @@ main () {
     users=($@)
   fi
 
-  check_users
+  # check_users
 
-  DUMP_DIR=$(mktemp -u "/tmp/gpg-share-XXXXXX")
-  mkdir -p "$DUMP_DIR"
+  archive_directory=$(mktemp -u "/tmp/gpg-share-XXXXXX")
+  mkdir -p "$archive_directory"
 
-  encrypt
-  archive
+  # encrypt "$file" "$directory"
+
+  repo_version=$(npm pkg get version | sed 's/"//g')
+  archive_name="keys-${repo_version}.tar"
+  # archive "$archive_directory" "$archive_name"
 }
 
 
