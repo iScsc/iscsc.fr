@@ -139,7 +139,7 @@ archive () {
 
 
 # parse the arguments.
-OPTIONS=$(getopt -o h --long help -n 'gpg-share' -- "$@")
+OPTIONS=$(getopt -o hu:U:f: --long help,user:,users:,file -n 'gpg-share' -- "$@")
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "$OPTIONS"
 
@@ -165,9 +165,19 @@ help () {
 
 
 main () {
+  users=()
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -h | --help ) help ;;
+      -f | --file ) file="$2"; shift 2;;
+      -u | --user ) users+=("$2"); shift 2;;
+      -U | --users ) 
+        check_file "$2"
+        readarray new_users < "$2"
+        shift 2
+        for new_user in "${new_users[@]}"; do
+          users+=("$(echo -n "$new_user")")
+        done;;
       -- ) shift; break ;;
       * ) break ;;
     esac
@@ -176,15 +186,7 @@ main () {
   check_dependencies
   check_pwd
 
-  file="$1"; shift 1
   check_file "$file"
-
-  if [ -n "$USER_FILE" ]; then
-    check_file "$USER_FILE"
-    readarray users < "$USER_FILE"
-  else
-    users=($@)
-  fi
 
   check_users "${users[@]}"
 
