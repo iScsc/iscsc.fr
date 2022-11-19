@@ -13,8 +13,8 @@ The tech stack I chose for this web application is MERN with:
 - Node.js for the backend
 
 For more information, check [this article](https://www.mongodb.com/mern-stack).
-You can also watch this video if you want to get more familiar with the stack : https://www.youtube.com/watch?v=7CqJlxBYj-M
-If you speak french, you can follow this Open Course : https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb
+You can also watch this video if you [want to get more familiar with the stack](https://www.youtube.com/watch?v=7CqJlxBYj-M).
+If you're a true beginner, you can follow [this Open Classroom course](https://openclassrooms.com/fr/courses/5614116-go-full-stack-with-node-js-express-and-mongodb).
 
 ## Functionalities
 
