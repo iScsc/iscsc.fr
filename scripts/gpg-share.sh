@@ -31,6 +31,8 @@ DEPENDENCIES=(
   tar
 )
 
+USAGE="gpg-share [-h]"
+
 
 # TODO: documentation
 check_dependencies () {
@@ -61,16 +63,6 @@ check_pwd () {
 }
 
 
-check_dependencies
-check_pwd
-
-# get the version
-VERSION=$(npm pkg get version | sed 's/"//g')
-
-# build the archive name
-ARCHIVE="keys-${VERSION}.tar"
-
-
 # TODO: documentation
 check_file () {
   [ -z "$1" ] && {
@@ -83,17 +75,6 @@ check_file () {
     exit 1
   }
 }
-
-
-file="$1"; shift 1
-check_file "$file"
-
-if [ -n "$USER_FILE" ]; then
-  check_file "$USER_FILE"
-  readarray users < "$USER_FILE"
-else
-  users=($@)
-fi
 
 
 # TODO: documentation
@@ -125,12 +106,6 @@ check_users() {
 }
 
 
-check_users
-
-DUMP_DIR=$(mktemp -u "/tmp/gpg-share-XXXXXX")
-mkdir -p "$DUMP_DIR"
-
-
 # TODO: documentation
 encrypt () {
   for _user in "${users[@]}";
@@ -156,5 +131,71 @@ archive () {
 }
 
 
-encrypt
-archive
+# parse the arguments.
+OPTIONS=$(getopt -o h --long help -n 'gpg-share' -- "$@")
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+eval set -- "$OPTIONS"
+
+
+usage () {
+  echo "Usage: $USAGE"
+  echo "Type -h or --help for the full help."
+  exit 0
+}
+
+
+help () {
+  echo "gpg-share:"
+  echo "     TODO."
+  echo ""
+  echo "Usage:"
+  echo "     $USAGE"
+  echo ""
+  echo "Options:"
+  echo "     -h/--help               shows this help."
+  exit 0
+}
+
+
+main () {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h | --help ) help ;;
+      -- ) shift; break ;;
+      * ) break ;;
+    esac
+  done
+
+  echo "ACTUAL STUFF COMING SOON!"
+  exit 0
+
+  check_dependencies
+  check_pwd
+
+  # get the version
+  VERSION=$(npm pkg get version | sed 's/"//g')
+
+  # build the archive name
+  ARCHIVE="keys-${VERSION}.tar"
+
+  file="$1"; shift 1
+  check_file "$file"
+
+  if [ -n "$USER_FILE" ]; then
+    check_file "$USER_FILE"
+    readarray users < "$USER_FILE"
+  else
+    users=($@)
+  fi
+
+  check_users
+
+  DUMP_DIR=$(mktemp -u "/tmp/gpg-share-XXXXXX")
+  mkdir -p "$DUMP_DIR"
+
+  encrypt
+  archive
+}
+
+
+main "$@"
