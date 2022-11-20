@@ -89,9 +89,8 @@ check_users() {
 
   # check if each of the "user" is in the keyring
   invalid=0
-  for _user in "${users[@]}";
+  for user in "${users[@]}";
   do
-      user=$(echo -n "$_user")
       nb_ids=$(gpg --quiet --list-keys "$user" 2> /dev/null | grep "^uid" | wc -l)
       case "$nb_ids" in
         0 ) log_warning "'$user' not found in the keyring..."; invalid=1 ;;
@@ -115,9 +114,8 @@ encrypt () {
   directory="$2"
   shift 2
   users=("$@")
-  for _user in "${users[@]}";
+  for user in "${users[@]}";
   do
-      user=$(echo -n "$_user")
       log_info "encrypting '$file' for '$user' inside '$directory'..."
       output=$(echo "$directory/$file.$user.asc" | sed 's/\s\+/-/g')
       gpg --verbose --recipient "$user" --encrypt --armor --output "$output" "$file"
