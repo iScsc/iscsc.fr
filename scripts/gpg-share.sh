@@ -31,7 +31,7 @@ DEPENDENCIES=(
   tar
 )
 
-USAGE="gpg-share [-h]"
+USAGE="gpg-share [-h] -f FILE {-u USER} {-U USER_FILE}"
 
 
 # TODO: documentation
