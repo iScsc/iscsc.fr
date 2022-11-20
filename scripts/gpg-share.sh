@@ -153,13 +153,21 @@ usage () {
 
 help () {
   echo "gpg-share:"
-  echo "     TODO."
+  echo "     a script to share a secret file with others using pgp public keys."
+  echo "     it should guide you when you make mistakes, e.g. providing a non-existing file."
   echo ""
   echo "Usage:"
   echo "     $USAGE"
   echo ""
   echo "Options:"
   echo "     -h/--help               shows this help."
+  echo "     -f/--file               the secret file to share."
+  echo "     -u/--user               a single user id in the keyring."
+  echo "                               can be used multiple times."
+  echo "                               supports multi-word ids inside quotes, e.g. \"John Smith\"."
+  echo "     -U/--users              the path to a file containing pgp ids."
+  echo "                               should contain exactly one valid pgp id per line."
+  echo "                               can be used multiple times."
   exit 0
 }
 
