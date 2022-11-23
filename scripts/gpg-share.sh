@@ -139,7 +139,7 @@ archive () {
 
 
 # parse the arguments.
-OPTIONS=$(getopt -o hu:U:f: --long help,user:,users:,file -n 'gpg-share' -- "$@")
+OPTIONS=$(getopt -o hu:U:f: --long help,user:,users:,file: -n 'gpg-share' -- "$@")
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "$OPTIONS"
 
