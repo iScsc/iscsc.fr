@@ -10,7 +10,7 @@
     "version": "npm install && git add package.json package-lock.json"
   },
   "author": "Alexandre Tullot",
-  "license": "LICENSE.MD",
+  "license": "GNU General Public License v3.0",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
