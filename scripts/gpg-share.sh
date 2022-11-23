@@ -66,7 +66,7 @@ check_pwd () {
 # TODO: documentation
 check_file () {
   [ -z "$1" ] && {
-    log_error "Please give a file to share as the first argument"
+    log_error 'Please give a file to share with the `-f` flag'
     usage
     exit 1
   }
@@ -82,7 +82,7 @@ check_file () {
 check_users() {
   users=("$@")
   [ "${#users[@]}" -eq 0 ] && {
-    log_error "Please give at least one gpg id after the first argument"
+    log_error 'Please give at least one gpg id with the `-u` and `-U` flags'
     usage
     exit 1
   }
