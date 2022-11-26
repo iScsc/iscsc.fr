@@ -173,11 +173,17 @@ help () {
 
 
 main () {
+  file=""
   users=()
   while [[ $# -gt 0 ]]; do
     case "$1" in
       -h | --help ) help ;;
-      -f | --file ) file="$2"; shift 2;;
+      -f | --file )
+        [ -n "$file" ] && {
+          log_error "cannot set file multiple times with -f"
+          exit 1
+        }
+        file="$2"; shift 2;;
       -u | --user ) users+=("$2"); shift 2;;
       -U | --users ) 
         check_file "$2"
