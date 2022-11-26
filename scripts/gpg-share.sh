@@ -91,11 +91,11 @@ check_users() {
   invalid=0
   for user in "${users[@]}";
   do
-      nb_ids=$(gpg --quiet --list-keys "$user" 2> /dev/null | grep "^uid" | wc -l)
+      nb_ids=$(gpg --quiet --list-keys --with-colons "$user" 2> /dev/null | grep "^uid" | wc -l)
       case "$nb_ids" in
         0 ) log_warning "'$user' not found in the keyring..."; invalid=1 ;;
         1 )
-          id=$(gpg --quiet --list-keys "$user" | grep uid -B1 | head -n 1 | awk '{print $1}');
+          id=$(gpg --quiet --list-keys --with-colons "$user" | grep "^pub" -A1 | grep "^fpr" | awk -F ":" '{print $10}');
           log_success "key $id found for '$user'"
           ;;
         * ) log_warning "too many ids found for '$user' in keyring ($nb_ids)"; invalid=1 ;;
