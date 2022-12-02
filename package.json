@@ -2,6 +2,8 @@
     "name": "iscsc.fr",
     "version": "0.1.0",
     "description": "The iScsc website",
-    "private": true
+    "private": true,
+    "scripts": {
+	    "version": "git add package.json"
+    }
 }
-
