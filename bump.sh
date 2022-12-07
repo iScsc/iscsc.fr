@@ -2,6 +2,17 @@
 
 # ----------- Basic Checking -----------
 
+# check that current directory is repo root
+check_pwd () {
+	root="$(dirname $(realpath $(dirname "$0")))"
+	[ "$root" != "$(pwd)" ] && {
+		echo "[!] the script should be run from the root of the repo"
+		echo "[-] expected '$root'"
+		echo "[-] found '$(pwd)'"
+		exit 1
+	}
+}
+
 # Check that 1 arg has been supplied
 check_arg () {
 	if [ "$#" != "1" ]; then
