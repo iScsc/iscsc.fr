@@ -1,5 +1,11 @@
 #!/bin/sh
 
+dependencies=(
+	semver
+	git
+	npm
+)
+
 # ----------- Basic Checking -----------
 
 # check that current directory is repo root
@@ -21,12 +27,6 @@ check_arg () {
 		exit 1
 	fi
 }
-
-dependencies=(
-	semver
-	git
-	npm
-)
 
 # Check that required binaries are installed
 check_dependencies () {
