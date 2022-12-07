@@ -3,11 +3,13 @@
 # ----------- Basic Checking -----------
 
 # Check that 1 arg has been supplied
-if [ "$#" != "1" ]; then
-	echo "[-] Exactly one argument is needed."
-	echo '[?] Example: `./bump.sh 0.2.6`'
-	exit 1
-fi
+check_arg () {
+	if [ "$#" != "1" ]; then
+		echo "[-] Exactly one argument is needed."
+		echo '[?] Example: `./bump.sh 0.2.6`'
+		exit 1
+	fi
+}
 
 dependencies=(
 	semver
@@ -16,24 +18,37 @@ dependencies=(
 )
 
 # Check that required binaries are installed
-for package in ${dependencies[@]}; do
-	if [ ! $(which $package) ]; then
-		echo "[-] All of '${dependencies[@]}' are needed to bump version"
-		exit 1
-	fi
-done
+check_dependencies () {
+	for package in ${dependencies[@]}; do
+		if [ ! $(which $package) ]; then
+			echo "[-] All of '${dependencies[@]}' are needed to bump version"
+			exit 1
+		fi
+	done
+}
 
 # Check that supplied version is semantically correct
-if [ ! "$1" = "$(semver $1)" ]; then
-	echo "[-] $1 is not a valid version number according to semver"
-	exit 1
-fi
+check_version_semantics () {
+	if [ ! "$1" = "$(semver $1)" ]; then
+		echo "[-] $1 is not a valid version number according to semver"
+		exit 1
+	fi
+}
 
 # Check that git working directory is clean...
-if [ -n "$(git status --short --untracked-files=no)" ]; then
-	echo "[-] git working directory isn't clean"
-	exit 1
-fi
+check_clean_git_working_dir () {
+	if [ -n "$(git status --short --untracked-files=no)" ]; then
+		echo "[-] git working directory isn't clean"
+		exit 1
+	fi
+}
+
+# Run all checks
+check_pwd
+check_arg
+check_dependencies
+check_version_semantics
+check_clean_git_working_dir
 
 # ----------- Variable definition -----------
 
@@ -43,14 +58,20 @@ NEW_VERSION=$1
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
+# ----------- Advanced checking ----------
 # ----------- Version checking -----------
 
 # Check if targeted version is > than current
-echo "[+] Current version is '${CURRENT_VERSION}'"
-if [ ! $(semver "${NEW_VERSION}" -r ">${CURRENT_VERSION}") ]; then
-	echo "[-] '${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
-	exit 1
-fi
+check_version_greater () {
+	echo "[+] Current version is '${CURRENT_VERSION}'"
+	if [ ! $(semver "${NEW_VERSION}" -r ">${CURRENT_VERSION}") ]; then
+		echo "[-] '${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
+		exit 1
+	fi
+}
+
+# Run check
+check_version_greater
 echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
 # ----------- Git setup -----------
