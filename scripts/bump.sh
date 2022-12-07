@@ -17,15 +17,17 @@ check_pwd () {
 		echo "[-] found '$(pwd)'"
 		exit 1
 	}
+	[ -z "$DRY_RUN" ] || echo "[i] Current directory is repo's root OK"
 }
 
 # Check that 1 arg has been supplied
 check_arg () {
-	if [ "$#" != "1" ]; then
-		echo "[-] Exactly one argument is needed."
+	if [ "${NB_ARGS}" != "1" ]; then
+		echo "[-] Exactly one argument is needed, got ${NB_ARGS}."
 		echo '[?] Example: `./bump.sh 0.2.6`'
 		exit 1
 	fi
+	[ -z "$DRY_RUN" ] || echo "[i] Only argument has been given OK"
 }
 
 # Check that required binaries are installed
@@ -36,14 +38,16 @@ check_dependencies () {
 			exit 1
 		fi
 	done
+	[ -z "$DRY_RUN" ] || echo "[i] Dependencies: '${dependencies[@]}' are installed on the system OK"
 }
 
 # Check that supplied version is semantically correct
 check_version_semantics () {
-	if [ ! "$1" = "$(semver $1)" ]; then
-		echo "[-] $1 is not a valid version number according to semver"
+	if [ ! "${NEW_VERSION}" = "$(semver ${NEW_VERSION})" ]; then
+		echo "[-] ${NEW_VERSION} is not a valid version number according to semver"
 		exit 1
 	fi
+	[ -z "$DRY_RUN" ] || echo "[i] Provided version '${NEW_VERSION}' is semantically correct OK"
 }
 
 # Check that git working directory is clean...
@@ -52,11 +56,17 @@ check_clean_git_working_dir () {
 		echo "[-] git working directory isn't clean"
 		exit 1
 	fi
+	[ -z "$DRY_RUN" ] || echo "[i] git working directory is clean OK"
 }
+
+# Variables
+NB_ARGS=$#
 
 # Run all checks
 check_pwd
 check_arg
+NEW_VERSION=$1; shift 1;
+
 check_dependencies
 check_version_semantics
 check_clean_git_working_dir
@@ -65,7 +75,6 @@ check_clean_git_working_dir
 
 # Define needed variables
 CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
-NEW_VERSION=$1
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
