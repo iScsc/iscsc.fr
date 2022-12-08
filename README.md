@@ -80,7 +80,7 @@ npm install
 npm run dev
 ```
 
-> You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it.
+> You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
 
 #### Frontend
 
@@ -91,6 +91,8 @@ cd frontend
 npm install
 npm run start
 ```
+Make sure your're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
+ 
 
 ### Production mode
 
