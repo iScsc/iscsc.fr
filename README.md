@@ -13,6 +13,8 @@ The tech stack I chose for this web application is MERN with:
 - Node.js for the backend
 
 For more information, check [this article](https://www.mongodb.com/mern-stack).
+You can also watch [this video](https://www.youtube.com/watch?v=7CqJlxBYj-M) if you want to get more familiar with the stack.
+If you're a true beginner, you can follow [this Open Classroom course](https://openclassrooms.com/fr/courses/5614116-go-full-stack-with-node-js-express-and-mongodb).
 
 ## Functionalities
 
@@ -227,4 +229,5 @@ Here is a none exhaustive list of incoming functionalities for the website:
 - Pictures, avatars for users
 - Search bar
 - Gallery with previous works, events
+- Videos integration
 - ...
