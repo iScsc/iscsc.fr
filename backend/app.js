@@ -21,7 +21,8 @@ app.get("/", (req, res) => {
 
 mongoose
   .connect(
-    `mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
+    //`mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
+    'mongodb+srv://'+DB_USER+':'+DB_PASSWORD+'@'+DB_NAME+'.9wt5orj.mongodb.net/?retryWrites=true&w=majority'
   )
   .then(() => {
     httpServer.listen(NODE_PORT || 3001, () => {
