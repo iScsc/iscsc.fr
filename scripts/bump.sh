@@ -22,7 +22,7 @@ check_pwd () {
 
 # Check that 1 arg has been supplied
 check_arg () {
-	if [ "${NB_ARGS}" != "1" ]; then
+	if [ "${NB_ARGS}" -ne "1" ]; then
 		echo "[-] Exactly one argument is needed, got ${NB_ARGS}."
 		echo '[?] Example: `./bump.sh 0.2.6`'
 		echo "[?] see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
