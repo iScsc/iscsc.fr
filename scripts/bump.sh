@@ -44,11 +44,12 @@ check_dependencies () {
 
 # Check that supplied version is semantically correct
 check_version_semantics () {
-	if [ "${NEW_VERSION}" != "$(semver ${NEW_VERSION})" ]; then
-		echo "[-] ${NEW_VERSION} is not a valid version number according to semver"
+	local version="$1"
+	if [ "${version}" != "$(semver ${version})" ]; then
+		echo "[-] ${version} is not a valid version number according to semver"
 		exit 1
 	fi
-	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${NEW_VERSION}' is semantically correct OK"
+	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${version}' is semantically correct OK"
 }
 
 # Check that git working directory is clean...
@@ -67,9 +68,8 @@ NB_ARGS="$#"
 check_pwd
 check_arg
 NEW_VERSION="$1"; shift 1;
-
 check_dependencies
-check_version_semantics
+check_version_semantics "${NEW_VERSION}"
 check_clean_git_working_dir
 
 # ----------- Variable definition -----------
