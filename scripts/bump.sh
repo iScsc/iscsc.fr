@@ -44,7 +44,7 @@ check_dependencies () {
 
 # Check that supplied version is semantically correct
 check_version_semantics () {
-	if [ ! "${NEW_VERSION}" = "$(semver ${NEW_VERSION})" ]; then
+	if [ "${NEW_VERSION}" != "$(semver ${NEW_VERSION})" ]; then
 		echo "[-] ${NEW_VERSION} is not a valid version number according to semver"
 		exit 1
 	fi
