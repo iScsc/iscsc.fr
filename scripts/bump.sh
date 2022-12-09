@@ -25,6 +25,7 @@ check_arg () {
 	if [ "${NB_ARGS}" != "1" ]; then
 		echo "[-] Exactly one argument is needed, got ${NB_ARGS}."
 		echo '[?] Example: `./bump.sh 0.2.6`'
+		echo "[?] see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
 		exit 1
 	fi
 	[ -z "$DRY_RUN" ] || echo "[i] Only argument has been given OK"
