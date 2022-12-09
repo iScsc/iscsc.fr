@@ -17,7 +17,7 @@ check_pwd () {
 		echo "[-] found '$(pwd)'"
 		exit 1
 	}
-	[ -z "$DRY_RUN" ] || echo "[i] Current directory is repo's root OK"
+	[ -n "$DRY_RUN" ] && echo "[i] Current directory is repo's root OK"
 }
 
 # Check that 1 arg has been supplied
@@ -28,7 +28,7 @@ check_arg () {
 		echo "[?] see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
 		exit 1
 	fi
-	[ -z "$DRY_RUN" ] || echo "[i] Only argument has been given OK"
+	[ -n "$DRY_RUN" ] && echo "[i] Only argument has been given OK"
 }
 
 # Check that required binaries are installed
@@ -39,7 +39,7 @@ check_dependencies () {
 			exit 1
 		fi
 	done
-	[ -z "$DRY_RUN" ] || echo "[i] Dependencies: '${DEPENDENCIES[@]}' are installed on the system OK"
+	[ -n "$DRY_RUN" ] && echo "[i] Dependencies: '${DEPENDENCIES[@]}' are installed on the system OK"
 }
 
 # Check that supplied version is semantically correct
@@ -48,7 +48,7 @@ check_version_semantics () {
 		echo "[-] ${NEW_VERSION} is not a valid version number according to semver"
 		exit 1
 	fi
-	[ -z "$DRY_RUN" ] || echo "[i] Provided version '${NEW_VERSION}' is semantically correct OK"
+	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${NEW_VERSION}' is semantically correct OK"
 }
 
 # Check that git working directory is clean...
@@ -57,7 +57,7 @@ check_clean_git_working_dir () {
 		echo "[-] git working directory isn't clean"
 		exit 1
 	fi
-	[ -z "$DRY_RUN" ] || echo "[i] git working directory is clean OK"
+	[ -n "$DRY_RUN" ] && echo "[i] git working directory is clean OK"
 }
 
 # Variables
