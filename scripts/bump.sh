@@ -61,12 +61,12 @@ check_clean_git_working_dir () {
 }
 
 # Variables
-NB_ARGS=$#
+NB_ARGS="$#"
 
 # Run all checks
 check_pwd
 check_arg
-NEW_VERSION=$1; shift 1;
+NEW_VERSION="$1"; shift 1;
 
 check_dependencies
 check_version_semantics
