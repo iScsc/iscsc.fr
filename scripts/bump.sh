@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dependencies=(
+DEPENDENCIES=(
 	semver
 	git
 	npm
@@ -33,13 +33,13 @@ check_arg () {
 
 # Check that required binaries are installed
 check_dependencies () {
-	for package in ${dependencies[@]}; do
+	for package in ${DEPENDENCIES[@]}; do
 		if [ ! $(which $package) ]; then
-			echo "[-] All of '${dependencies[@]}' are needed to bump version"
+			echo "[-] All of '${DEPENDENCIES[@]}' are needed to bump version"
 			exit 1
 		fi
 	done
-	[ -z "$DRY_RUN" ] || echo "[i] Dependencies: '${dependencies[@]}' are installed on the system OK"
+	[ -z "$DRY_RUN" ] || echo "[i] Dependencies: '${DEPENDENCIES[@]}' are installed on the system OK"
 }
 
 # Check that supplied version is semantically correct
