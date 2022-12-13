@@ -6,7 +6,10 @@ DEPENDENCIES=(
 	npm
 )
 
-# ----------- Basic Checking -----------
+# Variables
+NB_ARGS="$#"
+
+# ----------- Basic Checks --------------
 
 # check that current directory is repo root
 check_pwd () {
@@ -22,8 +25,9 @@ check_pwd () {
 
 # Check that 1 arg has been supplied
 check_arg () {
-	if [ "${NB_ARGS}" -ne "1" ]; then
-		echo "[-] Exactly one argument is needed, got ${NB_ARGS}."
+	local nb_args="$1"
+	if [ "${nb_args}" -ne "1" ]; then
+		echo "[-] Exactly one argument is needed, got ${nb_args}."
 		echo '[?] Example: `./bump.sh 0.2.6`'
 		echo "[?] see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
 		exit 1
@@ -51,16 +55,13 @@ check_clean_git_working_dir () {
 	[ -n "$DRY_RUN" ] && echo "[i] git working directory is clean OK"
 }
 
-# Variables
-NB_ARGS="$#"
-
-# Run all checks
+# Run all basic checks
 check_pwd
-check_arg
+check_arg "${NB_ARGS}"
 check_dependencies
 check_clean_git_working_dir
 
-# ----------- Variable definition -----------
+# ----------- Variables definition -----------
 
 # Define needed variables
 NEW_VERSION="$1"; shift 1;
@@ -68,8 +69,7 @@ CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
-# ----------- Advanced checking ----------
-# ----------- Version checking -----------
+# ----------- Advanced checks ----------------
 
 # Check that supplied version is semantically correct
 check_version_semantics () {
@@ -90,7 +90,7 @@ check_version_greater () {
 	fi
 }
 
-# Run check
+# Run all advanced checks
 check_version_semantics "${NEW_VERSION}"
 check_version_greater
 echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
