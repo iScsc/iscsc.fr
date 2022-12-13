@@ -42,16 +42,6 @@ check_dependencies () {
 	[ -n "$DRY_RUN" ] && echo "[i] Dependencies: '${DEPENDENCIES[@]}' are installed on the system OK"
 }
 
-# Check that supplied version is semantically correct
-check_version_semantics () {
-	local version="$1"
-	if [ "${version}" != "$(semver ${version})" ]; then
-		echo "[-] ${version} is not a valid version number according to semver"
-		exit 1
-	fi
-	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${version}' is semantically correct OK"
-}
-
 # Check that git working directory is clean...
 check_clean_git_working_dir () {
 	if [ -n "$(git status --short --untracked-files=no)" ]; then
@@ -67,20 +57,29 @@ NB_ARGS="$#"
 # Run all checks
 check_pwd
 check_arg
-NEW_VERSION="$1"; shift 1;
 check_dependencies
-check_version_semantics "${NEW_VERSION}"
 check_clean_git_working_dir
 
 # ----------- Variable definition -----------
 
 # Define needed variables
+NEW_VERSION="$1"; shift 1;
 CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
 # ----------- Advanced checking ----------
 # ----------- Version checking -----------
+
+# Check that supplied version is semantically correct
+check_version_semantics () {
+	local version="$1"
+	if [ "${version}" != "$(semver ${version})" ]; then
+		echo "[-] ${version} is not a valid version number according to semver"
+		exit 1
+	fi
+	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${version}' is semantically correct OK"
+}
 
 # Check if targeted version is > than current
 check_version_greater () {
@@ -92,6 +91,7 @@ check_version_greater () {
 }
 
 # Run check
+check_version_semantics "${NEW_VERSION}"
 check_version_greater
 echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
