@@ -81,7 +81,7 @@ check_version_semantics () {
 	[ -n "$DRY_RUN" ] && echo "[i] Provided version '${version}' is semantically correct OK"
 }
 
-# Check if targeted version is > than current
+# Check that targeted version is > than current
 check_version_greater () {
 	echo "[+] Current version is '${CURRENT_VERSION}'"
 	if [ ! $(semver "${NEW_VERSION}" -r ">${CURRENT_VERSION}") ]; then
