@@ -9,7 +9,7 @@ DEPENDENCIES=(
 # Variables
 NB_ARGS="$#"
 
-# ----------- Basic Checks --------------
+# -------------------------------- Basic Checks --------------------------------
 
 # check that current directory is repo root
 check_pwd () {
@@ -61,7 +61,7 @@ check_arg "${NB_ARGS}"
 check_dependencies
 check_clean_git_working_dir
 
-# ----------- Variables definition -----------
+# ---------------------------- Variables definition ----------------------------
 
 # Define needed variables
 NEW_VERSION="$1"; shift 1;
@@ -69,7 +69,7 @@ CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
 BUMP_BRANCH="${NEW_VERSION}-version-bump"
 ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
-# ----------- Advanced checks ----------------
+# ------------------------------ Advanced checks -------------------------------
 
 # Check that supplied version is semantically correct
 check_version_semantics () {
@@ -95,7 +95,7 @@ check_version_semantics "${NEW_VERSION}"
 check_version_greater
 echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
-# ----------- Git setup -----------
+# --------------------------------- Git setup ----------------------------------
 
 # ...and checkout on main to create a version bump branch
 echo "[+] Checkout on ${ISCSC_REMOTE}/main"
@@ -103,8 +103,8 @@ echo "[+] Checkout on ${ISCSC_REMOTE}/main"
 echo "[+] switching to ${BUMP_BRANCH}"
 [ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
-# ----------- Version Bump -----------
-# ---- Bump frontend and backend -----
+# -------------------------------- Version Bump --------------------------------
+# ------------------------- Bump frontend and backend --------------------------
 
 echo '[+] Bumping `frontend`'
 (
@@ -120,7 +120,7 @@ echo '[+] Bumping `backend`'
 echo '[+] Commiting `frontend` and `backend` bump'
 [ -z "$DRY_RUN" ] && { git commit -m "Bump frontend and backend versions to ${NEW_VERSION}" || exit 1; }
 
-# ------ Bump root and push ------
+# ----------------------------- Bump root and push -----------------------------
 
 echo '[+] Bumping `root`'
 [ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" -m "Bump to version %s" || exit 1; }
