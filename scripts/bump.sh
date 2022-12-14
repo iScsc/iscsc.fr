@@ -111,7 +111,7 @@ echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as
 
 # ...and checkout on main to create a version bump branch
 echo "[+] Checkout on ${ISCSC_REMOTE}/main"
-[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main
+[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main || exit 1
 echo "[+] switching to ${BUMP_BRANCH}"
 [ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
