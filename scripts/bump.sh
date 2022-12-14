@@ -90,10 +90,20 @@ check_version_greater () {
 	fi
 }
 
+# Check that iScsc/iscsc.fr is in git remotes list
+check_iscsc_remote () {
+	local remote="$1"
+	if [ -z "$remote" ]; then
+		echo "[-] \`iScsc/iscsc.fr\` remote is not in remote list"
+		exit 1
+	fi
+}
+
 # Run all advanced checks
 check_version_semantics "${NEW_VERSION}"
 check_version_greater
 echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
+check_iscsc_remote "${ISCSC_REMOTE}"
 
 # --------------------------------- Git setup ----------------------------------
 
