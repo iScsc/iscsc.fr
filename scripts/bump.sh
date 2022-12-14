@@ -88,23 +88,25 @@ check_version_greater () {
 		echo "[-] '${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
 		exit 1
 	fi
+	[ -n "$DRY_RUN" ] && echo "[i] '${NEW_VERSION}' is greater than older version OK"
 }
 
 # Check that iScsc/iscsc.fr is in git remotes list
 check_iscsc_remote () {
 	local remote="$1"
 	if [ -z "$remote" ]; then
-		echo "[-] \`iScsc/iscsc.fr\` remote is not in remote list"
+		echo "[-] 'iScsc/iscsc.fr' remote is not in remote list"
 		exit 1
 	fi
+	echo "[i] 'iScsc/iscsc.fr' is in remote list OK"
 }
 
 # Run all advanced checks
 check_version_semantics "${NEW_VERSION}"
 check_version_greater
-echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 check_iscsc_remote "${ISCSC_REMOTE}"
 
+echo "[+] '${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 # --------------------------------- Git setup ----------------------------------
 
 # ...and checkout on main to create a version bump branch
