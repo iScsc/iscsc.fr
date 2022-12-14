@@ -98,7 +98,7 @@ check_iscsc_remote () {
 		echo "[-] 'iScsc/iscsc.fr' remote is not in remote list"
 		exit 1
 	fi
-	echo "[i] 'iScsc/iscsc.fr' is in remote list OK"
+	echo "[i] 'iScsc/iscsc.fr' is in remote list as '$remote' OK"
 }
 
 # Run all advanced checks
