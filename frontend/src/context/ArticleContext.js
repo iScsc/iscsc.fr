@@ -10,9 +10,10 @@ export const articlesReducer = (state, action) => {
       };
 
     case "ADD":
-      return {
-        articles: [action.payload, ...state.articles],
-      };
+      if (state.articles == null) {
+        return {articles: [action.payload], }; //cannot iterate over null
+      }
+      return {articles: [action.payload, ...state.articles], };
 
     case "DELETE":
       return {
