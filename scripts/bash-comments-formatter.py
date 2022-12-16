@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import logging, sys, re, os
+import logging, sys, re, os, argparse
 
 LINE_LENGTH = 80
 
@@ -46,17 +46,20 @@ def main(script):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
     logging.basicConfig(format="%(asctime)s [%(levelname)s]: %(message)s", level=logging.INFO)
-    try:
-        file = sys.argv[1]
-    except IndexError:
-        logging.error("Please provide exactly one argument")
+
+    parser.add_argument(
+            "file",
+            help="the path to the file to format",
+    )
+    args = parser.parse_args()
+
+    if not os.path.exists(args.file) or os.path.islink(args.file) or os.path.isdir(args.file):
+        logging.error("'%s' seems not to be a file (symlink forbidden)", args.file)
         exit(1)
-    if not os.path.exists(file) or os.path.islink(file) or os.path.isdir(file):
-        logging.error("'%s' seems not to be a file (symlink forbidden)", file)
-        exit(1)
     try:
-        main(file)
+        main(args.file)
     except KeyboardInterrupt:
         print()
         logging.error("Detected CTRL+C, exiting...")
