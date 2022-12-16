@@ -3,7 +3,7 @@ import logging, sys, re, os, argparse
 
 DEFAULT_LINE_LENGTH = 80
 
-def lint(line):
+def lint(n, line):
     end_of_line = ""
 
     # Getting rid of the new line
@@ -17,7 +17,7 @@ def lint(line):
     # Remaining characters to fill with '-'
     place = LINE_LENGTH - (len(start) + 1 + len(core) + 1)
     if place < 2:
-        logging.warning("line '%s'", line.strip("\n"))
+        logging.warning("line:%s '%s'", n, line.strip("\n"))
         logging.warning("line-length=%s, too few characters to format line, skipping", LINE_LENGTH)
         return False
 
@@ -31,11 +31,12 @@ def lint(line):
     # Replacing '\n' by '(NEW LINE)' for proper display
     line = line.replace("\n","(NEW LINE)")
     new_line = new_line.replace("\n","(NEW LINE)")
-    print("formatter suggestion: \n"
+    print(f"line:{n} formatter suggestion: \n"
           "```\n"
           f"-{line}\n"
           f"+{new_line}\n"
-          "```")
+          "```"
+    )
     ask_user = input("Approve change? (y/n)")
     return False if ask_user=="n" else new_line.replace("(NEW LINE)", "\n")
 
@@ -47,7 +48,7 @@ def main(script):
         datas = file.readlines()
         for n, line in enumerate(datas):
             if re.search("^# -",line):
-                new_line = lint(line)
+                new_line = lint(n, line)
                 if new_line:
                     write = True
                     datas[n] = new_line
