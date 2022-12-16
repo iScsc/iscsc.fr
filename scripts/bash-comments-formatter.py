@@ -4,23 +4,34 @@ import logging, sys, re, os, argparse
 DEFAULT_LINE_LENGTH = 80
 
 def lint(line):
-    new_line = ""
     end_of_line = ""
 
     # Getting rid of the new line
     if line[-1] == "\n":
         end_of_line = "\n"
 
+    # The core message
     core = " ".join(re.findall("\w+", line))
+    # Start of the line
     start = "# "
+    # Remaining characters to fill with '-'
     place = LINE_LENGTH - (len(start) + 1 + len(core) + 1)
+    if place < 2:
+        logging.warning("line '%s'", line.strip("\n"))
+        logging.warning("line-length=%s, too few characters to format line, skipping", LINE_LENGTH)
+        return False
+
+    # '-' before core message
     before = "-"*(place//2) + " "
+    # '-' after core message
     after = " " + "-"*((place+1)//2)
+    # new line assembling
     new_line = start + before + core + after + end_of_line
 
+    # Replacing '\n' by '(NEW LINE)' for proper display
     line = line.replace("\n","(NEW LINE)")
     new_line = new_line.replace("\n","(NEW LINE)")
-    print("linter suggestion: \n"
+    print("formatter suggestion: \n"
           "```\n"
           f"-{line}\n"
           f"+{new_line}\n"
@@ -70,6 +81,5 @@ if __name__ == "__main__":
     try:
         main(args.file)
     except KeyboardInterrupt:
-        print()
         logging.error("Detected CTRL+C, exiting...")
 
