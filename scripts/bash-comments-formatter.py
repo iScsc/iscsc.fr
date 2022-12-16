@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging, sys, re, os, argparse
 
-LINE_LENGTH = 80
+DEFAULT_LINE_LENGTH = 80
 
 def lint(line):
     new_line = ""
@@ -53,7 +53,16 @@ if __name__ == "__main__":
             "file",
             help="the path to the file to format",
     )
+    parser.add_argument(
+            "--line-length",
+            "-l",
+            type=int,
+            default=DEFAULT_LINE_LENGTH,
+            help=f"the total line length (default to {DEFAULT_LINE_LENGTH})",
+            dest="LINE_LENGTH",
+    )
     args = parser.parse_args()
+    LINE_LENGTH = args.LINE_LENGTH
 
     if not os.path.exists(args.file) or os.path.islink(args.file) or os.path.isdir(args.file):
         logging.error("'%s' seems not to be a file (symlink forbidden)", args.file)
