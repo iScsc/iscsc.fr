@@ -2,6 +2,7 @@
 import logging, sys, re, os, argparse
 
 DEFAULT_LINE_LENGTH = 80
+ASK_CONFIRMATION=True
 
 def lint(n, line):
     end_of_line = ""
@@ -37,7 +38,7 @@ def lint(n, line):
           f"+{new_line}\n"
           "```"
     )
-    ask_user = input("Approve change? (y/n)")
+    ask_user = input("Approve change? (y/n)") if ASK_CONFIRMATION else "y"
     return False if ask_user=="n" else new_line.replace("(NEW LINE)", "\n")
 
 
@@ -73,8 +74,16 @@ if __name__ == "__main__":
             help=f"the total line length (default to {DEFAULT_LINE_LENGTH})",
             dest="LINE_LENGTH",
     )
+    parser.add_argument(
+            "--yes",
+            "-y",
+            action="store_true",
+            help="automatic yes to formatting confirmation",
+            dest="YES",
+    )
     args = parser.parse_args()
     LINE_LENGTH = args.LINE_LENGTH
+    ASK_CONFIRMATION = not args.YES
 
     if not os.path.exists(args.file) or os.path.islink(args.file) or os.path.isdir(args.file):
         logging.error("'%s' seems not to be a file (symlink forbidden)", args.file)
