@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: docker.io/bitnami/mongodb:latest
+    networks:
+      - database
+    env_file: ./.env.development
+    environment:
+      - "MONGODB_PORT_NUMBER=$DB_PORT"
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - "./mongodb/dev:/bitnami/mongodb:rw"
+
+  node-app-dev:
+    depends_on:
+      - mongodb
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    networks:
+      - database
+      - proxy
+    env_file: ./.env.development
+    ports:
+      - $NODE_PORT:$NODE_PORT
+    volumes:
+      - ./backend/app.js:/backend/app.js:ro
+      - ./backend/controllers:/backend/controllers:ro
+      - ./backend/middleware:/backend/middleware:ro
+      - ./backend/models:/backend/models:ro
+      - ./backend/routes:/backend/routes:ro
+
+  react-app-dev:
+    depends_on:
+      - node-app-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    networks:
+      - proxy
+    env_file: ./.env.development
+    ports:
+      - $REACT_PORT:$REACT_PORT
+    volumes:
+      - "./frontend/public:/frontend/public:ro"
+      - "./frontend/src:/frontend/src:ro"
+
+  nginx:
+    depends_on:
+      - react-app-dev
+      - node-app-dev
+      - mongodb
+    build:
+      context: ./nginx
+      args:
+        - NODE_PORT=$NODE_PORT
+        - REACT_PORT=$REACT_PORT
+        - SERVER_NAME=$SERVER_NAME
+        - MODE=$MODE
+    networks:
+      - proxy
+    ports:
+      - 80:80
+
+networks:
+  proxy:
+  database:
