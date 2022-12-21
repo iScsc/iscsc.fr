@@ -14,6 +14,7 @@ const getByAuthor = async (req, res) => {
   const author = req.params.author ?? req.user?.usermame
   if (!author) {
     res.status(404).json({error: "You must login or provide an author" });
+    return
   }
 
   try {
