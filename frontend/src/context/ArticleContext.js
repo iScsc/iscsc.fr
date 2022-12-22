@@ -10,7 +10,7 @@ export const articlesReducer = (state, action) => {
       };
 
     case "ADD":
-      if (state.articles == null) {
+      if (state.articles === null) {
         return {articles: [action.payload], }; //cannot iterate over null
       }
       return {articles: [action.payload, ...state.articles], };
