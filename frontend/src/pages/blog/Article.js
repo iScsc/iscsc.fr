@@ -18,13 +18,14 @@ const Article = () => {
       } 
   };
   
+  let article;
   try {
-    const article = articles.filter((a) => a._id === id)[0];
-    return <ArticleView article={article} />;
+    article = articles.find((a) => a._id === id);
   } catch (error) { //if articles are null, articles.filter produces an error
-    const article = fetchArticle();
+    article = fetchArticle();
     return <ArticleView article={article} />;
   }
+  return <ArticleView article={article} />;
 
 };
 
