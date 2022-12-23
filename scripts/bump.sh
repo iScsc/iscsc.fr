@@ -9,6 +9,19 @@ DEPENDENCIES=(
 # Variables
 NB_ARGS="$#"
 
+# ------------------------------- Tool functions -------------------------------
+
+log_any () {
+	echo -e "[\e[$1m$2\e[0m] $3"
+}
+
+log_error   () { log_any "31" "!" $1 }
+log_normal  () { log_any "32" "-" $1 }
+log_info    () { log_any "33" "+" $1 }
+log_hint    () { log_any "34" "?" $1 }
+log_ok      () { log_any "35" "i" $1 }
+log_warning () { log_any "36" "~" $1 }
+
 # -------------------------------- Basic Checks --------------------------------
 
 # check that current directory is repo root
