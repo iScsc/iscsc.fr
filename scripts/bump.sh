@@ -15,11 +15,10 @@ log_any () {
 	echo -e "[\e[$1m$2\e[0m] $3"
 }
 
-log_error   () { log_any "31" "!" "$1"; }
+log_error   () { log_any "31" "-" "$1"; }
 log_info    () { log_any "32" "i" "$1"; }
 log_warning () { log_any "33" "~" "$1"; }
 log_hint    () { log_any "34" "?" "$1"; }
-log_normal  () { log_any "36" "-" "$1"; }
 log_ok      () { log_any "35" "+" "$1"; }
 
 # -------------------------------- Basic Checks --------------------------------
@@ -29,8 +28,8 @@ check_pwd () {
 	root="$(dirname $(realpath $(dirname "$0")))"
 	[ "$root" != "$(pwd)" ] && {
 		log_error "the script should be run from the root of the repo"
-		log_normal "expected '$root'"
-		log_normal "found '$(pwd)'"
+		log_error "expected '$root'"
+		log_error "found '$(pwd)'"
 		exit 1
 	}
 	[ -n "$DRY_RUN" ] && log_ok "Current directory is repo's root OK"
@@ -40,7 +39,7 @@ check_pwd () {
 check_arg () {
 	local nb_args="$1"
 	if [ "${nb_args}" -ne "1" ]; then
-		log_normal "Exactly one argument is needed, got ${nb_args}."
+		log_error "Exactly one argument is needed, got ${nb_args}."
 		log_hint 'Example: `./bump.sh 0.2.6`'
 		log_hint "see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
 		exit 1
@@ -52,7 +51,7 @@ check_arg () {
 check_dependencies () {
 	for package in ${DEPENDENCIES[@]}; do
 		if [ ! $(which $package) ]; then
-			log_normal "All of '${DEPENDENCIES[@]}' are needed to bump version"
+			log_error "All of '${DEPENDENCIES[@]}' are needed to bump version"
 			exit 1
 		fi
 	done
@@ -62,7 +61,7 @@ check_dependencies () {
 # Check that git working directory is clean...
 check_clean_git_working_dir () {
 	if [ -n "$(git status --short --untracked-files=no)" ]; then
-		log_normal "git working directory isn't clean"
+		log_error "git working directory isn't clean"
 		exit 1
 	fi
 	[ -n "$DRY_RUN" ] && log_ok "git working directory is clean OK"
@@ -88,7 +87,7 @@ ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{
 check_version_semantics () {
 	local version="$1"
 	if [ "${version}" != "$(semver ${version})" ]; then
-		log_normal "${version} is not a valid version number according to semver"
+		log_error "${version} is not a valid version number according to semver"
 		exit 1
 	fi
 	[ -n "$DRY_RUN" ] && log_ok "Provided version '${version}' is semantically correct OK"
@@ -98,7 +97,7 @@ check_version_semantics () {
 check_version_greater () {
 	log_info "Current version is '${CURRENT_VERSION}'"
 	if [ ! $(semver "${NEW_VERSION}" -r ">${CURRENT_VERSION}") ]; then
-		log_normal "'${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
+		log_error "'${NEW_VERSION}'<='${CURRENT_VERSION}', '${NEW_VERSION}' isn't accepted as new version."
 		exit 1
 	fi
 	[ -n "$DRY_RUN" ] && log_ok "'${NEW_VERSION}' is greater than older version OK"
@@ -108,7 +107,7 @@ check_version_greater () {
 check_iscsc_remote () {
 	local remote="$1"
 	if [ -z "$remote" ]; then
-		log_normal "'iScsc/iscsc.fr' remote is not in remote list"
+		log_error "'iScsc/iscsc.fr' remote is not in remote list"
 		exit 1
 	fi
 	log_ok "'iScsc/iscsc.fr' is in remote list as '$remote' OK"
@@ -152,7 +151,7 @@ log_info 'Bumping `root`'
 
 log_info 'Pushing branch and new version tag'
 log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
-[ -z "$DRY_RUN" ] && { git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION} || log_normal "push failed, you can push with \`git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}\`"; }
+[ -z "$DRY_RUN" ] && { git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION} || log_error "push failed, you can push with \`git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}\`"; }
 
 log_error '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
 
