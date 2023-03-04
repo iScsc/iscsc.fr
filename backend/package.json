@@ -5,7 +5,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon",
+    "dev": "NODE_ENV=development nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "npm install && git add package.json package-lock.json"
   },
