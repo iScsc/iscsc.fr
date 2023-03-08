@@ -123,7 +123,7 @@ log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as
 
 # ...and checkout on main to create a version bump branch
 log_info "Checkout on ${ISCSC_REMOTE}/main"
-[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main || exit 1
+[ -z "$DRY_RUN" ] && { git checkout ${ISCSC_REMOTE}/main || exit 1; }
 log_info "switching to ${BUMP_BRANCH}"
 [ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
