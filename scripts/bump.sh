@@ -141,9 +141,6 @@ log_info 'Bumping `backend`'
 	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 )
 
-log_info 'Commiting `frontend` and `backend` bump'
-[ -z "$DRY_RUN" ] && { git commit -m "Bump frontend and backend versions to ${NEW_VERSION}" || exit 1; }
-
 # ----------------------------- Bump root and push -----------------------------
 
 log_info 'Bumping `root`'
