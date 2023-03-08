@@ -145,9 +145,10 @@ log_info 'Bumping `backend`'
 # ----------------------------- Bump root and push -----------------------------
 
 log_info 'Bumping `root`'
-[ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" -m "Bump to version %s" || exit 1; }
+[ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" --no-git-tag-version || exit 1; }
+[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${NEW_VERSION}" || exit 1; }
 
-log_info 'Pushing branch and new version tag'
+log_info 'Pushing branch and bump commit'
 log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
 [ -z "$DRY_RUN" ] && { git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION} || log_error "push failed, you can push with \`git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}\`"; }
 
