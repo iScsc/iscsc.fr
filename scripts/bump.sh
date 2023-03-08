@@ -150,7 +150,8 @@ log_info 'Bumping `root`'
 
 log_info 'Pushing branch and bump commit'
 log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
-[ -z "$DRY_RUN" ] && { git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION} || log_error "push failed, you can push with \`git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}\`"; }
+PUSH_COMMAND="git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}"
+[ -z "$DRY_RUN" ] && { $PUSH_COMMAND || log_error "push failed, you can push with \`${PUSH_COMMAND}\`"; }
 
 log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
 
