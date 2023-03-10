@@ -83,6 +83,19 @@ check_version_semantics () {
 	[ -n "$DRY_RUN" ] && log_ok "Provided version '${version}' is semantically correct OK"
 }
 
+# Check that last tag and current version are consistent
+check_version_and_tag_consistency () {
+	local json_version="$1"
+	tagged_commit=$(git rev-list --tags --max-count=1)
+	tag_version=$(git describe --tags $tagged_commit)
+
+	if [ "$json_version" != "$tag_version" ]; then
+		log_error "tag '$tag_version' is not consistent with project version '${json_version}' !!!"
+		exit 1
+	fi
+	[ -n "$DRY_RUN" ] && log_ok "tag and project version are consistent OK"
+}
+
 # Check that targeted version is > than current
 check_version_greater () {
 	log_info "Current version is '${CURRENT_VERSION}'"
@@ -198,6 +211,7 @@ main () {
 
 	# Run all advanced checks
 	check_version_semantics "${NEW_VERSION}"
+	check_version_and_tag_consistency "${CURRENT_VERSION}"
 	check_version_greater
 	check_iscsc_remote "${ISCSC_REMOTE}"
 
