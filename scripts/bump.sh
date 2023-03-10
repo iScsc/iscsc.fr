@@ -146,6 +146,22 @@ usage () {
 	exit 0
 }
 
+help () {
+	echo "bump.sh:"
+	echo "     a script to easily bump the version of the iScsc website project."
+	echo "     it should guide you when you make mistakes, e.g. providing less or more than 1 argument."
+	echo ""
+	echo "Usage:"
+	echo "     $USAGE"
+	echo ""
+	echo "Options:"
+	echo "     -h/--help                shows this help."
+	echo "     -p/--patch               bump to patch version (1.2.3 --> 1.2.4)."
+	echo "     -m/--minor               bump to minor version (1.2.3 --> 1.3.0)."
+	echo "     -M/--major               bump to major version (1.2.3 --> 2.0.0)."
+	exit 0
+}
+
 # -------------------------------- Main Section --------------------------------
 
 main () {
