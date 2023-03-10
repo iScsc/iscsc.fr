@@ -184,6 +184,34 @@ help () {
 	exit 0
 }
 
+# -- Version Bump Functions --
+
+bump_major () {
+    bits=($(break_down_version $1))
+    major=${bits[0]}
+
+    echo "$((major+1)).0.0"
+}
+
+
+bump_minor () {
+    bits=($(break_down_version $1))
+    major=${bits[0]}
+    minor=${bits[1]}
+
+    echo "$major.$((minor+1)).0"
+}
+
+
+bump_patch () {
+    bits=($(break_down_version $1))
+    major=${bits[0]}
+    minor=${bits[1]}
+    patch=${bits[2]}
+
+    echo "$major.$minor.$((patch+1))"
+}
+
 # -------------------------------- Main Section --------------------------------
 
 main () {
