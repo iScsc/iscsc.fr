@@ -122,8 +122,9 @@ log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as
 # --------------------------------- Git setup ----------------------------------
 
 # ...and checkout on main to create a version bump branch
+# (working dir is empty check passed)
 log_info "Checkout on ${ISCSC_REMOTE}/main"
-[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main || exit 1
+[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main
 log_info "switching to ${BUMP_BRANCH}"
 [ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
 
@@ -141,17 +142,16 @@ log_info 'Bumping `backend`'
 	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
 )
 
-log_info 'Commiting `frontend` and `backend` bump'
-[ -z "$DRY_RUN" ] && { git commit -m "Bump frontend and backend versions to ${NEW_VERSION}" || exit 1; }
-
 # ----------------------------- Bump root and push -----------------------------
 
 log_info 'Bumping `root`'
-[ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" -m "Bump to version %s" || exit 1; }
+[ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" --no-git-tag-version || exit 1; }
+[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${NEW_VERSION}" || exit 1; }
 
-log_info 'Pushing branch and new version tag'
+log_info 'Pushing branch and bump commit'
 log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
-[ -z "$DRY_RUN" ] && { git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION} || log_error "push failed, you can push with \`git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}\`"; }
+PUSH_COMMAND="git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}"
+[ -z "$DRY_RUN" ] && { $PUSH_COMMAND || log_error "push failed, you can push with \`${PUSH_COMMAND}\`"; }
 
-log_error '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
+log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
 
