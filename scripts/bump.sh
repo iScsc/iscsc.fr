@@ -67,20 +67,6 @@ check_clean_git_working_dir () {
 	[ -n "$DRY_RUN" ] && log_ok "git working directory is clean OK"
 }
 
-# Run all basic checks
-check_pwd
-check_arg "${NB_ARGS}"
-check_dependencies
-check_clean_git_working_dir
-
-# ---------------------------- Variables definition ----------------------------
-
-# Define needed variables
-NEW_VERSION="$1"; shift 1;
-CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
-BUMP_BRANCH="${NEW_VERSION}-version-bump"
-ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
-
 # ------------------------------ Advanced checks -------------------------------
 
 # Check that supplied version is semantically correct
@@ -113,45 +99,81 @@ check_iscsc_remote () {
 	log_ok "'iScsc/iscsc.fr' is in remote list as '$remote' OK"
 }
 
-# Run all advanced checks
-check_version_semantics "${NEW_VERSION}"
-check_version_greater
-check_iscsc_remote "${ISCSC_REMOTE}"
-
-log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 # --------------------------------- Git setup ----------------------------------
 
-# ...and checkout on main to create a version bump branch
-# (working dir is empty check passed)
-log_info "Checkout on ${ISCSC_REMOTE}/main"
-[ -z "$DRY_RUN" ] && git checkout ${ISCSC_REMOTE}/main
-log_info "switching to ${BUMP_BRANCH}"
-[ -z "$DRY_RUN" ] && git switch -c ${BUMP_BRANCH}
+git_setup () {
+	local iscsc_remote="$1"
+	local bump_branch="$2"
+	# ...and checkout on main to create a version bump branch
+	# (working dir is empty check passed)
+	log_info "Checkout on ${iscsc_remote}/main"
+	[ -z "$DRY_RUN" ] && git checkout ${iscsc_remote}/main
+	log_info "switching to ${bump_branch}"
+	[ -z "$DRY_RUN" ] && git switch -c ${bump_branch}
+}
 
 # -------------------------------- Version Bump --------------------------------
 # ------------------------- Bump frontend and backend --------------------------
 
-log_info 'Bumping `frontend`'
-(
-	cd frontend
-	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
-)
-log_info 'Bumping `backend`'
-(
-	cd backend
-	[ -z "$DRY_RUN" ] && npm version "${NEW_VERSION}" --no-git-tag-version
-)
+bump_modules () {
+	local new_version="$1"
+	log_info 'Bumping `frontend`'
+	(
+		cd frontend
+		[ -z "$DRY_RUN" ] && npm version "${new_version}" --no-git-tag-version
+	)
+	log_info 'Bumping `backend`'
+	(
+		cd backend
+		[ -z "$DRY_RUN" ] && npm version "${new_version}" --no-git-tag-version
+	)
+}
 
 # ----------------------------- Bump root and push -----------------------------
 
-log_info 'Bumping `root`'
-[ -z "$DRY_RUN" ] && { npm version "${NEW_VERSION}" --no-git-tag-version || exit 1; }
-[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${NEW_VERSION}" || exit 1; }
+bump_root () {
+	local new_version="$1"
+	log_info 'Bumping `root`'
+	[ -z "$DRY_RUN" ] && { npm version "${new_version}" --no-git-tag-version || exit 1; }
+	[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${new_version}" || exit 1; }
+}
 
-log_info 'Pushing branch and bump commit'
-log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
-PUSH_COMMAND="git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}"
-[ -z "$DRY_RUN" ] && { $PUSH_COMMAND || log_error "push failed, you can push with \`${PUSH_COMMAND}\`"; }
+# -------------------------------- Main Section --------------------------------
 
-log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
+main () {
+	# Run all basic checks
+	check_pwd
+	check_arg "${NB_ARGS}"
+	check_dependencies
+	check_clean_git_working_dir
 
+	# Define needed variables
+	NEW_VERSION="$1"; shift 1;
+	CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
+	BUMP_BRANCH="${NEW_VERSION}-version-bump"
+	ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
+
+	# Run all advanced checks
+	check_version_semantics "${NEW_VERSION}"
+	check_version_greater
+	check_iscsc_remote "${ISCSC_REMOTE}"
+
+	log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
+
+	# Setup git branch
+	git_setup ${ISCSC_REMOTE} ${BUMP_BRANCH}
+
+	# Bump
+	bump_modules ${NEW_VERSION}
+	bump_root ${NEW_VERSION}
+
+	# Try to push bump refs
+	log_info 'Pushing branch and bump commit'
+	log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
+	PUSH_COMMAND="git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}"
+	[ -z "$DRY_RUN" ] && { $PUSH_COMMAND || log_error "push failed, you can push with \`${PUSH_COMMAND}\`"; }
+
+	log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
+}
+
+main "$@"
