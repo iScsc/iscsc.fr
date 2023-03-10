@@ -147,9 +147,23 @@ main () {
 	check_dependencies
 	check_clean_git_working_dir
 
-	# Define needed variables
-	NEW_VERSION="$1"; shift 1;
+	# Define version variables
+	NEW_VERSION=""
 	CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
+
+	# Extract new version from arguments
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+			-h | --help ) help ;;
+			-p | --patch ) NEW_VERSION=$(bump_patch ${CURRENT_VERSION}; shift 1;;
+			-m | --minor ) NEW_VERSION=$(bump_minor ${CURRENT_VERSION}; shift 1;;
+			-M | --major ) NEW_VERSION=$(bump_major ${CURRENT_VERSION}; shift 1;;
+			-- ) shift; break ;;
+			* ) break ;;
+		esac
+	done
+
+	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
 	ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
@@ -175,5 +189,10 @@ main () {
 
 	log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
 }
+
+# parse the arguments.
+OPTIONS=$(getopt -o hpmM --long help,patch,minor,major -n 'bump' -- "$@")
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+eval set -- "$OPTIONS"
 
 main "$@"
