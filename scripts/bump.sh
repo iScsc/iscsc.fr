@@ -229,9 +229,9 @@ main () {
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
 			-h | --help ) help ;;
-			-p | --patch ) NEW_VERSION=$(bump_patch ${CURRENT_VERSION}; shift 1;;
-			-m | --minor ) NEW_VERSION=$(bump_minor ${CURRENT_VERSION}; shift 1;;
-			-M | --major ) NEW_VERSION=$(bump_major ${CURRENT_VERSION}; shift 1;;
+			-p | --patch ) NEW_VERSION=$(bump_patch ${CURRENT_VERSION}); shift 1;;
+			-m | --minor ) NEW_VERSION=$(bump_minor ${CURRENT_VERSION}); shift 1;;
+			-M | --major ) NEW_VERSION=$(bump_major ${CURRENT_VERSION}); shift 1;;
 			-- ) shift; break ;;
 			* ) break ;;
 		esac
