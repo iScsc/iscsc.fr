@@ -22,6 +22,10 @@ log_warning () { log_any "33" "~" "$1"; }
 log_hint    () { log_any "34" "?" "$1"; }
 log_info    () { log_any "35" "i" "$1"; }
 
+break_down_version () {
+    echo ${1//./ }
+}
+
 # -------------------------------- Basic Checks --------------------------------
 
 # Check that current directory is repo root
