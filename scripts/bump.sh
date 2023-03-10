@@ -92,6 +92,8 @@ check_version_and_tag_consistency () {
 	local json_version="$1"
 	tagged_commit=$(git rev-list --tags --max-count=1)
 	tag_version=$(git describe --tags $tagged_commit)
+	# remove the 'v' before the version
+	tag_version=$(semver $tag_version)
 
 	if [ "$json_version" != "$tag_version" ]; then
 		log_error "tag '$tag_version' is not consistent with project version '${json_version}' !!!"
