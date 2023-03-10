@@ -71,6 +71,11 @@ check_clean_git_working_dir () {
 # Check that supplied version is semantically correct
 check_version_semantics () {
 	local version="$1"
+	if [ -z "${version}" ]; then
+		log_error "You provided a wrong argument, version can't be computed"
+		usage
+		exit 1
+	fi
 	if [ "${version}" != "$(semver ${version})" ]; then
 		log_error "${version} is not a valid version number according to semver"
 		exit 1
