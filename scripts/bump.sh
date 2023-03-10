@@ -23,7 +23,7 @@ log_info    () { log_any "35" "i" "$1"; }
 
 # -------------------------------- Basic Checks --------------------------------
 
-# check that current directory is repo root
+# Check that current directory is repo root
 check_pwd () {
 	root="$(dirname $(realpath $(dirname "$0")))"
 	[ "$root" != "$(pwd)" ] && {
