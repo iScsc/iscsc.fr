@@ -8,6 +8,7 @@ DEPENDENCIES=(
 
 # Variables
 NB_ARGS="$#"
+USAGE="bump.sh [-h] -p|-m|-M"
 
 # ------------------------------- Tool functions -------------------------------
 
@@ -40,9 +41,7 @@ check_arg () {
 	local nb_args="$1"
 	if [ "${nb_args}" -ne "1" ]; then
 		log_error "Exactly one argument is needed, got ${nb_args}."
-		log_hint 'Example: `./bump.sh 0.2.6`'
-		log_hint "see https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
-		exit 1
+		usage
 	fi
 	[ -n "$DRY_RUN" ] && log_ok "Only argument has been given OK"
 }
@@ -136,6 +135,15 @@ bump_root () {
 	log_info 'Bumping `root`'
 	[ -z "$DRY_RUN" ] && { npm version "${new_version}" --no-git-tag-version || exit 1; }
 	[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${new_version}" || exit 1; }
+}
+
+# -- Help and usage --
+
+usage () {
+	echo "Usage: $USAGE"
+	echo "Type -h or --help for the full help."
+	echo "See https://github.com/iScsc/iscsc.fr/wiki/Version-bump-procedure#automatic-version-bump for full documentation"
+	exit 0
 }
 
 # -------------------------------- Main Section --------------------------------
