@@ -237,8 +237,8 @@ main () {
 	check_clean_git_working_dir
 
 	# Define version variables
-	NEW_VERSION=$(bump_${COMMAND} ${CURRENT_VERSION})
 	CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
+	NEW_VERSION=$(bump_${COMMAND} ${CURRENT_VERSION})
 
 	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
