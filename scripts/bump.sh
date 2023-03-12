@@ -54,11 +54,11 @@ check_arg () {
 check_dependencies () {
 	for package in ${DEPENDENCIES[@]}; do
 		if [ ! $(which $package) ]; then
-			log_error "All of '${DEPENDENCIES[@]}' are needed to bump version"
+			log_error "All of '$(echo ${DEPENDENCIES[@]})' are needed to bump version"
 			exit 1
 		fi
 	done
-	[ -n "$DRY_RUN" ] && log_ok "Dependencies: '${DEPENDENCIES[@]}' are installed on the system OK"
+	[ -n "$DRY_RUN" ] && log_ok "Dependencies: '$(echo ${DEPENDENCIES[@]})' are installed on the system OK"
 }
 
 # Check that git working directory is clean...
