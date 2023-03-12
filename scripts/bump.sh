@@ -161,7 +161,7 @@ bump_root () {
 	[ -z "$DRY_RUN" ] && { git commit -m "Bump to version ${new_version}" || exit 1; }
 }
 
-# -- Help and usage --
+# ------------------------------- Help and usage -------------------------------
 
 usage () {
 	echo "Usage: $USAGE"
@@ -186,7 +186,7 @@ help () {
 	exit 0
 }
 
-# -- Version Bump Functions --
+# --------------------------- Version Bump Functions ---------------------------
 
 bump_major () {
     bits=($(break_down_version $1))
