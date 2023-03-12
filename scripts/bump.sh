@@ -217,6 +217,19 @@ bump_patch () {
 # -------------------------------- Main Section --------------------------------
 
 main () {
+	COMMAND=""
+	# Extract new version from arguments
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+			-h | --help ) help ;;
+			-p | --patch ) COMMAND="patch"; shift 1;;
+			-m | --minor ) COMMAND="minor"; shift 1;;
+			-M | --major ) COMMAND="major"; shift 1;;
+			-- ) shift; break ;;
+			* ) break ;;
+		esac
+	done
+
 	# Run all basic checks
 	check_pwd
 	check_arg "${NB_ARGS}"
@@ -224,20 +237,8 @@ main () {
 	check_clean_git_working_dir
 
 	# Define version variables
-	NEW_VERSION=""
+	NEW_VERSION=$(bump_${COMMAND} ${CURRENT_VERSION})
 	CURRENT_VERSION=$(npm pkg get version | sed 's/"//g')
-
-	# Extract new version from arguments
-	while [[ $# -gt 0 ]]; do
-		case "$1" in
-			-h | --help ) help ;;
-			-p | --patch ) NEW_VERSION=$(bump_patch ${CURRENT_VERSION}); shift 1;;
-			-m | --minor ) NEW_VERSION=$(bump_minor ${CURRENT_VERSION}); shift 1;;
-			-M | --major ) NEW_VERSION=$(bump_major ${CURRENT_VERSION}); shift 1;;
-			-- ) shift; break ;;
-			* ) break ;;
-		esac
-	done
 
 	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
