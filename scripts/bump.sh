@@ -8,7 +8,7 @@ DEPENDENCIES=(
 
 # Variables
 NB_ARGS="$#"
-USAGE="bump.sh [-h] -p|-m|-M"
+USAGE="bump.sh [-h | --help] [-p | --patch] [-m | --minor] [-M | --major]"
 
 # ------------------------------- Tool functions -------------------------------
 
