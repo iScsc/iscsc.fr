@@ -129,8 +129,8 @@ check_iscsc_remote () {
 # --------------------------------- Git setup ----------------------------------
 
 get_remote () {
-	git remote -v | grep "${SSH_REMOTE}" >/dev/null && { echo "${SSH_REMOTE}"; exit; }
-	git remote -v | grep "${HTTPS_REMOTE}" >/dev/null && { echo "${HTTPS_REMOTE}"; exit; }
+	git remote -v | grep --ignore-case "${SSH_REMOTE}" >/dev/null && { echo "${SSH_REMOTE}"; exit; }
+	git remote -v | grep --ignore-case "${HTTPS_REMOTE}" >/dev/null && { echo "${HTTPS_REMOTE}"; exit; }
 }
 
 git_setup () {
@@ -260,7 +260,7 @@ main () {
 	check_iscsc_remote "${ISCSC_REMOTE}"
 
 	# Define iScsc remote name if it exists and log new version
-	ISCSC_REMOTE_NAME=$(git remote -v | grep "${ISCSC_REMOTE}" | awk '{print $1}' | head --lines 1)
+	ISCSC_REMOTE_NAME=$(git remote -v | grep --ignore-case "${ISCSC_REMOTE}" | awk '{print $1}' | head --lines 1)
 	log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
 	# Setup git branch
