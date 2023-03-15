@@ -134,12 +134,12 @@ get_remote () {
 }
 
 git_setup () {
-	local iscsc_remote="$1"
+	local iscsc_remote_name="$1"
 	local bump_branch="$2"
 	# ...and checkout on main to create a version bump branch
 	# (working dir is empty check passed)
-	log_info "Checkout on ${iscsc_remote}/main"
-	[ -z "$DRY_RUN" ] && git checkout ${iscsc_remote}/main
+	log_info "Checkout on ${iscsc_remote_name}/main"
+	[ -z "$DRY_RUN" ] && git checkout ${iscsc_remote_name}/main
 	log_info "switching to ${bump_branch}"
 	[ -z "$DRY_RUN" ] && git switch -c ${bump_branch}
 }
