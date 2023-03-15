@@ -139,7 +139,7 @@ git_setup () {
 	# ...and checkout on main to create a version bump branch
 	# (working dir is empty check passed)
 	log_info "Checkout on ${iscsc_remote_name}/main"
-	[ -z "$DRY_RUN" ] && { git checkout ${iscsc_remote_name}/main || exit 1; }
+	[ -z "$DRY_RUN" ] && { git checkout ${iscsc_remote_name}/main --detach || exit 1; }
 	log_info "switching to ${bump_branch}"
 	[ -z "$DRY_RUN" ] && { git switch -c ${bump_branch} || exit 1; }
 }
