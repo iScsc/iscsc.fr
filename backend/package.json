@@ -19,8 +19,5 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "validator": "^13.7.0"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3"
   }
 }
