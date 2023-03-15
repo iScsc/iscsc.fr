@@ -129,8 +129,8 @@ check_iscsc_remote () {
 # --------------------------------- Git setup ----------------------------------
 
 get_remote () {
-	git remote -v | grep "${SSH_REMOTE}" && { echo "${SSH_REMOTE}"; exit; }
-	git remote -v | grep "${HTTPS_REMOTE}" && { echo "${HTTPS_REMOTE}"; exit; }
+	git remote -v | grep "${SSH_REMOTE}" >/dev/null && { echo "${SSH_REMOTE}"; exit; }
+	git remote -v | grep "${HTTPS_REMOTE}" >/dev/null && { echo "${HTTPS_REMOTE}"; exit; }
 }
 
 git_setup () {
