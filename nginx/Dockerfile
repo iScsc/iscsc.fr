@@ -1,4 +1,4 @@
-FROM nginx:1.17.0-alpine
+FROM nginx:1.23.2
 
 ARG NODE_PORT
 ENV NODE_PORT=$NODE_PORT
