@@ -9,6 +9,8 @@ DEPENDENCIES=(
 # Variables
 NB_ARGS="$#"
 USAGE="bump.sh [-h | --help] [-p | --patch] [-m | --minor] [-M | --major]"
+HTTPS_REMOTE='https://github.com/iScsc/iscsc.fr.git'
+SSH_REMOTE='git@github.com:iScsc/iscsc.fr.git'
 
 # ------------------------------- Tool functions -------------------------------
 
@@ -118,11 +120,18 @@ check_iscsc_remote () {
 	if [ -z "$remote" ]; then
 		log_error "'iScsc/iscsc.fr' remote is not in remote list"
 		exit 1
+	elif [ "$remote" == "${HTTPS_REMOTE}" ]; then
+		log_warning "Using HTTPS remote, SSH remote not found"
 	fi
 	log_ok "'iScsc/iscsc.fr' is in remote list as '$remote' OK"
 }
 
 # --------------------------------- Git setup ----------------------------------
+
+get_remote () {
+	git remote -v | grep "${SSH_REMOTE}" && { echo "${SSH_REMOTE}"; exit; }
+	git remote -v | grep "${HTTPS_REMOTE}" && { echo "${HTTPS_REMOTE}"; exit; }
+}
 
 git_setup () {
 	local iscsc_remote="$1"
@@ -242,14 +251,16 @@ main () {
 
 	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
-	ISCSC_REMOTE_NAME=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
+	ISCSC_REMOTE=$(get_remote)
 
 	# Run all advanced checks
 	check_version_semantics "${NEW_VERSION}"
 	check_version_and_tag_consistency "${CURRENT_VERSION}"
 	check_version_greater
-	check_iscsc_remote "${ISCSC_REMOTE_NAME}"
+	check_iscsc_remote "${ISCSC_REMOTE}"
 
+	# Define iScsc remote name if it exists and log new version
+	ISCSC_REMOTE_NAME=$(git remote -v | grep "${ISCSC_REMOTE}" | awk '{print $1}' | head --lines 1)
 	log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
 	# Setup git branch
