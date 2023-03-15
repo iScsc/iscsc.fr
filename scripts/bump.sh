@@ -25,6 +25,9 @@ log_hint    () { log_any "34" "?" "$1"; }
 log_info    () { log_any "35" "i" "$1"; }
 
 break_down_version () {
+	# # Exemple
+	# V=1.2.3
+	# echo ${V//./ } # 1 2 3
     echo ${1//./ }
 }
 
