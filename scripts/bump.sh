@@ -242,18 +242,18 @@ main () {
 
 	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
-	ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
+	ISCSC_REMOTE_NAME=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
 
 	# Run all advanced checks
 	check_version_semantics "${NEW_VERSION}"
 	check_version_and_tag_consistency "${CURRENT_VERSION}"
 	check_version_greater
-	check_iscsc_remote "${ISCSC_REMOTE}"
+	check_iscsc_remote "${ISCSC_REMOTE_NAME}"
 
 	log_info "'${NEW_VERSION}'>'${CURRENT_VERSION}', '${NEW_VERSION}' is accepted as new version."
 
 	# Setup git branch
-	git_setup ${ISCSC_REMOTE} ${BUMP_BRANCH}
+	git_setup ${ISCSC_REMOTE_NAME} ${BUMP_BRANCH}
 
 	# Bump
 	bump_modules ${NEW_VERSION}
@@ -261,8 +261,8 @@ main () {
 
 	# Try to push bump refs
 	log_info 'Pushing branch and bump commit'
-	log_warning "pushing to \`${ISCSC_REMOTE}\` please type your passphrase/password if required:"
-	PUSH_COMMAND="git push ${ISCSC_REMOTE} ${BUMP_BRANCH} v${CURRENT_VERSION}"
+	log_warning "pushing to \`${ISCSC_REMOTE_NAME}\` please type your passphrase/password if required:"
+	PUSH_COMMAND="git push ${ISCSC_REMOTE_NAME} ${BUMP_BRANCH} v${CURRENT_VERSION}"
 	[ -z "$DRY_RUN" ] && { $PUSH_COMMAND || log_error "push failed, you can push with \`${PUSH_COMMAND}\`"; }
 
 	log_hint '`npm install` has been run during the bump, you MUST review the changes during PR review to ensure package.json and package-lock.json where compatible!!!'
