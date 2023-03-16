@@ -9,6 +9,7 @@ DEPENDENCIES=(
 # Variables
 NB_ARGS="$#"
 USAGE="bump.sh [-h | --help] [-p | --patch] [-m | --minor] [-M | --major]"
+REMOTE_URL_PATTERN="iscsc/iscsc.fr"
 
 # ------------------------------- Tool functions -------------------------------
 
@@ -121,11 +122,25 @@ check_iscsc_remote () {
 	if [ -z "$remote" ]; then
 		log_error "'iScsc/iscsc.fr' remote is not in remote list"
 		exit 1
+	elif [ ! -z "$(git remote get-url ${remote} | grep 'https' --ignore-case)" ]; then
+		log_warning "Found an HTTPS remote, pushing may not work properly"
 	fi
 	log_ok "'iScsc/iscsc.fr' is in remote list as '$remote' OK"
 }
 
 # --------------------------------- Git setup ----------------------------------
+
+get_remote () {
+	# List git remotes, grep for the iscsc/iscsc.fr one and filter for push remotes
+	# In case push and fetch URL are different, further checkout may fail
+	local remotes=$(git remote -v | grep "${REMOTE_URL_PATTERN}" --ignore-case | grep "push")
+
+	# Can't log_warning in here because get_remote is called as a command
+	# substitution: all stdout will end up in ISCSC_REMOTE (see main function)
+
+	# Keep only the first remote found and grep first column (its name)
+	echo "$remotes" | head --lines 1 | awk '{print $1}'
+}
 
 git_setup () {
 	local iscsc_remote="$1"
@@ -245,7 +260,8 @@ main () {
 
 	# Define git variables
 	BUMP_BRANCH="${NEW_VERSION}-version-bump"
-	ISCSC_REMOTE=$(git remote -v | grep 'git@github.com:iScsc/iscsc.fr.git' | awk '{print $1}' | head --lines 1)
+	log_warning "If multiple remotes are found for '${REMOTE_URL_PATTERN}' only first is kept"
+	ISCSC_REMOTE=$(get_remote)
 
 	# Run all advanced checks
 	check_version_semantics "${NEW_VERSION}"
