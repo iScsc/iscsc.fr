@@ -29,6 +29,10 @@ def lint(n, line):
     # new line assembling
     new_line = start + before + core + after + end_of_line
 
+    # if the formatter as nothing to format skip this line
+    if line == new_line:
+        return False
+
     # Replacing '\n' by '(NEW LINE)' for proper display
     line = line.replace("\n","(NEW LINE)")
     new_line = new_line.replace("\n","(NEW LINE)")
