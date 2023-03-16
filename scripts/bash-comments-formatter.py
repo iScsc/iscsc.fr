@@ -34,16 +34,16 @@ def lint(n, line):
         return False
 
     # Replacing '\n' by '(NEW LINE)' for proper display
-    line = line.replace("\n","(NEW LINE)")
-    new_line = new_line.replace("\n","(NEW LINE)")
+    line_printable = line.replace("\n","(NEW LINE)")
+    new_line_printable = new_line.replace("\n","(NEW LINE)")
     print(f"line:{n} formatter suggestion: \n"
           "```\n"
-          f"-{line}\n"
-          f"+{new_line}\n"
+          f"-{line_printable}\n"
+          f"+{new_line_printable}\n"
           "```"
     )
     ask_user = input("Approve change? (y/n)") if ASK_CONFIRMATION else "y"
-    return False if ask_user=="n" else new_line.replace("(NEW LINE)", "\n")
+    return False if ask_user=="n" else new_line
 
 
 def main(script):
