@@ -18,6 +18,7 @@ const Navbar = () => {
         <Link to="/">
           <h1>iScsc</h1>
         </Link>
+        <a href="https://github.com/iScsc/iscsc.fr"><i className="github-logo fa fa-github fa-3x"></i></a>
         <nav>
           {user && (
             <div className="nav-logged-in">

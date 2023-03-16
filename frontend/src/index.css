@@ -23,7 +23,6 @@ header .container {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 header a {
@@ -31,9 +30,14 @@ header a {
   text-decoration: none;
 }
 
+header .github-logo {
+  margin: 0 0 0 15px;
+}
+
 nav {
   display: flex;
   align-items: center;
+  margin: 0 0 0 auto;
 }
 
 nav a, nav button {
