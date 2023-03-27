@@ -14,8 +14,9 @@ const CreateArticle = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!window.confirm('Create article?')) return
 
     const submit = async () => {
       const article = { title, summary, body };

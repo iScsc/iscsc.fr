@@ -21,14 +21,14 @@ const ArticlePreview = ({ article }) => {
       } else {
         alert(json.error);
       }
-    };
-
-    if (user) {
-      deleteArticle();
-    } else {
-      alert("You need to be authenticated to delete an article.");
+    if (!user) {
+      alert('You need to be authenticated to delete an article')
+      return
     }
-  };
+    if (!window.confirm('Delete article?')) return
+
+    deleteArticle()
+    }
 
   return (
     <div className="article-preview">
