@@ -18,7 +18,7 @@ const Login = ({ next }) => {
     if (ok) {
       navigate(next)
     }
-  };
+  }
 
   return (
     <form className="login" onSubmit={handleSubmit}>
@@ -27,8 +27,8 @@ const Login = ({ next }) => {
       <label>Email:</label>
       <input
         type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
+        onChange={e => {
+          setEmail(e.target.value)
         }}
         value={email}
       />
@@ -36,8 +36,8 @@ const Login = ({ next }) => {
       <label>Password:</label>
       <input
         type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
+        onChange={e => {
+          setPassword(e.target.value)
         }}
         value={password}
       />
@@ -45,7 +45,7 @@ const Login = ({ next }) => {
       <button disabled={isLoading}>Log in</button>
       {error && <div className="signup-error">{error}</div>}
     </form>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

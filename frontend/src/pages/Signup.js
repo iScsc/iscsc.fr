@@ -19,7 +19,7 @@ const Signup = ({ next }) => {
     if (ok) {
       navigate('/')
     }
-  };
+  }
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
@@ -28,8 +28,8 @@ const Signup = ({ next }) => {
       <label>Email:</label>
       <input
         type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
+        onChange={e => {
+          setEmail(e.target.value)
         }}
         value={email}
       />
@@ -37,8 +37,8 @@ const Signup = ({ next }) => {
       <label>Username:</label>
       <input
         type="text"
-        onChange={(e) => {
-          setUsername(e.target.value);
+        onChange={e => {
+          setUsername(e.target.value)
         }}
         value={username}
       />
@@ -46,8 +46,8 @@ const Signup = ({ next }) => {
       <label>Password:</label>
       <input
         type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
+        onChange={e => {
+          setPassword(e.target.value)
         }}
         value={password}
       />
@@ -55,7 +55,7 @@ const Signup = ({ next }) => {
       <button disabled={isLoading}>Sign up</button>
       {error && <div className="signup-error">{error}</div>}
     </form>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

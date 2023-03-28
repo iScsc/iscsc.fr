@@ -1,14 +1,14 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
-import Blog from "./pages/blog/Blog";
-import Navbar from "./components/Navbar";
-import CreateArticle from "./pages/blog/CreateArticle";
-import Article from "./pages/blog/Article";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useAuthContext } from './hooks/useAuthContext'
+import Blog from './pages/blog/Blog'
+import Navbar from './components/Navbar'
+import CreateArticle from './pages/blog/CreateArticle'
+import Article from './pages/blog/Article'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 function App() {
-  const { user } = useAuthContext();
+  const { user } = useAuthContext()
   return (
     <div className="App">
       <BrowserRouter>
@@ -16,7 +16,6 @@ function App() {
         <div className="pages">
           <Routes>
             <Route path="/" element={<Navigate to="/blog" />} />
-            <Route path="/blog" element={<Blog />} />
             <Route
               path="/blog/create-article"
               element={
@@ -31,7 +30,7 @@ function App() {
         </div>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
