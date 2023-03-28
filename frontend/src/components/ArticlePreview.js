@@ -1,34 +1,36 @@
-import { Link } from "react-router-dom";
-import { useArticlesContext } from "../hooks/useArticlesContext";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from 'react-router-dom'
+import { useArticlesContext } from '../hooks/useArticlesContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const ArticlePreview = ({ article }) => {
-  const { user } = useAuthContext();
-  const { dispatch } = useArticlesContext();
+  const { user } = useAuthContext()
+  const { dispatch } = useArticlesContext()
 
   const handleClick = async () => {
     const deleteArticle = async () => {
       const response = await fetch(`/api/articles/` + article._id, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      const json = await response.json()
 
       if (response.ok) {
-        dispatch({ type: "DELETE", payload: json });
+        dispatch({ type: 'DELETE', payload: json })
       } else {
-        alert(json.error);
+        alert(json.error)
       }
-    };
-
-    if (user) {
-      deleteArticle();
-    } else {
-      alert("You need to be authenticated to delete an article.");
     }
-  };
+
+    if (!user) {
+      alert('You need to be authenticated to delete an article')
+      return
+    }
+    if (!window.confirm('Delete article?')) return
+
+    deleteArticle()
+  }
 
   return (
     <div className="article-preview">
@@ -41,7 +43,7 @@ const ArticlePreview = ({ article }) => {
       </Link>
       <span onClick={handleClick}>Delete</span>
     </div>
-  );
-};
+  )
+}
 
-export default ArticlePreview;
+export default ArticlePreview
