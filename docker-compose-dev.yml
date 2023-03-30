@@ -38,5 +38,6 @@ services:
           - NODE_PORT=$NODE_PORT
           - REACT_PORT=$REACT_PORT
           - SERVER_NAME=$SERVER_NAME
+          - MODE=$MODE
       ports:
         - 80:80
