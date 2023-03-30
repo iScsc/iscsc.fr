@@ -37,11 +37,11 @@ http {
         #access_log  logs/host.access.log  main;
 
         location / {
-            proxy_pass http://react-app:$REACT_PORT;
+            proxy_pass http://react-app-dev:$REACT_PORT;
         }
 
         location /api {
-            proxy_pass http://node-app:$NODE_PORT;
+            proxy_pass http://node-app-dev:$NODE_PORT;
         }
 
         # redirect server error pages to the static page /50x.html
