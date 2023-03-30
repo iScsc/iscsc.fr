@@ -2,3 +2,6 @@
 .env.production
 .env.development
 certbot
+node_modules
+package-lock.json
+team.txt
