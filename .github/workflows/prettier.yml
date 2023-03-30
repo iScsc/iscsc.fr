@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Check code format
 
 # This action works with pull requests and pushes
 on:
