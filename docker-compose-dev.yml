@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  node-app-dev:
+    env_file: ./.env.development
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - $NODE_PORT:$NODE_PORT
+    volumes:
+      - './backend:/backend'
+#      - ./backend/node_modules:/backend/node_modules
+
+  react-app-dev:
+    depends_on:
+      - node-app-dev
+    env_file: ./.env.development
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - $REACT_PORT:$REACT_PORT
+    volumes:
+      - './frontend/public:/frontend/public'
+      - './frontend/src:/frontend/src'
+#      - ./frontend/node_modules:/frontend/node_modules
+
+  nginx:
+      restart: always
+      depends_on:
+        - react-app-dev
+        - node-app-dev
+      build:
+        context: ./nginx
+        args:
+          - NODE_PORT=$NODE_PORT
+          - REACT_PORT=$REACT_PORT
+          - SERVER_NAME=$SERVER_NAME
+      ports:
+        - 80:80
