@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useLogout } from "../hooks/useLogout";
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useLogout } from '../hooks/useLogout'
 
 const Navbar = () => {
-  const { logout } = useLogout();
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
+  const navigate = useNavigate()
 
   const handleClick = () => {
-    logout();
-    navigate("/");
-  };
+    logout()
+    navigate('/')
+  }
 
   return (
     <header>
@@ -18,7 +18,9 @@ const Navbar = () => {
         <Link to="/">
           <h1>iScsc</h1>
         </Link>
-        <a href="https://github.com/iScsc/iscsc.fr"><i className="github-logo fa fa-github fa-3x"></i></a>
+        <a href="https://github.com/iScsc/iscsc.fr">
+          <i className="github-logo fa fa-github fa-3x"></i>
+        </a>
         <nav>
           {user && (
             <div className="nav-logged-in">
@@ -41,7 +43,7 @@ const Navbar = () => {
         </nav>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

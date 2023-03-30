@@ -1,23 +1,23 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import ArticlePreview from "../../components/ArticlePreview";
-import { useArticlesContext } from "../../hooks/useArticlesContext";
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import ArticlePreview from '../../components/ArticlePreview'
+import { useArticlesContext } from '../../hooks/useArticlesContext'
 
 const Blog = () => {
-  const { articles, dispatch } = useArticlesContext();
+  const { articles, dispatch } = useArticlesContext()
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const response = await fetch(`/api/articles`);
-      const json = await response.json();
+      const response = await fetch(`/api/articles`)
+      const json = await response.json()
 
       if (response.ok) {
-        dispatch({ type: "SET", payload: json });
+        dispatch({ type: 'SET', payload: json })
       }
-    };
+    }
 
-    fetchArticles();
-  }, [dispatch]);
+    fetchArticles()
+  }, [dispatch])
 
   return (
     <div className="blog">
@@ -29,7 +29,7 @@ const Blog = () => {
       </div>
       <div className="articles">
         {articles &&
-          articles.map((article) => (
+          articles.map(article => (
             <ArticlePreview
               article={article}
               className="article-link"
@@ -38,7 +38,7 @@ const Blog = () => {
           ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

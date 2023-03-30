@@ -1,5 +1,5 @@
 /* google font */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 :root {
   --primary: #1aac83;
@@ -9,7 +9,7 @@
 
 body {
   margin: 0;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   background: var(--secondary);
 }
 
@@ -40,7 +40,8 @@ nav {
   margin: 0 0 0 auto;
 }
 
-nav a, nav button {
+nav a,
+nav button {
   margin-left: 20px;
   padding: 15px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
@@ -68,7 +69,7 @@ nav a, nav button {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -178,7 +179,7 @@ code {
 .article-form-form > input,
 .article-form-form > textarea {
   font-size: 1.1em;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   padding: 3px 10px;
   margin-bottom: 20px;
 }
@@ -243,7 +244,7 @@ article {
 .signup > input,
 .login > input {
   font-size: 1.1em;
-  font-family: "Poppins";
+  font-family: 'Poppins';
   padding: 3px 10px;
   margin-bottom: 20px;
   height: 40px;

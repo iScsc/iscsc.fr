@@ -1,21 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { useLogin } from "../hooks/useLogin";
+import { useNavigate } from 'react-router-dom'
+import { useLogin } from '../hooks/useLogin'
 
-const { useState } = require("react");
+const { useState } = require('react')
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login, error, isLoading, ok } = useLogin();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { login, error, isLoading, ok } = useLogin()
+  const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await login(email, password);
+  const handleSubmit = async e => {
+    e.preventDefault()
+    await login(email, password)
     if (ok) {
-      navigate("/");
+      navigate('/')
     }
-  };
+  }
 
   return (
     <form className="login" onSubmit={handleSubmit}>
@@ -24,8 +24,8 @@ const Login = () => {
       <label>Email:</label>
       <input
         type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
+        onChange={e => {
+          setEmail(e.target.value)
         }}
         value={email}
       />
@@ -33,8 +33,8 @@ const Login = () => {
       <label>Password:</label>
       <input
         type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
+        onChange={e => {
+          setPassword(e.target.value)
         }}
         value={password}
       />
@@ -42,7 +42,7 @@ const Login = () => {
       <button disabled={isLoading}>Log in</button>
       {error && <div className="signup-error">{error}</div>}
     </form>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
