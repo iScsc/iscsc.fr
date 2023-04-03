@@ -1,21 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { useSignup } from "../hooks/useSignup";
-const { useState } = require("react");
+import { useNavigate } from 'react-router-dom'
+import { useSignup } from '../hooks/useSignup'
+const { useState } = require('react')
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { signup, isLoading, error, ok } = useSignup();
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const { signup, isLoading, error, ok } = useSignup()
+  const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await signup(email, username, password);
+  const handleSubmit = async e => {
+    e.preventDefault()
+    await signup(email, username, password)
     if (ok) {
-      navigate("/");
+      navigate('/')
     }
-  };
+  }
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
@@ -24,8 +24,8 @@ const Signup = () => {
       <label>Email:</label>
       <input
         type="email"
-        onChange={(e) => {
-          setEmail(e.target.value);
+        onChange={e => {
+          setEmail(e.target.value)
         }}
         value={email}
       />
@@ -33,8 +33,8 @@ const Signup = () => {
       <label>Username:</label>
       <input
         type="text"
-        onChange={(e) => {
-          setUsername(e.target.value);
+        onChange={e => {
+          setUsername(e.target.value)
         }}
         value={username}
       />
@@ -42,8 +42,8 @@ const Signup = () => {
       <label>Password:</label>
       <input
         type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
+        onChange={e => {
+          setPassword(e.target.value)
         }}
         value={password}
       />
@@ -51,7 +51,7 @@ const Signup = () => {
       <button disabled={isLoading}>Sign up</button>
       {error && <div className="signup-error">{error}</div>}
     </form>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup
