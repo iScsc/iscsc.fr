@@ -1,7 +1,8 @@
-FROM node:18
+FROM python:3.10.9
 
 WORKDIR /backend
-COPY package.json .
-RUN npm install
+
 COPY . .
-CMD node app.js
+RUN pip install -r requirements.txt
+
+CMD flask run
