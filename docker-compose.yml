@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-  node-app:
+  flask-app:
     build: ./backend
     restart: unless-stopped
     env_file: ./.env.production
     ports:
-      - $NODE_PORT:$NODE_PORT
+      - $FLASK_RUN_PORT:$FLASK_RUN_PORT
 
   react-app:
     depends_on:
-      - node-app
+      - flask-app
     env_file: ./.env.production
     build:
       context: ./frontend
@@ -21,11 +21,11 @@ services:
     restart: always
     depends_on:
       - react-app
-      - node-app
+      - flask-app
     build:
       context: ./nginx
       args:
-        - NODE_PORT=$NODE_PORT
+        - FLASK_RUN_PORT=$FLASK_RUN_PORT
         - REACT_PORT=$REACT_PORT
         - SERVER_NAME=$SERVER_NAME
     ports:

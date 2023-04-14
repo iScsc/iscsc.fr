@@ -57,7 +57,7 @@ http {
         }
 
         location /api {
-            proxy_pass http://node-app:$NODE_PORT;
+            proxy_pass http://flask-app:$FLASK_RUN_PORT;
         }
 
         # redirect server error pages to the static page /50x.html
