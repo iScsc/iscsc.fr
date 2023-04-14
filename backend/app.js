@@ -8,7 +8,8 @@ const articleRoutes = require('./routes/articles')
 const httpServer = createServer(app)
 require('dotenv').config({ path: `../.env.${process.env.NODE_ENV}` })
 
-const { DB_USER, DB_PASSWORD, DB_NAME, FLASK_RUN_PORT, CLIENT_ORIGIN } = process.env
+const { DB_USER, DB_PASSWORD, DB_NAME, FLASK_RUN_PORT, CLIENT_ORIGIN } =
+  process.env
 
 app.use(cors({ origin: CLIENT_ORIGIN || 'http://localhost:3000' }))
 app.use(express.json({ limit: '1MB' }))
