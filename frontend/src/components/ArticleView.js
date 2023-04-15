@@ -1,6 +1,6 @@
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import React from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const ArticleView = ({ article }) => {
   const markdown = `
@@ -10,7 +10,7 @@ const ArticleView = ({ article }) => {
 *${article.author} - ${article.createdAt}*
 
 ${article.body}
-  `;
+  `
 
   return (
     <article>
@@ -18,7 +18,7 @@ ${article.body}
         <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />
       )}
     </article>
-  );
-};
+  )
+}
 
-export default ArticleView;
+export default ArticleView

@@ -1,36 +1,36 @@
-import { useState } from "react";
-import { useArticlesContext } from "../hooks/useArticlesContext";
+import { useState } from 'react'
+import { useArticlesContext } from '../hooks/useArticlesContext'
 
 const ArticleForm = () => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [summary, setSummary] = useState("");
-  const [error, setError] = useState(null);
-  const { dispatch } = useArticlesContext();
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+  const [summary, setSummary] = useState('')
+  const [error, setError] = useState(null)
+  const { dispatch } = useArticlesContext()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault()
 
-    const article = { title, summary, body };
-    const response = await fetch("/api/articles/create", {
-      method: "POST",
+    const article = { title, summary, body }
+    const response = await fetch('/api/articles/create', {
+      method: 'POST',
       body: JSON.stringify(article),
       headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
 
     if (response.ok) {
-      setTitle("");
-      setSummary("");
-      setBody("");
-      setError(null);
-      dispatch({ type: "CREATE", payload: json });
+      setTitle('')
+      setSummary('')
+      setBody('')
+      setError(null)
+      dispatch({ type: 'CREATE', payload: json })
     } else {
-      setError(json.error);
+      setError(json.error)
     }
-  };
+  }
 
   return (
     <div className="article-form">
@@ -39,14 +39,14 @@ const ArticleForm = () => {
         <label>Article title:</label>
         <input
           type="text"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
           value={title}
         />
 
         <label>Article summary:</label>
         <input
           type="text"
-          onChange={(e) => setSummary(e.target.value)}
+          onChange={e => setSummary(e.target.value)}
           value={summary}
         />
 
@@ -54,7 +54,7 @@ const ArticleForm = () => {
         <textarea
           rows="8"
           cols="50"
-          onChange={(e) => setBody(e.target.value)}
+          onChange={e => setBody(e.target.value)}
           value={body}
         />
 
@@ -62,7 +62,7 @@ const ArticleForm = () => {
       </form>
       {error && <div class="create-article-error">{error}</div>}
     </div>
-  );
-};
+  )
+}
 
-export default ArticleForm;
+export default ArticleForm
