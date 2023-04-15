@@ -10,7 +10,7 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - './mongodb:/data/db'
+      - "./mongodb:/data/db"
 
   node-app:
     depends_on:
