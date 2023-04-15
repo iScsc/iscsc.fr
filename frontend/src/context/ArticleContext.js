@@ -1,43 +1,43 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer } from 'react'
 
-export const ArticlesContext = createContext();
+export const ArticlesContext = createContext()
 
 export const articlesReducer = (state, action) => {
   switch (action.type) {
-    case "SET":
+    case 'SET':
       return {
-        articles: action.payload,
-      };
-
-    case "ADD":
-      if (state.articles === null) {
-        return {articles: [action.payload], }; //cannot iterate over null
+        articles: action.payload
       }
-      return {articles: [action.payload, ...state.articles], };
 
-    case "DELETE":
-      return {
-        articles: state.articles.filter((a) => action.payload._id !== a._id),
-      };
+    case 'ADD':
+      if (state.articles === null) {
+        return { articles: [action.payload] } //cannot iterate over null
+      }
+      return { articles: [action.payload, ...state.articles] }
 
-    case "RESET":
+    case 'DELETE':
       return {
-        articles: [],
-      };
+        articles: state.articles.filter(a => action.payload._id !== a._id)
+      }
+
+    case 'RESET':
+      return {
+        articles: []
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const ArticlesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(articlesReducer, {
-    articles: null,
-  });
+    articles: null
+  })
 
   return (
     <ArticlesContext.Provider value={{ ...state, dispatch }}>
       {children}
     </ArticlesContext.Provider>
-  );
-};
+  )
+}

@@ -1,77 +1,78 @@
-import ArticleView from "../../components/ArticleView";
-import { useState } from "react";
-import { useArticlesContext } from "../../hooks/useArticlesContext";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import Config from "../../config.json";
+import ArticleView from '../../components/ArticleView'
+import { useState } from 'react'
+import { useArticlesContext } from '../../hooks/useArticlesContext'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import Config from '../../config.json'
 
 const CreateArticle = () => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [summary, setSummary] = useState("");
-  const [error, setError] = useState(null);
-  const { dispatch } = useArticlesContext();
-  const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+  const [summary, setSummary] = useState('')
+  const [error, setError] = useState(null)
+  const { dispatch } = useArticlesContext()
+  const navigate = useNavigate()
+  const { user } = useAuthContext()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!window.confirm('Create article?')) return
 
     const submit = async () => {
-      const article = { title, summary, body };
+      const article = { title, summary, body }
       const response = await fetch(`/api/articles/create`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(article),
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      const json = await response.json()
 
       if (!response.ok) {
-        setError(json.error);
+        setError(json.error)
       }
       if (response.ok) {
-        setTitle("");
-        setSummary("");
-        setBody("");
-        setError(null);
-        dispatch({ type: "CREATE", payload: json });
+        setTitle('')
+        setSummary('')
+        setBody('')
+        setError(null)
+        dispatch({ type: 'CREATE', payload: json })
 
-        navigate("/blog");
+        navigate('/blog')
       }
-    };
+    }
 
     if (user) {
-      await submit();
+      await submit()
     } else {
-      setError("Authentication required to create a new article");
+      setError('Authentication required to create a new article')
     }
-  };
+  }
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = event => {
+    const file = event.target.files[0]
     if (file.size < Config.FILE_SIZE_MAX) {
-      file.text().then((t) => {
-        const lines = t.split("\n");
-        setTitle(lines[0]);
-        setSummary(lines[1]);
-        setBody(lines.slice(3).join("\n"));
-      });
+      file.text().then(t => {
+        const lines = t.split('\n')
+        setTitle(lines[0])
+        setSummary(lines[1])
+        setBody(lines.slice(3).join('\n'))
+      })
     } else {
       setError(
-        "File is too large! Your upload must be less than " +
+        'File is too large! Your upload must be less than ' +
           Config.FILE_SIZE_MAX / 1000 +
-          "kB"
-      );
+          'kB'
+      )
     }
-  };
+  }
 
-  const current = new Date();
+  const current = new Date()
   const date = `${current.getDate()}/${
     current.getMonth() + 1
-  }/${current.getFullYear()}`;
+  }/${current.getFullYear()}`
 
   return (
     <div className="create-article">
@@ -81,7 +82,7 @@ const CreateArticle = () => {
           <label>Article title:</label>
           <input
             type="text"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             value={title}
             placeholder="Title of the article"
           />
@@ -89,7 +90,7 @@ const CreateArticle = () => {
           <label>Article summary:</label>
           <input
             type="text"
-            onChange={(e) => setSummary(e.target.value)}
+            onChange={e => setSummary(e.target.value)}
             value={summary}
             placeholder="Brief summary in one sentence"
           />
@@ -98,7 +99,7 @@ const CreateArticle = () => {
           <textarea
             rows="8"
             cols="50"
-            onChange={(e) => setBody(e.target.value)}
+            onChange={e => setBody(e.target.value)}
             value={body}
             placeholder="Your article's body in Markdown"
           />
@@ -106,7 +107,7 @@ const CreateArticle = () => {
           <h4 className="article-form-or">--- OR ---</h4>
 
           <label>
-            Choose a Markdown file to import (follow{" "}
+            Choose a Markdown file to import (follow{' '}
             <a href="/ressources/template.md" download>
               this template
             </a>
@@ -126,13 +127,13 @@ const CreateArticle = () => {
               summary,
               body,
               author: user.username,
-              createdAt: date,
+              createdAt: date
             }}
           />
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default CreateArticle;
+export default CreateArticle
