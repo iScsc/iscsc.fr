@@ -16,20 +16,16 @@ function App() {
         <div className="pages">
           <Routes>
             <Route path="/" element={<Navigate to="/blog" />} />
-            <Route path="/blog" element={<Blog />} />
             <Route
               path="/blog/create-article"
-              element={user ? <CreateArticle /> : <Navigate to="/login" />}
+              element={
+                user ? <CreateArticle /> : <Login next="/blog/create-article" />
+              }
             />
             <Route path="/blog/:id" element={<Article />} />
-            <Route
-              path="login"
-              element={!user ? <Login /> : <Navigate to="/" />}
-            />
-            <Route
-              path="signup"
-              element={!user ? <Signup /> : <Navigate to="/" />}
-            />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/login" element={<Login next="/" />} />
+            <Route path="/signup" element={<Signup next="/" />} />
           </Routes>
         </div>
       </BrowserRouter>
