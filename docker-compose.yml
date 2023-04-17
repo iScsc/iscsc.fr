@@ -1,7 +1,23 @@
 version: "3.8"
 
 services:
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.4
+    networks:
+      - database
+    restart: always
+    env_file: ./.env.production
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - "./mongodb:/data/db"
+
   flask-app:
+    depends_on:
+      - mongodb
+    networks:
+      - proxy
+      - database
     build: ./backend
     restart: unless-stopped
     env_file: ./.env.production
@@ -11,6 +27,8 @@ services:
   react-app:
     depends_on:
       - flask-app
+    networks:
+      - proxy
     env_file: ./.env.production
     build:
       context: ./frontend
@@ -19,9 +37,12 @@ services:
 
   nginx:
     restart: always
+    networks:
+      - proxy
     depends_on:
       - react-app
       - flask-app
+      - mongodb
     build:
       context: ./nginx
       args:
@@ -40,3 +61,7 @@ services:
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  proxy:
+  database:

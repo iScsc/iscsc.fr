@@ -1,19 +1,22 @@
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../hooks/useAuthContext'
 import { useLogin } from '../hooks/useLogin'
-
 const { useState } = require('react')
 
-const Login = () => {
+const Login = ({ next }) => {
+  const navigate = useNavigate()
+  const { user } = useAuthContext()
+  if (user) navigate(next)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login, error, isLoading, ok } = useLogin()
-  const navigate = useNavigate()
 
   const handleSubmit = async e => {
     e.preventDefault()
     await login(email, password)
     if (ok) {
-      navigate('/')
+      navigate(next)
     }
   }
 

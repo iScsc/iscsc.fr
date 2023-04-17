@@ -8,8 +8,7 @@ const articleRoutes = require('./routes/articles')
 const httpServer = createServer(app)
 require('dotenv').config({ path: `../.env.${process.env.NODE_ENV}` })
 
-const { DB_USER, DB_PASSWORD, DB_NAME, FLASK_RUN_PORT, CLIENT_ORIGIN } =
-  process.env
+const { DB_PORT, DB_NAME, FLASK_RUN_PORT, CLIENT_ORIGIN } = process.env
 
 app.use(cors({ origin: CLIENT_ORIGIN || 'http://localhost:3000' }))
 app.use(express.json({ limit: '1MB' }))
@@ -20,10 +19,9 @@ app.get('/', (req, res) => {
   res.send('iscsc.fr is running')
 })
 
+uri = `mongodb://mongodb:${DB_PORT}/${DB_NAME}?retryWrites=true&w=majority`
 mongoose
-  .connect(
-    `mongodb+srv://${DB_USER}:${DB_PASSWORD}@iscsc.a11re32.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`
-  )
+  .connect(uri)
   .then(() => {
     httpServer.listen(FLASK_RUN_PORT || 3001, () => {
       console.log(`Server listening: http://localhost:${FLASK_RUN_PORT}`)
