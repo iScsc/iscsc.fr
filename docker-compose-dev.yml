@@ -48,22 +48,22 @@ services:
       - './frontend/src:/frontend/src'
 
   nginx:
-      depends_on:
-        - react-app-dev
-        - node-app-dev
-        - mongodb
-      build:
-        context: ./nginx
-        args:
-          - NODE_PORT=$NODE_PORT
-          - REACT_PORT=$REACT_PORT
-          - SERVER_NAME=$SERVER_NAME
-          - MODE=$MODE
-      networks:
-       - proxy
-      restart: always
-      ports:
-        - 80:80
+    depends_on:
+      - react-app-dev
+      - node-app-dev
+      - mongodb
+    build:
+      context: ./nginx
+      args:
+        - NODE_PORT=$NODE_PORT
+        - REACT_PORT=$REACT_PORT
+        - SERVER_NAME=$SERVER_NAME
+        - MODE=$MODE
+    networks:
+      - proxy
+    restart: always
+    ports:
+      - 80:80
 
 networks:
   proxy:
