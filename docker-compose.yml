@@ -15,10 +15,10 @@ services:
   node-app:
     depends_on:
       - mongodb
+    build: ./backend
     networks:
       - proxy
       - database
-    build: ./backend
     restart: unless-stopped
     env_file: ./.env.production
     ports:
@@ -27,18 +27,15 @@ services:
   react-app:
     depends_on:
       - node-app
+    build:
+      context: ./frontend
     networks:
       - proxy
     env_file: ./.env.production
-    build:
-      context: ./frontend
     ports:
       - $REACT_PORT:$REACT_PORT
 
   nginx:
-    restart: always
-    networks:
-      - proxy
     depends_on:
       - react-app
       - node-app
@@ -49,6 +46,9 @@ services:
         - NODE_PORT=$NODE_PORT
         - REACT_PORT=$REACT_PORT
         - SERVER_NAME=$SERVER_NAME
+    networks:
+      - proxy
+    restart: always
     ports:
       - 80:80
       - 443:443
