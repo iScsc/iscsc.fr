@@ -15,14 +15,14 @@ services:
   node-app-dev:
     depends_on:
       - mongodb
-    env_file: ./.env.development
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    restart: unless-stopped
     networks:
       - database
       - proxy
+    restart: unless-stopped
+    env_file: ./.env.development
     ports:
       - $NODE_PORT:$NODE_PORT
     volumes:
@@ -35,12 +35,12 @@ services:
   react-app-dev:
     depends_on:
       - node-app-dev
-    env_file: ./.env.development
-    networks:
-      - proxy
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+    networks:
+      - proxy
+    env_file: ./.env.development
     ports:
       - $REACT_PORT:$REACT_PORT
     volumes:
@@ -48,13 +48,10 @@ services:
       - './frontend/src:/frontend/src'
 
   nginx:
-      restart: always
       depends_on:
         - react-app-dev
         - node-app-dev
         - mongodb
-      networks:
-       - proxy
       build:
         context: ./nginx
         args:
@@ -62,6 +59,9 @@ services:
           - REACT_PORT=$REACT_PORT
           - SERVER_NAME=$SERVER_NAME
           - MODE=$MODE
+      networks:
+       - proxy
+      restart: always
       ports:
         - 80:80
 
