@@ -1,12 +1,28 @@
 version: '3.8'
 
 services:
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.4
+    networks:
+      - database
+    restart: always
+    env_file: ./.env.development
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - "./mongodb/dev:/data/db"
+
   node-app-dev:
+    depends_on:
+      - mongodb
     env_file: ./.env.development
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
     restart: unless-stopped
+    networks:
+      - database
+      - proxy
     ports:
       - $NODE_PORT:$NODE_PORT
     volumes:
@@ -20,6 +36,8 @@ services:
     depends_on:
       - node-app-dev
     env_file: ./.env.development
+    networks:
+      - proxy
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -34,6 +52,9 @@ services:
       depends_on:
         - react-app-dev
         - node-app-dev
+        - mongodb
+      networks:
+       - proxy
       build:
         context: ./nginx
         args:
@@ -43,3 +64,7 @@ services:
           - MODE=$MODE
       ports:
         - 80:80
+
+networks:
+  proxy:
+  database:
