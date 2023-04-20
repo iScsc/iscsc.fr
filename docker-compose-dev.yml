@@ -12,7 +12,7 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - "./mongodb/dev:/bitnami/mongodb"
+      - "./mongodb/dev:/bitnami/mongodb:rw"
 
   node-app-dev:
     depends_on:
@@ -28,11 +28,11 @@ services:
     ports:
       - $NODE_PORT:$NODE_PORT
     volumes:
-      - ./backend/app.js:/backend/app.js
-      - ./backend/controllers:/backend/controllers
-      - ./backend/middleware:/backend/middleware
-      - ./backend/models:/backend/models
-      - ./backend/routes:/backend/routes
+      - ./backend/app.js:/backend/app.js:ro
+      - ./backend/controllers:/backend/controllers:ro
+      - ./backend/middleware:/backend/middleware:ro
+      - ./backend/models:/backend/models:ro
+      - ./backend/routes:/backend/routes:ro
 
   react-app-dev:
     depends_on:
@@ -46,8 +46,8 @@ services:
     ports:
       - $REACT_PORT:$REACT_PORT
     volumes:
-      - "./frontend/public:/frontend/public"
-      - "./frontend/src:/frontend/src"
+      - "./frontend/public:/frontend/public:ro"
+      - "./frontend/src:/frontend/src:ro"
 
   nginx:
     depends_on:
