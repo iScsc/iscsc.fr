@@ -12,7 +12,7 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - './mongodb/prod:/bitnami/mongodb'
+      - "./mongodb/prod:/bitnami/mongodb"
 
   node-app:
     depends_on:
