@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -12,7 +12,7 @@ services:
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - './mongodb/dev:/bitnami/mongodb'
+      - "./mongodb/dev:/bitnami/mongodb"
 
   node-app-dev:
     depends_on:
@@ -46,8 +46,8 @@ services:
     ports:
       - $REACT_PORT:$REACT_PORT
     volumes:
-      - './frontend/public:/frontend/public'
-      - './frontend/src:/frontend/src'
+      - "./frontend/public:/frontend/public"
+      - "./frontend/src:/frontend/src"
 
   nginx:
     depends_on:
