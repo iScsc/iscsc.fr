@@ -16,7 +16,7 @@ For more information, check [this article](https://www.mongodb.com/mern-stack).
 You can also watch [this video](https://www.youtube.com/watch?v=7CqJlxBYj-M) if you want to get more familiar with the stack.
 If you're a true beginner, you can follow [this Open Classroom course](https://openclassrooms.com/fr/courses/5614116-go-full-stack-with-node-js-express-and-mongodb).
 
-## Functionalities
+## 1. Functionalities
 
 The main functionalities of the website at the moment are creating, reading, and deleting posts on the blog section of the website.
 Posts are rendered in Markdown, with the [Github Flavored Markdown, GMF](https://github.com/remarkjs/remark-gfm).
@@ -46,7 +46,7 @@ You should be able to delete any article **you created** from the database.
 
 > Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
 
-## Deployment
+## 2. Deployment
 
 You need to set up the frontend and backend applications to test the server.
 For deployment, `development` and `production` modes are available
@@ -57,7 +57,7 @@ For deployment, `development` and `production` modes are available
 
 Here is a quick guide after cloning the repository:
 
-### Development mode
+### 2.1 Development mode
 
 #### .env file
 
@@ -96,7 +96,7 @@ npm run start
 
 Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-### Production mode
+### 2.2 Production mode
 
 The production mode allows to deploy the application on the server. To use it, you will need:
 
@@ -178,7 +178,7 @@ Finally, you can stop the production mode with
 sudo docker-compose --env-file .env.production down
 ```
 
-## Repository structure
+## 3. Repository structure
 
 Here is a list of the main folders/files of the repository.
 
@@ -222,12 +222,12 @@ iscsc.fr
 └── README.md           *this file*
 ```
 
-## Bugs and recommendations
+## 4. Bugs and recommendations
 
 Because this website is still in development, do not hesitate to open an issue if you experience any trouble using it.
 Also, feel free to share your recommendations regarding the color scheme, routes, design, UX, etc...
 
-## Incoming works
+## 5. Incoming works
 
 Here is a non-exhaustive list of incoming functionalities for the website:
 
