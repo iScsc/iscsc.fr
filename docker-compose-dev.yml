@@ -5,7 +5,6 @@ services:
     image: docker.io/bitnami/mongodb:4.4
     networks:
       - database
-    restart: always
     env_file: ./.env.development
     environment:
       - "MONGODB_EXTRA_FLAGS=--port=$DB_PORT"
@@ -23,7 +22,6 @@ services:
     networks:
       - database
       - proxy
-    restart: unless-stopped
     env_file: ./.env.development
     ports:
       - $NODE_PORT:$NODE_PORT
