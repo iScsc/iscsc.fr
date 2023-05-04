@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongodb:
-    image: docker.io/bitnami/mongodb:4.4
+    image: docker.io/bitnami/mongodb:latest
     networks:
       - database
     restart: always
