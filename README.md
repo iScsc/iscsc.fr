@@ -17,18 +17,18 @@ You can also watch [this video](https://www.youtube.com/watch?v=7CqJlxBYj-M) if 
 If you're a true beginner, you can follow [this Open Classroom course](https://openclassrooms.com/fr/courses/5614116-go-full-stack-with-node-js-express-and-mongodb).
 
 ## Table of contents
-1. [Functionalities](#1-functionalities)
-2. [Deployment](#2-deployment)  
-2.1 [Development mode](#21-development-mode)  
-2.2 [Production mode](#22-production-mode)
-3. [Repository structure](#3-repository-structure)
-4. [Bugs and recommendations](#4-bugs-and-recommendations)
-5. [Incoming works](#5-incoming-works)
+1. [Functionalities](#1-functionalities-toc)
+2. [Deployment](#2-deployment-toc)  
+2.1 [Development mode](#21-development-mode-toc)  
+2.2 [Production mode](#22-production-mode-toc)
+3. [Repository structure](#3-repository-structure-toc)
+4. [Bugs and recommendations](#4-bugs-and-recommendations-toc)
+5. [Upcoming works](#5-upcoming-works-toc)
 
-## 1. Functionalities
+## 1. Functionalities ([toc](#table-of-contents))
 
 The main functionalities of the website at the moment are creating, reading, and deleting posts on the blog section of the website.
-Posts are rendered in Markdown, with the [Github Flavored Markdown, GMF](https://github.com/remarkjs/remark-gfm).
+Posts are rendered in Markdown, with the [Github Flavored Markdown, GFM](https://github.com/remarkjs/remark-gfm).
 The authentication is now available. A user can sign up and log in with an email and a password. Some actions in the blog, like creating and deleting articles, need authentication.
 JWT and cookies allow the user to stay logged in.
 
@@ -55,7 +55,7 @@ You should be able to delete any article **you created** from the database.
 
 > Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
 
-## 2. Deployment
+## 2. Deployment ([toc](#table-of-contents))
 
 You need to set up the frontend and backend applications to test the server.
 For deployment, `development` and `production` modes are available
@@ -66,11 +66,11 @@ For deployment, `development` and `production` modes are available
 
 Here is a quick guide after cloning the repository:
 
-### 2.1 Development mode
+### 2.1 Development mode ([toc](#table-of-contents))
 
 #### .env file
 
-Before deploying the application, you need to set the environment variables. 
+Before deploying the application, you need to set the environment variables.   
 From the root directory of the repository, do the following:
 
 ```
@@ -105,7 +105,7 @@ npm run start
 
 Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-### 2.2 Production mode
+### 2.2 Production mode ([toc](#table-of-contents))
 
 The production mode allows to deploy the application on the server. To use it, you will need:
 
@@ -187,7 +187,7 @@ Finally, you can stop the production mode with
 sudo docker-compose --env-file .env.production down
 ```
 
-## 3. Repository structure
+## 3. Repository structure ([toc](#table-of-contents))
 
 Here is a list of the main folders/files of the repository.
 
@@ -231,12 +231,12 @@ iscsc.fr
 └── README.md           *this file*
 ```
 
-## 4. Bugs and recommendations
+## 4. Bugs and recommendations ([toc](#table-of-contents))
 
 Because this website is still in development, do not hesitate to open an issue if you experience any trouble using it.
 Also, feel free to share your recommendations regarding the color scheme, routes, design, UX, etc...
 
-## 5. Incoming works
+## 5. Upcoming works ([toc](#table-of-contents))
 
 Here is a non-exhaustive list of incoming functionalities for the website:
 
