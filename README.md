@@ -23,7 +23,7 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 2.2 [Production mode](#22-production-mode-toc)
 3. [Repository structure](#3-repository-structure-toc)
 4. [Bugs and recommendations](#4-bugs-and-recommendations-toc)
-5. [Upcoming works](#5-upcoming-works-toc)
+5. [Upcoming work](#5-upcoming-work-toc)
 
 ## 1. Functionalities ([toc](#table-of-contents))
 
@@ -236,7 +236,7 @@ iscsc.fr
 Because this website is still in development, do not hesitate to open an issue if you experience any trouble using it.
 Also, feel free to share your recommendations regarding the color scheme, routes, design, UX, etc...
 
-## 5. Upcoming works ([toc](#table-of-contents))
+## 5. Upcoming work ([toc](#table-of-contents))
 
 Here is a non-exhaustive list of incoming functionalities for the website:
 
