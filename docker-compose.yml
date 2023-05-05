@@ -2,15 +2,17 @@ version: "3.8"
 
 services:
   mongodb:
-    image: docker.io/bitnami/mongodb:4.4
+    image: docker.io/bitnami/mongodb:latest
     networks:
       - database
     restart: always
     env_file: ./.env.production
+    environment:
+      - "MONGODB_EXTRA_FLAGS=--port=$DB_PORT"
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - "./mongodb:/data/db"
+      - "./mongodb/prod:/bitnami/mongodb"
 
   flask-app:
     depends_on:
