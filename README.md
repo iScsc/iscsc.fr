@@ -58,9 +58,11 @@ For deployment, `development` and `production` modes are available
 Here is a quick guide after cloning the repository:
 
 ### Development mode
+You have two choices to run the development mode:
+ - with `docker`
+ - manually start the backend, frontend and setup a DB
 
 #### .env file
-
 Before deploying the application, you need to set the environment variables
 From the root directory of the repository, do the following:
 
@@ -70,8 +72,32 @@ cp .env.example .env.development
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-#### Backend
+#### Docker
+Once your `.env.development` is ready, run
 
+```bash
+docker-compose --env-file .env.development -f docker-compose-dev.yml up -d --build
+```
+
+> Make sure the `docker` daemon is running, or start it with `systemctl start docker`
+
+You application can now be started on `$CLIENT_URL` (specified in the `.env.development` file)
+
+To see the running application, and check the logs use
+
+```bash
+docker ps
+docker logs <CONTAINER_ID>
+```
+
+Finally, you can stop the production mode with
+
+```bash
+docker-compose --env-file .env.development -f docker-compose-dev.yml down
+```
+
+#### From host
+##### Backend
 From the root directory of the repository, do the following:
 
 ```bash
@@ -82,8 +108,7 @@ npm run dev
 
 > You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
 
-#### Frontend
-
+##### Frontend
 From the root directory of the repository, do the following:
 
 ```bash
@@ -94,8 +119,10 @@ npm run start
 
 Make sure your're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-### Production mode
+##### Database
+Maybe start a db in a container and expose a port then setup properly the .env, it should work but untested.
 
+### Production mode
 The production mode allows to deploy the application on the server. To use it, you will need:
 
 - `docker`
