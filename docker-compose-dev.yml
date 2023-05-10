@@ -7,7 +7,7 @@ services:
       - database
     env_file: ./.env.development
     environment:
-      - "MONGODB_EXTRA_FLAGS=--port=$DB_PORT"
+      - "MONGODB_PORT_NUMBER=$DB_PORT"
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
