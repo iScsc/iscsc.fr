@@ -1,0 +1,2 @@
+pretty:
+	npx prettier --write .
