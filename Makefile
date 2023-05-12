@@ -1,2 +1,2 @@
 pretty:
-	npx prettier --write .
+	npx prettier --write '**/*.{js,md,yml,css,html}' '!mongodb/**'
