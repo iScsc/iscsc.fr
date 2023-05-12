@@ -61,7 +61,6 @@ services:
         - MODE=$MODE
     networks:
       - proxy
-    restart: always
     ports:
       - 80:80
 
