@@ -64,6 +64,8 @@ Here is a quick guide after cloning the repository:
 ### Setup the local MongoDB folder
 To make the database persistent through containers starting and stopping the database folder is shared with the host using a `docker` volume, you can see it in the [docker compose files](./docker-compose.yml).
 
+> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the *Note* under "Persisting your database"), if, on your systemn, it already exists and shouldn't have these access please consider modifying the image!
+
 However because the bitnami/mongodb container is a non-root container we've got to setup the right permission on that folder.  
 To set it up just run 
 ```bash
