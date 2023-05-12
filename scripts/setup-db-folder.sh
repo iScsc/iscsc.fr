@@ -27,7 +27,7 @@ setup_folder () {
     mkdir $folder/prod
     chmod -R 774 $folder
     log_info "sudo permission needed to chown newly created '$folder'"
-    sudo chown -R $(id -u):1001 $folder
+    sudo chown -R 1001:$(id -u) $folder
 }
 
 main () {
