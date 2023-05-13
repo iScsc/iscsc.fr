@@ -4,6 +4,7 @@
     "description": "The iScsc website",
     "private": true,
     "scripts": {
-        "version": "git add package.json"
+        "version": "git add package.json",
+        "pretty": "npx prettier --write '**/*.{js,md,yml,css,html}' '!mongodb/**'"
     }
 }

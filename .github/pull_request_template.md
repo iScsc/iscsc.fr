@@ -7,7 +7,9 @@ if the CI fails with the following error,
 ```
 please run
 ```
-make pretty
+npm run pretty
 ```
 in your local copy of `iscsc/iscsc.fr` and commit and push the fixes :yum:
+
+NOTE: you'll need to have `npm` installed and to install `prettier` first: `npm install -g prettier`
 -->
