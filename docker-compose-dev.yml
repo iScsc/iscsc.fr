@@ -13,7 +13,7 @@ services:
     volumes:
       - "./mongodb/dev:/bitnami/mongodb:rw"
 
-  node-app-dev:
+  flask-app-dev:
     depends_on:
       - mongodb
     build:
@@ -24,9 +24,9 @@ services:
       - proxy
     env_file: ./.env.development
     ports:
-      - $NODE_PORT:$NODE_PORT
+      - $FLASK_PORT:$FLASK_PORT
     volumes:
-      - ./backend/app.js:/backend/app.js:ro
+      - ./backend/app.py:/backend/app.py:ro
       - ./backend/controllers:/backend/controllers:ro
       - ./backend/middleware:/backend/middleware:ro
       - ./backend/models:/backend/models:ro
@@ -34,7 +34,7 @@ services:
 
   react-app-dev:
     depends_on:
-      - node-app-dev
+      - flask-app-dev
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -50,12 +50,12 @@ services:
   nginx:
     depends_on:
       - react-app-dev
-      - node-app-dev
+      - flask-app-dev
       - mongodb
     build:
       context: ./nginx
       args:
-        - NODE_PORT=$NODE_PORT
+        - FLASK_PORT=$FLASK_PORT
         - REACT_PORT=$REACT_PORT
         - SERVER_NAME=$SERVER_NAME
         - MODE=$MODE
