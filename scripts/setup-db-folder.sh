@@ -21,13 +21,13 @@ check_pwd () {
 }
 
 setup_folder () {
-    folder="$1"
+    local folder="$1"
 
     mkdir -p $folder/dev
     mkdir $folder/prod
     chmod -R 774 $folder
     log_info "sudo permission needed to chown newly created '$folder'"
-    sudo chown -R 1001:$(id -u) $folder
+    sudo chown -R :root $folder
 }
 
 main () {
