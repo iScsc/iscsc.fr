@@ -24,7 +24,7 @@ services:
       - proxy
     env_file: ./.env.development
     ports:
-      - $FLASK_PORT:$FLASK_PORT
+      - $FLASK_RUN_PORT:$FLASK_RUN_PORT
     volumes:
       - ./backend/app.py:/backend/app.py:ro
       - ./backend/controllers:/backend/controllers:ro
@@ -55,7 +55,7 @@ services:
     build:
       context: ./nginx
       args:
-        - FLASK_PORT=$FLASK_PORT
+        - FLASK_RUN_PORT=$FLASK_RUN_PORT
         - REACT_PORT=$REACT_PORT
         - SERVER_NAME=$SERVER_NAME
         - MODE=$MODE
