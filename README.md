@@ -79,8 +79,6 @@ cp .env.example .env.development
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-> If you don't know how to deploy your database, consider using [Atlas](https://www.mongodb.com/atlas/database).
-
 #### Backend
 
 From the root directory of the repository, do the following:
