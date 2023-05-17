@@ -17,10 +17,11 @@ You can also watch [this video](https://www.youtube.com/watch?v=7CqJlxBYj-M) if 
 If you're a true beginner, you can follow [this Open Classroom course](https://openclassrooms.com/fr/courses/5614116-go-full-stack-with-node-js-express-and-mongodb).
 
 ## Table of contents
+
 1. [Functionalities](#1-functionalities-toc)
 2. [Deployment](#2-deployment-toc)  
-2.1 [Development mode](#21-development-mode-toc)  
-2.2 [Production mode](#22-production-mode-toc)
+   2.1 [Development mode](#21-development-mode-toc)  
+   2.2 [Production mode](#22-production-mode-toc)
 3. [Repository structure](#3-repository-structure-toc)
 4. [Bugs and recommendations](#4-bugs-and-recommendations-toc)
 5. [Upcoming work](#5-upcoming-work-toc)
@@ -70,7 +71,7 @@ Here is a quick guide after cloning the repository:
 
 #### .env file
 
-Before deploying the application, you need to set the environment variables.   
+Before deploying the application, you need to set the environment variables.  
 From the root directory of the repository, do the following:
 
 ```
