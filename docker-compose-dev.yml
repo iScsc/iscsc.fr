@@ -5,42 +5,52 @@ services:
     image: docker.io/bitnami/mongodb:latest
     networks:
       - database
-    restart: always
-    env_file: ./.env.production
+    env_file: ./.env.development
     environment:
       - "MONGODB_PORT_NUMBER=$DB_PORT"
     ports:
       - $DB_PORT:$DB_PORT
     volumes:
-      - "./mongodb/prod:/bitnami/mongodb"
+      - "./mongodb/dev:/bitnami/mongodb:rw"
 
-  flask-app:
+  flask-app-dev:
     depends_on:
       - mongodb
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     networks:
-      - proxy
       - database
-    restart: unless-stopped
-    env_file: ./.env.production
+      - proxy
+    env_file: ./.env.development
     ports:
       - $FLASK_RUN_PORT:$FLASK_RUN_PORT
+    volumes:
+      - ./backend/app.py:/backend/app.py:ro
+      - ./backend/controllers:/backend/controllers:ro
+      - ./backend/middleware:/backend/middleware:ro
+      - ./backend/models:/backend/models:ro
+      - ./backend/routes:/backend/routes:ro
 
-  react-app:
+  react-app-dev:
     depends_on:
-      - flask-app
+      - flask-app-dev
     build:
       context: ./frontend
+      dockerfile: Dockerfile.dev
     networks:
       - proxy
-    env_file: ./.env.production
+    env_file: ./.env.development
     ports:
       - $REACT_PORT:$REACT_PORT
+    volumes:
+      - "./frontend/public:/frontend/public:ro"
+      - "./frontend/src:/frontend/src:ro"
 
   nginx:
     depends_on:
-      - react-app
-      - flask-app
+      - react-app-dev
+      - flask-app-dev
       - mongodb
     build:
       context: ./nginx
@@ -48,21 +58,11 @@ services:
         - FLASK_RUN_PORT=$FLASK_RUN_PORT
         - REACT_PORT=$REACT_PORT
         - SERVER_NAME=$SERVER_NAME
+        - MODE=$MODE
     networks:
       - proxy
-    restart: always
     ports:
       - 80:80
-      - 443:443
-    volumes:
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
 
 networks:
   proxy:

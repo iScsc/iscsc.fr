@@ -1,0 +1,41 @@
+worker_processes 1;
+
+# see https://www.digitalocean.com/community/tutorials/nginx-access-logs-error-logs#nginx-error-log-severity-levels for configuring
+# error_log  logs/error.log  info;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include mime.types;
+    default_type application/octet-stream;
+
+    # log_format  main  '${DOLLAR}remote_addr - ${DOLLAR}remote_user [${DOLLAR}time_local] "${DOLLAR}request" '
+    #                   '${DOLLAR}status ${DOLLAR}body_bytes_sent "${DOLLAR}http_referer" '
+    #                   '"${DOLLAR}http_user_agent" "${DOLLAR}http_x_forwarded_for"';
+    # access_log  logs/access.log  main;
+    sendfile on;
+
+    keepalive_timeout 65;
+
+    server {
+        listen 80;
+        server_name 127.0.0.1;
+
+        location / {
+            proxy_pass http://react-app-dev:$REACT_PORT;
+        }
+
+        location /api {
+            proxy_pass http://flask-app-dev:$FLASK_RUN_PORT;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root /usr/share/nginx/html;
+        }
+    }
+}
