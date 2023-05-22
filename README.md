@@ -112,7 +112,7 @@ Once your `.env.development` is [ready](#envdevelopment-file), run
 docker-compose --env-file .env.development --file docker-compose-dev.yml up -d --build
 ```
 
-> Make sure the `docker` daemon is running, or start it with `systemctl start docker`
+> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 The website is now up on `$CLIENT_URL` (specified in the `.env.development` file)
 
@@ -224,7 +224,7 @@ Once everything is ready, run
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-> Make sure the `docker` daemon is running, or start it with `systemctl start docker`
+> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 Your application can now be started on `$CLIENT_URL` (specified in the `.env.production` file)
 
