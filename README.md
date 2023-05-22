@@ -20,8 +20,9 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 
 1. [Functionalities](#1-functionalities-toc)
 2. [Deployment](#2-deployment-toc)  
-   2.1 [Development mode](#21-development-mode-toc)  
-   2.2 [Production mode](#22-production-mode-toc)
+   2.1 [Setup the local MongoDB folder](#21-setup-the-local-mongodb-folder-toc)  
+   2.2 [Development mode](#22-development-mode-toc)  
+   2.3 [Production mode](#23-production-mode-toc)
 3. [Repository structure](#3-repository-structure-toc)
 4. [Bugs and recommendations](#4-bugs-and-recommendations-toc)
 5. [Upcoming work](#5-upcoming-work-toc)
@@ -58,7 +59,12 @@ You should be able to delete any article **you created** from the database.
 
 ## 2. Deployment ([toc](#table-of-contents))
 
-You need to set up the frontend and backend applications to test the server.
+You need to setup 3 things to run the website:
+
+- `.env.*` file
+- MongoDB host folder
+- start frontend, backend and database
+
 For deployment, `development` and `production` modes are available
 
 > ##### Notes for the iScsc members:
@@ -67,20 +73,65 @@ For deployment, `development` and `production` modes are available
 
 Here is a quick guide after cloning the repository:
 
-### 2.1 Development mode ([toc](#table-of-contents))
+### 2.1 Setup the local MongoDB folder ([toc](#table-of-contents))
 
-#### .env file
+To make the database persistent through containers starting and stopping the database folder is shared with the host using a `docker` volume, you can see it in the [docker compose files](./docker-compose.yml).
+
+> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"), if, on your systemn, it already exists and shouldn't have these access please consider modifying the image!
+
+However because the bitnami/mongodb container is a non-root container we've got to setup the right permission on that folder.  
+To set it up just run
+
+```bash
+./scripts/setup-db-folder.sh
+```
+
+### 2.2 Development mode ([toc](#table-of-contents))
+
+You have two choices to run the development mode:
+
+- with [`docker`](#docker)
+- [manually](#manually-on-host) start the backend, frontend and setup a DB
+
+#### .env.development file
 
 Before deploying the application, you need to set the environment variables.  
 From the root directory of the repository, do the following:
 
-```
+```bash
 cp .env.example .env.development
 ```
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-#### Backend
+#### Docker
+
+Once your `.env.development` is [ready](#envdevelopment-file), run
+
+```bash
+docker-compose --env-file .env.development --file docker-compose-dev.yml up -d --build
+```
+
+> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
+
+The website is now up on `$CLIENT_URL` (specified in the `.env.development` file)
+
+To see the running application, and check the logs use
+
+```bash
+docker ps
+docker logs <CONTAINER_ID>
+```
+
+Finally, you can stop it with
+
+```bash
+docker-compose --env-file .env.development --file docker-compose-dev.yml down
+```
+
+#### Manually on host
+
+##### Backend
 
 From the root directory of the repository, do the following:
 
@@ -92,7 +143,7 @@ npm run dev
 
 > You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
 
-#### Frontend
+##### Frontend
 
 From the root directory of the repository, do the following:
 
@@ -104,14 +155,18 @@ npm run start
 
 Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-### 2.2 Production mode ([toc](#table-of-contents))
+##### Database
+
+Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then setup properly the .env, it should work but this is untested.
+
+### 2.3 Production mode ([toc](#table-of-contents))
 
 The production mode allows to deploy the application on the server. To use it, you will need:
 
 - `docker`
 - `docker-compose`
 
-#### .env file
+#### .env.production file
 
 Before deploying the application, you need to set the environment variables as for `development` mode.
 
@@ -169,7 +224,7 @@ Once everything is ready, run
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-> Make sure the `docker` daemon is running, or start it with `sudo dockerd`
+> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 Your application can now be started on `$CLIENT_URL` (specified in the `.env.production` file)
 
