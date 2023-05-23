@@ -25,7 +25,7 @@ def put_article():
 
 
 # TODO: delete one article from database
-def delete_article():
+def delete_article(id):
     return jsonify({"success": True}), 200
 
 
