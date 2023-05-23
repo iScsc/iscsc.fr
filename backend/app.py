@@ -1,29 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask
+from routes.articles import articles
+from routes.users import users
 
 app = Flask(__name__)
 
-dummy_article = {
-    'author':'ctmbl',
-    'title':'My dummy article',
-    'body':'This is a dummy article hardcoded to build the backend',
-    '_id':"1"
-    }
 
-dummy_article_2 = {
-    'author':'ctmbl',
-    'title':'My dummy article 2',
-    'body':'This is a dummy article 2',
-    '_id':"2"
-    }
+@app.route("/")
+def get_main():
+    return "iscsc.fr backend is running"
 
-@app.route('/')
-def root():
-    return 'iscsc.fr backend is running'
 
-@app.route('/api/articles', methods=['GET'])
-def fetch_all_articles():
-    return jsonify([dummy_article, dummy_article_2])
-
-@app.route('/api/articles/<id>', methods=['GET'])
-def fetch_article(id):
-    return jsonify(dummy_article)
+app.register_blueprint(articles, url_prefix="/api/articles")
+app.register_blueprint(users, url_prefix="/api/users")
