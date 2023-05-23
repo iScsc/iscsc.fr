@@ -11,3 +11,10 @@ dummy_article_2 = {
     "body": "This is a dummy article 2",
     "_id": "2",
 }
+
+dummy_user = {
+    "name": "atxr",
+    "email": "atxr@iscsc.fr",
+    "password": "123456",
+    "_id": "1",
+}
