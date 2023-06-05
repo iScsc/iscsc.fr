@@ -15,6 +15,9 @@ http {
     include mime.types;
     default_type application/octet-stream;
 
+    # Avoid DDOS
+    limit_req_zone ${DOLLAR}binary_remote_addr zone=one:10m rate=5r/s;
+
     #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
     #                  '$status $body_bytes_sent "$http_referer" '
     #                  '"$http_user_agent" "$http_x_forwarded_for"';
@@ -35,10 +38,12 @@ http {
       server_tokens off;
 
       location /.well-known/acme-challenge/ {
+          limit_req zone=one burst=20;
           root /var/www/certbot;
       }
 
       location / {
+          limit_req zone=one burst=20;
           return 301 https://${SERVER_NAME}${DOLLAR}request_uri;
       }
     }
@@ -46,23 +51,26 @@ http {
     server {
         listen 443 default_server ssl http2;
         listen [::]:443 ssl http2;
-        
+
         server_name $SERVER_NAME www.${SERVER_NAME};
 
         ssl_certificate /etc/nginx/ssl/live/${SERVER_NAME}/fullchain.pem;
         ssl_certificate_key /etc/nginx/ssl/live/${SERVER_NAME}/privkey.pem;
 
         location / {
+            limit_req zone=one burst=20;
             proxy_pass http://react-app:$REACT_PORT;
         }
 
         location /api {
+            limit_req zone=one burst=20;
             proxy_pass http://node-app:$NODE_PORT;
         }
 
         # redirect server error pages to the static page /50x.html
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
+            limit_req zone=one burst=20;
             root /usr/share/nginx/html;
         }
 
