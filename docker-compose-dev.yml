@@ -31,6 +31,7 @@ services:
       - ./backend/middleware:/backend/middleware:ro
       - ./backend/models:/backend/models:ro
       - ./backend/routes:/backend/routes:ro
+      - ./backend/database:/backend/database:ro
 
   react-app-dev:
     depends_on:
