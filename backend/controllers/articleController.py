@@ -1,17 +1,23 @@
 from flask import jsonify
 from .dummy_data import *
+from database import db
+
+#https://pymongo.readthedocs.io/en/stable/tutorial.html#getting-a-collection
+articles = db["articles"]
+
+articles.insert_one(dummy_article)
+articles.insert_one(dummy_article_2)
+
 
 # TODO: Implement auth middleware logic to check if user is logged in
 
 
 # TODO: fetch one article from database
 def get_article(id):
-    if id == "1":
-        return jsonify(dummy_article), 200
-    elif id == "2":
-        return jsonify(dummy_article_2), 200
-    else:
-        return "", 404
+    article = articles.find_one(filter = {"_id" : id})
+    if article is not None:
+        return jsonify(article), 200
+    return "", 404
 
 
 # TODO: create one article
