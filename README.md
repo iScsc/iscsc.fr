@@ -56,15 +56,15 @@ Note: if you try to delete an article you did not write, it won't work but you w
 
 ## 2. Deployment ([toc](#table-of-contents))
 
-You need to setup 3 things to run the website:
+To run the website, you need to:
 
-- `.env.*` file
-- MongoDB host folder
+- set the environment variables `.env.*` file
+- set up MongoDB host folder
 - start frontend, backend and database
 
-For deployment, `development` and `production` modes are available
+For deployment, `development` and `production` modes are available.
 
-> ##### Notes for the iScsc members:
+> **Notes for the iScsc members:**
 >
 > Send me a message, and I'll send you back an encrypted version of the official `.env.production` and `.env.development` files.
 
@@ -72,12 +72,12 @@ Here is a quick guide after cloning the repository:
 
 ### 2.1 Setup the local MongoDB folder ([toc](#table-of-contents))
 
-To make the database persistent through containers starting and stopping the database folder is shared with the host using a `docker` volume, you can see it in the [docker compose files](./docker-compose.yml).
+To make the database persistent through containers starting and stopping, the database folder is shared with the host using a `docker` volume. You can see it in the [docker compose files](./docker-compose.yml).
 
-> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"), if, on your systemn, it already exists and shouldn't have these access please consider modifying the image!
+> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"). If, on your system, it already exists and shouldn't have this access, please consider modifying the image!
 
-However because the bitnami/mongodb container is a non-root container we've got to setup the right permission on that folder.  
-To set it up just run
+However, because the bitnami/mongodb container is a non-root container, we've got to set up the right permission on that folder.  
+- To set it up, run:
 
 ```bash
 ./scripts/setup-db-folder.sh
@@ -87,13 +87,13 @@ To set it up just run
 
 You have two choices to run the development mode:
 
-- with [`docker`](#docker)
-- [manually](#manually-on-host) start the backend, frontend and setup a DB
+a) with [`docker`](#docker)  
+b) [manually](#manually-on-host) start the backend, frontend and setup a DB
 
 #### .env.development file
 
 Before deploying the application, you need to set the environment variables.  
-From the root directory of the repository, do the following:
+- From the root directory of the repository, do the following:
 
 ```bash
 cp .env.example .env.development
@@ -101,60 +101,56 @@ cp .env.example .env.development
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-#### Docker
+#### a) Docker
 
-Once your `.env.development` is [ready](#envdevelopment-file), run
+- Once your `.env.development` is [ready](#envdevelopment-file), run:
 
 ```bash
 docker-compose --env-file .env.development --file docker-compose-dev.yml up -d --build
 ```
 
-> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
+Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 The website is now up on `$CLIENT_URL` (specified in the `.env.development` file)
 
-To see the running application, and check the logs use
+- To see the running application, and check the logs, use:
 
 ```bash
 docker ps
 docker logs <CONTAINER_ID>
 ```
 
-Finally, you can stop it with
+- Finally, you can stop it with:
 
 ```bash
 docker-compose --env-file .env.development --file docker-compose-dev.yml down
 ```
 
-#### Manually on host
+#### b) Manually on host
 
-##### Backend
+##### 1. Backend
+You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
 
-From the root directory of the repository, do the following:
+- From the root directory of the repository, do the following:
 
 ```bash
 cd backend
 npm install
 npm run dev
 ```
+##### 2. Frontend
+Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-> You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
-
-##### Frontend
-
-From the root directory of the repository, do the following:
+- From the root directory of the repository, do the following:
 
 ```bash
 cd frontend
 npm install
 npm run start
 ```
+##### 3. Database
 
-Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
-
-##### Database
-
-Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then setup properly the .env, it should work but this is untested.
+Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then set up properly the .env. It should work, but this is untested.
 
 ### 2.3 Production mode ([toc](#table-of-contents))
 
@@ -166,6 +162,7 @@ The production mode allows to deploy the application on the server. To use it, y
 #### .env.production file
 
 Before deploying the application, you need to set the environment variables as for `development` mode.
+- From the root directory of the repository, do the following:
 
 ```bash
 cp .env.example .env.production
@@ -173,9 +170,11 @@ cp .env.example .env.production
 
 #### SSL certification
 
-To set up HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
+To set up HTTPS, you will need valid SSL certificates. 
 
-- Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
+a) If you deploy the app **for the first time**, follow these instructions:
+
+1. Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
 
 ```diff
 - server {
@@ -184,22 +183,22 @@ To set up HTTPS, you will need valid SSL certificates. If you deploy the app for
 - }
 ```
 
-> This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
+This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
 
-- (Re)Start the `nginx` container:
+2. (Re)Start the `nginx` container:
 
 ```bash
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-- Create the certificates with the `certbot` container:
+3. Create the certificates with the `certbot` container:
 
 ```bash
 sudo docker-compose --env-file .env.production run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d yourdomainname.com
 ```
 
-- Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
-- Stop the `nginx` container:
+4. Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
+5. Stop the `nginx` container:
 
 ```bash
 sudo docker-compose --env-file .env.production down
@@ -207,7 +206,7 @@ sudo docker-compose --env-file .env.production down
 
 The certificates should have been generated in `certbot/conf/live/yourdomainname.com/`
 
-If you just want to renew existing certificates, use:
+b) If you want to **renew existing certificates**, use:
 
 ```bash
 sudo docker-compose --env-file .env.production run --rm certbot renew
@@ -215,24 +214,24 @@ sudo docker-compose --env-file .env.production run --rm certbot renew
 
 #### Docker
 
-Once everything is ready, run
+- Once everything is ready, run:
 
 ```bash
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
+Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 Your application can now be started on `$CLIENT_URL` (specified in the `.env.production` file)
 
-To see the running application, and check the logs, use
+- To see the running application, and check the logs, use:
 
 ```bash
 sudo docker ps
 sudo docker logs <CONTAINER_ID>
 ```
 
-Finally, you can stop the production mode with
+- Finally, you can stop the production mode with:
 
 ```bash
 sudo docker-compose --env-file .env.production down
