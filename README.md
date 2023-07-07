@@ -29,33 +29,30 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 
 ## 1. Functionalities ([toc](#table-of-contents))
 
-The main functionalities of the website at the moment are creating, reading, and deleting posts on the blog section of the website.
-Posts are rendered in Markdown, with the [Github Flavored Markdown, GFM](https://github.com/remarkjs/remark-gfm).
-The authentication is now available. A user can sign up and log in with an email and a password. Some actions in the blog, like creating and deleting articles, need authentication.
+At the moment, the main functionalities of the website are creating, reading, and deleting posts in the blog section. Posts are rendered in Markdown, with the [Github Flavored Markdown, GFM](https://github.com/remarkjs/remark-gfm). To create and delete posts, you need to authenticate. You can sign up and log in with an email and password.
 JWT and cookies allow the user to stay logged in.
 
 ### Create
 
-You should be able to create your post in the /create-article route. **Creating a post requires authentication.**
+You can create your post in the /create-article route. **Creating a post requires authentication.**
 
-Two writing options are available:
+Two options are available:
+- Submitting a markdown file.  
+This option is recommended. You can use the available markdown file template. 
+- Writing directly in the form input field.  
+At the moment, there is no editor on the website, so you need to write directly in the Textarea field.
 
-- Writing the post directly inside the form inputs
-- Submitting a markdown file
-
-For the first option, no editor is available at the moment on the website, so writing a post directly from the Textarea field might be harsh. That is why the second way is recommended. A template is available for the markdown file submission.
-
-When creating a post, a preview is available on the right side of your browser. The author assigned to the article will be the name of the authenticated user.
+When creating a post, a preview is available on the right side of your browser. Your username will appear as the author of the article.
 
 ### Read
 
-Any article submitted by other users can be read through the /blog route.
+You can read articles submitted by other users in the /blog route
 
 ### Delete
 
-You should be able to delete any article **you created** from the database.
+You can only delete articles that **you created**.
 
-> Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
+Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
 
 ## 2. Deployment ([toc](#table-of-contents))
 
