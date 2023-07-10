@@ -37,10 +37,11 @@ JWT and cookies allow the user to stay logged in.
 You can create your post in the /create-article route. **Creating a post requires authentication.**
 
 Two options are available:
+
 - Submitting a markdown file.  
-This option is recommended. You can use the available markdown file template. 
+  This option is recommended. You can use the available markdown file template.
 - Writing directly in the form input field.  
-At the moment, there is no editor on the website, so you need to write directly in the Textarea field.
+  At the moment, there is no editor on the website, so you need to write directly in the Textarea field.
 
 When creating a post, a preview is available on the right side of your browser. Your username will appear as the author of the article.
 
@@ -76,7 +77,8 @@ To make the database persistent through containers starting and stopping, the da
 
 > :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"). If, on your system, it already exists and shouldn't have this access, please consider modifying the image!
 
-However, because the bitnami/mongodb container is a non-root container, we've got to set up the right permission on that folder.  
+However, because the bitnami/mongodb container is a non-root container, we've got to set up the right permission on that folder.
+
 - To set it up, run:
 
 ```bash
@@ -88,11 +90,10 @@ However, because the bitnami/mongodb container is a non-root container, we've go
 You have two choices to run the development mode:
 
 a) with [`docker`](#docker)  
-b) [manually](#manually-on-host) start the backend, frontend and setup a DB
+b) [manually](#manually-on-host) start the backend, frontend and set up a DB
 
-#### .env.development file
+#### Set the environment variables (.env.development file)
 
-Before deploying the application, you need to set the environment variables.  
 - From the root directory of the repository, do the following:
 
 ```bash
@@ -101,7 +102,7 @@ cp .env.example .env.development
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-#### a) Docker
+#### a) Run Docker
 
 - Once your `.env.development` is [ready](#envdevelopment-file), run:
 
@@ -126,9 +127,10 @@ docker logs <CONTAINER_ID>
 docker-compose --env-file .env.development --file docker-compose-dev.yml down
 ```
 
-#### b) Manually on host
+#### b) Run manually on host
 
-##### 1. Backend
+##### 1. Start backend
+
 You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
 
 - From the root directory of the repository, do the following:
@@ -138,7 +140,9 @@ cd backend
 npm install
 npm run dev
 ```
-##### 2. Frontend
+
+##### 2. Start frontend
+
 Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
 - From the root directory of the repository, do the following:
@@ -148,7 +152,8 @@ cd frontend
 npm install
 npm run start
 ```
-##### 3. Database
+
+##### 3. Start database
 
 Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then set up properly the .env. It should work, but this is untested.
 
@@ -159,18 +164,17 @@ The production mode allows to deploy the application on the server. To use it, y
 - `docker`
 - `docker-compose`
 
-#### .env.production file
+#### Set the environment variables (.env.production file)
 
-Before deploying the application, you need to set the environment variables as for `development` mode.
 - From the root directory of the repository, do the following:
 
 ```bash
 cp .env.example .env.production
 ```
 
-#### SSL certification
+#### Create SSL certificates
 
-To set up HTTPS, you will need valid SSL certificates. 
+To set up HTTPS, you will need valid SSL certificates.
 
 a) If you deploy the app **for the first time**, follow these instructions:
 
@@ -212,7 +216,7 @@ b) If you want to **renew existing certificates**, use:
 sudo docker-compose --env-file .env.production run --rm certbot renew
 ```
 
-#### Docker
+#### Run docker
 
 - Once everything is ready, run:
 
