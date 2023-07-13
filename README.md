@@ -20,7 +20,7 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 
 1. [Functionalities](#1-functionalities-toc)
 2. [Deployment](#2-deployment-toc)  
-   2.1 [Setup the local MongoDB folder](#21-setup-the-local-mongodb-folder-toc)  
+   2.1 [Set up the local MongoDB folder](#21-set-up-the-local-mongodb-folder-toc)  
    2.2 [Development mode](#22-development-mode-toc)  
    2.3 [Production mode](#23-production-mode-toc)
 3. [Repository structure](#3-repository-structure-toc)
@@ -71,7 +71,7 @@ For deployment, `development` and `production` modes are available.
 
 Here is a quick guide after cloning the repository:
 
-### 2.1 Setup the local MongoDB folder ([toc](#table-of-contents))
+### 2.1 Set up the local MongoDB folder ([toc](#table-of-contents))
 
 To make the database persistent through containers starting and stopping, the database folder is shared with the host using a `docker` volume. You can see it in the [docker compose files](./docker-compose.yml).
 
