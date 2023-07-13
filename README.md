@@ -20,7 +20,7 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 
 1. [Functionalities](#1-functionalities-toc)
 2. [Deployment](#2-deployment-toc)  
-   2.1 [Setup the local MongoDB folder](#21-setup-the-local-mongodb-folder-toc)  
+   2.1 [Set up the local MongoDB folder](#21-set-up-the-local-mongodb-folder-toc)  
    2.2 [Development mode](#22-development-mode-toc)  
    2.3 [Production mode](#23-production-mode-toc)
 3. [Repository structure](#3-repository-structure-toc)
@@ -29,58 +29,57 @@ If you're a true beginner, you can follow [this Open Classroom course](https://o
 
 ## 1. Functionalities ([toc](#table-of-contents))
 
-The main functionalities of the website at the moment are creating, reading, and deleting posts on the blog section of the website.
-Posts are rendered in Markdown, with the [Github Flavored Markdown, GFM](https://github.com/remarkjs/remark-gfm).
-The authentication is now available. A user can sign up and log in with an email and a password. Some actions in the blog, like creating and deleting articles, need authentication.
+At the moment, the main functionalities of the website are creating, reading, and deleting posts in the blog section. Posts are rendered in Markdown, with the [Github Flavored Markdown, GFM](https://github.com/remarkjs/remark-gfm). To create and delete posts, you need to authenticate. You can sign up and log in with an email and password.
 JWT and cookies allow the user to stay logged in.
 
 ### Create
 
-You should be able to create your post in the /create-article route. **Creating a post requires authentication.**
+You can create your post in the /create-article route. **Creating a post requires authentication.**
 
-Two writing options are available:
+Two options are available:
 
-- Writing the post directly inside the form inputs
-- Submitting a markdown file
+- Submitting a markdown file.  
+  This option is recommended. You can use the available markdown file template.
+- Writing directly in the form input field.  
+  At the moment, there is no editor on the website, so you need to write directly in the Textarea field.
 
-For the first option, no editor is available at the moment on the website, so writing a post directly from the Textarea field might be harsh. That is why the second way is recommended. A template is available for the markdown file submission.
-
-When creating a post, a preview is available on the right side of your browser. The author assigned to the article will be the name of the authenticated user.
+When creating a post, a preview is available on the right side of your browser. Your username will appear as the author of the article.
 
 ### Read
 
-Any article submitted by other users can be read through the /blog route.
+You can read articles submitted by other users in the /blog route
 
 ### Delete
 
-You should be able to delete any article **you created** from the database.
+You can only delete articles that **you created**.
 
-> Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
+Note: if you try to delete an article you did not write, it won't work but you won't receive any error message.
 
 ## 2. Deployment ([toc](#table-of-contents))
 
-You need to setup 3 things to run the website:
+To run the website, you need to:
 
-- `.env.*` file
-- MongoDB host folder
+- set the environment variables `.env.*` file
+- set up MongoDB host folder
 - start frontend, backend and database
 
-For deployment, `development` and `production` modes are available
+For deployment, `development` and `production` modes are available.
 
-> ##### Notes for the iScsc members:
+> **Notes for the iScsc members:**
 >
 > Send me a message, and I'll send you back an encrypted version of the official `.env.production` and `.env.development` files.
 
 Here is a quick guide after cloning the repository:
 
-### 2.1 Setup the local MongoDB folder ([toc](#table-of-contents))
+### 2.1 Set up the local MongoDB folder ([toc](#table-of-contents))
 
-To make the database persistent through containers starting and stopping the database folder is shared with the host using a `docker` volume, you can see it in the [docker compose files](./docker-compose.yml).
+To make the database persistent through containers starting and stopping, the database folder is shared with the host using a `docker` volume. You can see it in the [docker compose files](./docker-compose.yml).
 
-> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"), if, on your systemn, it already exists and shouldn't have these access please consider modifying the image!
+> :warning::warning: **IMPORTANT**: the following script will give rwx permissions on the DB folder to the UID 1001 due to bitnami/mongodb image [constraint](https://hub.docker.com/r/bitnami/mongodb) (the _Note_ under "Persisting your database"). If, on your system, it already exists and shouldn't have this access, please consider modifying the image!
 
-However because the bitnami/mongodb container is a non-root container we've got to setup the right permission on that folder.  
-To set it up just run
+However, because the bitnami/mongodb container is a non-root container, we've got to set up the right permission on that folder.
+
+- To set it up, run:
 
 ```bash
 ./scripts/setup-db-folder.sh
@@ -90,13 +89,12 @@ To set it up just run
 
 You have two choices to run the development mode:
 
-- with [`docker`](#docker)
-- [manually](#manually-on-host) start the backend, frontend and setup a DB
+a) with [`docker`](#docker)  
+b) [manually](#manually-on-host) start the backend, frontend and set up a DB
 
-#### .env.development file
+#### Set the environment variables (.env.development file)
 
-Before deploying the application, you need to set the environment variables.  
-From the root directory of the repository, do the following:
+- From the root directory of the repository, do the following:
 
 ```bash
 cp .env.example .env.development
@@ -104,36 +102,38 @@ cp .env.example .env.development
 
 After copying the example config of `.env`, you must fill in the missing information in this file. Check the example for more information.
 
-#### Docker
+#### a) Run Docker
 
-Once your `.env.development` is [ready](#envdevelopment-file), run
+- Once your `.env.development` is [ready](#envdevelopment-file), run:
 
 ```bash
 docker-compose --env-file .env.development --file docker-compose-dev.yml up -d --build
 ```
 
-> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
+Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 The website is now up on `$CLIENT_URL` (specified in the `.env.development` file)
 
-To see the running application, and check the logs use
+- To see the running application, and check the logs, use:
 
 ```bash
 docker ps
 docker logs <CONTAINER_ID>
 ```
 
-Finally, you can stop it with
+- Finally, you can stop it with:
 
 ```bash
 docker-compose --env-file .env.development --file docker-compose-dev.yml down
 ```
 
-#### Manually on host
+#### b) Run manually on host
 
-##### Backend
+##### 1. Start backend
 
-From the root directory of the repository, do the following:
+You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
+
+- From the root directory of the repository, do the following:
 
 ```bash
 cd backend
@@ -141,11 +141,11 @@ npm install
 npm run dev
 ```
 
-> You will need `nodemon` to run the backend. Use `npm install -g nodemon` to install it. Make sure you're supporting at least 2.0.20 with `nodemon --version`. Nodemon has been tested working fine with node 19.
+##### 2. Start frontend
 
-##### Frontend
+Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
 
-From the root directory of the repository, do the following:
+- From the root directory of the repository, do the following:
 
 ```bash
 cd frontend
@@ -153,11 +153,9 @@ npm install
 npm run start
 ```
 
-Make sure you're using at least version 8.19.2 by checking `npm --version`, and update if needed with `npm update`.
+##### 3. Start database
 
-##### Database
-
-Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then setup properly the .env, it should work but this is untested.
+Start a MongoDB either in a container and expose a port or directly on your host with the right port configured. Then set up properly the .env. It should work, but this is untested.
 
 ### 2.3 Production mode ([toc](#table-of-contents))
 
@@ -166,19 +164,21 @@ The production mode allows to deploy the application on the server. To use it, y
 - `docker`
 - `docker-compose`
 
-#### .env.production file
+#### Set the environment variables (.env.production file)
 
-Before deploying the application, you need to set the environment variables as for `development` mode.
+- From the root directory of the repository, do the following:
 
 ```bash
 cp .env.example .env.production
 ```
 
-#### SSL certification
+#### Create SSL certificates
 
-To set up HTTPS, you will need valid SSL certificates. If you deploy the app for the first time, follow these instructions:
+To set up HTTPS, you will need valid SSL certificates.
 
-- Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
+a) If you deploy the app **for the first time**, follow these instructions:
+
+1. Comment or delete the whole server section about 443 in the `nginx/nginx.conf.template` file.
 
 ```diff
 - server {
@@ -187,22 +187,22 @@ To set up HTTPS, you will need valid SSL certificates. If you deploy the app for
 - }
 ```
 
-> This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
+This step is required because the certificates don't exist yet, so they cannot be loaded in the nginx configuration.
 
-- (Re)Start the `nginx` container:
+2. (Re)Start the `nginx` container:
 
 ```bash
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-- Create the certificates with the `certbot` container:
+3. Create the certificates with the `certbot` container:
 
 ```bash
 sudo docker-compose --env-file .env.production run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d yourdomainname.com
 ```
 
-- Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
-- Stop the `nginx` container:
+4. Restore the original `nginx/nginx.conf.template` (with `git restore nginx/nginx.conf.template` for example)
+5. Stop the `nginx` container:
 
 ```bash
 sudo docker-compose --env-file .env.production down
@@ -210,32 +210,32 @@ sudo docker-compose --env-file .env.production down
 
 The certificates should have been generated in `certbot/conf/live/yourdomainname.com/`
 
-If you just want to renew existing certificates, use:
+b) If you want to **renew existing certificates**, use:
 
 ```bash
 sudo docker-compose --env-file .env.production run --rm certbot renew
 ```
 
-#### Docker
+#### Run docker
 
-Once everything is ready, run
+- Once everything is ready, run:
 
 ```bash
 sudo docker-compose --env-file .env.production up -d --build
 ```
 
-> Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
+Make sure the `docker` daemon is running with `systemctl status docker`, or start it with `systemctl start docker`
 
 Your application can now be started on `$CLIENT_URL` (specified in the `.env.production` file)
 
-To see the running application, and check the logs, use
+- To see the running application, and check the logs, use:
 
 ```bash
 sudo docker ps
 sudo docker logs <CONTAINER_ID>
 ```
 
-Finally, you can stop the production mode with
+- Finally, you can stop the production mode with:
 
 ```bash
 sudo docker-compose --env-file .env.production down
